@@ -637,6 +637,8 @@ svg .луч[data-к],svg .возврат[data-к]{transform:none}
 body.экраны #обёртка::after{display:none}
 /* в печати панели проблем лежали одна на другой (все data-к видны) — остаётся первая */
 @media print{ .пп_панель:not([data-к="1"]){display:none} .слайд.скрыт{display:none} }
+.полотно.ролик{display:flex;align-items:center;justify-content:center}
+.полотно.ролик video{max-width:100%;max-height:100%;border-radius:18px;border:1px solid var(--грань);box-shadow:0 0 60px rgba(2,174,240,.18);background:#000}
 .слайд,.низ{z-index:1}
 </style>
 </head>
@@ -661,6 +663,15 @@ body.экраны #обёртка::after{display:none}
      Голосовое Есмамбетова 11.09 16:35: «проблемы — отдельным слайдом впереди,
      какие проблемы решаем; эффекты — в конце, с цифрами по процессам из
      презентации». Таблица — из его сообщения в Teams. -->
+<!-- ================= 0в. короткий ролик =================
+     15.09 (Арман через Есмамбетова): «видео ролик 15–20 секунд к презентации».
+     Слайд с видео: играет, когда слайд показан, ставится на паузу при уходе. -->
+<section class="слайд" id="с0в" aria-label="Ролик">
+  <div class="бровь">KMG AISAP · ролик</div>
+  <h2 class="заголовок дисплей">Одна закупка — от пустой полки до поставки</h2>
+  <div class="полотно ролик"><video src="медиа/ролики/закупки.mp4" playsinline preload="metadata"></video></div>
+</section>
+
 <section class="слайд" id="с0п" aria-label="Какие проблемы решаем">
   <div class="бровь">Зачем · текущие проблемы закупок</div>
   <h2 class="заголовок дисплей">Какие проблемы решаем</h2>
@@ -1667,6 +1678,8 @@ body.экраны #обёртка::after{display:none}
     var с = слайды[i];
     с.classList.add("виден");
     document.body.classList.toggle("экраны", !!с.querySelector(".экран"));
+    /* ролик: играет на своём слайде, на других стоит */
+    [].forEach.call(document.querySelectorAll(".слайд video"), function(в){ if(в.closest(".слайд") === с){ в.currentTime = 0; в.play().catch(function(){}); } else в.pause(); });
     показатьКадры(с, целиком ? кадрыСлайда(с) : 0);
     кнопки.forEach(function(к, j){ к.setAttribute("aria-current", j === i ? "true" : "false"); });
     счёт.textContent = ("0" + (i + 1)).slice(-2) + " / " + ("0" + слайды.length).slice(-2);
