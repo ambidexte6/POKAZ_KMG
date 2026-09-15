@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КМГ · Геологоразведка — страница для геологов</title>
+<style>
+/* Страница для геологов внутри показа (Адиль 15.09): из «KIOGE 2026.pptx»
+   слайды 1–2 схлопнуты в один (вклад в экономику + инвестиции), 3–4 — в
+   один (карта портфеля + буллиты из текста заказчика); третий слайд —
+   бассейновые модели, клик-переход (1) из схемы «БезИмени (009).pptx».
+   Палитра, шрифты и кадр 1920×1080 — те же, что в закупках и в показе:
+   страницы стоят на одном стенде. Открывается из показа в рамке
+   (?с=N — сразу нужный слайд) и отдельной ссылкой. */
+:root{
+  --кмг:#02AEF0; --кмг_свет:#90D6F7; --циан:#4FE3FF; --мята:#3EE6B8; --зелёный:#3ED598;
+  --фон0:#050810; --фон1:#0C1626; --янтарь:#F2B84B; --сирень:#B06EE6;
+  --грань:#1B2E48; --текст:#D7E2F2; --текст2:#AFC0D8; --приглуш:#7C8DA6;
+}
+@font-face{font-family:'Unbounded';font-weight:500 700;font-display:swap;
+  src:url('медиа/шрифты/унб_700_cyrillic.woff2') format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Unbounded';font-weight:500 700;font-display:swap;
+  src:url('медиа/шрифты/унб_700_latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'Golos Text';font-weight:400 600;font-display:swap;
+  src:url('медиа/шрифты/голос_400_cyrillic.woff2') format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Golos Text';font-weight:400 600;font-display:swap;
+  src:url('медиа/шрифты/голос_400_latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+2000-206F}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#000;color:var(--текст);overflow:hidden;
+  font-family:'Golos Text',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.дисплей{font-family:'Unbounded',system-ui,sans-serif;letter-spacing:.01em}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--кмг);outline-offset:4px;border-radius:4px}
+
+#обёртка{position:fixed;inset:0;overflow:hidden;background:var(--фон0)}
+#обёртка::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(calc(1200px * var(--к,1)) calc(620px * var(--к,1)) at 50% -12%, rgba(2,174,240,.14), transparent 68%),
+    radial-gradient(calc(900px * var(--к,1)) calc(520px * var(--к,1)) at 92% 108%, rgba(62,213,152,.07), transparent 70%),
+    linear-gradient(180deg,#060B16 0%,var(--фон0) 55%,#04070E 100%)}
+#обёртка::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(27,46,72,.30) 1px,transparent 1px),linear-gradient(90deg,rgba(27,46,72,.30) 1px,transparent 1px);
+  background-size:calc(96px * var(--к,1)) calc(96px * var(--к,1));background-position:center;
+  -webkit-mask-image:radial-gradient(calc(1400px * var(--к,1)) calc(900px * var(--к,1)) at 50% 45%,#000 30%,transparent 82%);
+          mask-image:radial-gradient(calc(1400px * var(--к,1)) calc(900px * var(--к,1)) at 50% 45%,#000 30%,transparent 82%)}
+#кадр{width:var(--кадр_ш,1920px);height:var(--кадр_в,1080px);position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) scale(var(--к,1));transform-origin:center center;overflow:hidden}
+.слайд{position:absolute;inset:0;padding:calc(76px + var(--поля_в,0px)) calc(98px + var(--поля_ш,0px)) calc(96px + var(--поля_в,0px));
+  display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(16px);
+  transition:opacity .42s ease,transform .42s ease,visibility 0s .42s}
+.слайд.виден{opacity:1;visibility:visible;transform:none;transition:opacity .42s ease,transform .42s ease}
+.бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
+h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top:10px}
+.идея{margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--приглуш);max-width:1500px}
+.полотно{position:relative;margin-top:26px;flex:1;min-height:0}
+
+/* ===== 1. КМГ сегодня: вклад + инвестиции ===== */
+.две{display:grid;grid-template-columns:1fr 1.15fr;gap:34px;height:100%}
+.панель{border:1px solid var(--грань);border-radius:22px;padding:26px 30px;
+  background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));display:flex;flex-direction:column;min-height:0}
+.панель > .имя{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--кмг);line-height:1.35}
+.панель > h3{margin-top:8px;font-size:22px;font-weight:700;line-height:1.2}
+.доли{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px 28px;flex:1;align-content:space-evenly}
+.доля{border-left:3px solid rgba(2,174,240,.5);padding:2px 0 2px 18px}
+.доля b{display:block;font-family:'Unbounded',sans-serif;font-size:48px;line-height:1;color:var(--кмг);font-weight:700}
+.доля span{display:block;margin-top:8px;font-size:15px;line-height:1.35;color:var(--текст2);max-width:300px}
+.люди{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-top:20px;border-top:1px solid rgba(124,141,166,.25)}
+.люди b{display:block;font-family:'Unbounded',sans-serif;font-size:30px;color:var(--текст);font-weight:700;line-height:1}
+.люди b i{font-style:normal;font-size:15px;color:var(--приглуш);font-family:'Golos Text',sans-serif;margin-left:6px}
+.люди span{display:block;margin-top:6px;font-size:13.5px;line-height:1.35;color:var(--приглуш)}
+.инв{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;margin-top:20px;flex:1;min-height:0}
+.график{display:flex;flex-direction:column}
+.график .ось{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш)}
+.столбцы{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:end;margin-top:14px;padding-bottom:6px;border-bottom:1px solid rgba(124,141,166,.35)}
+.столбец{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.столбец b{font-family:'Unbounded',sans-serif;font-size:19px;color:var(--текст);font-weight:700;margin-bottom:8px}
+.столбец i{display:block;width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(2,174,240,.85),rgba(2,174,240,.25));
+  transform-origin:bottom;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.столбец:not(.включён) i{transform:scaleY(0)}
+.столбец span{margin-top:8px;font-size:13px;color:var(--приглуш)}
+.разрез{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.разрез div{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(124,141,166,.18)}
+.разрез b{font-family:'Unbounded',sans-serif;font-size:24px;color:var(--кмг);font-weight:700;line-height:1}
+.разрез b i{font-style:normal;font-size:12px;font-family:'Golos Text',sans-serif;color:var(--приглуш);margin-left:4px}
+.разрез span{font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--текст2)}
+.прим{margin-top:10px;font-size:12px;color:var(--приглуш)}
+
+/* ===== 2. геологоразведка: буллиты + карта ===== */
+.гео{display:grid;grid-template-columns:640px 1fr;gap:34px;height:100%;min-height:0}
+.пункты{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.пункты li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:14px 18px;border-radius:16px;
+  border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
+  opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.пункты li.включён{opacity:1;transform:none}
+.пункты b{font-family:'Unbounded',sans-serif;font-size:24px;line-height:1.1;color:var(--кмг);font-weight:700;white-space:nowrap;min-width:150px}
+.пункты b i{font-style:normal;font-size:12px;font-family:'Golos Text',sans-serif;color:var(--приглуш);display:block;margin-top:4px;white-space:normal}
+.пункты span{font-size:15px;line-height:1.42;color:var(--текст2);padding-top:3px}
+.пункты span em{font-style:normal;color:var(--текст);font-weight:600}
+.карта{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:var(--фон0);min-height:0}
+.карта img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.карта .легенда{position:absolute;left:22px;bottom:18px;display:flex;flex-direction:column;gap:7px;padding:12px 16px;border-radius:14px;
+  background:rgba(5,8,16,.78);border:1px solid var(--грань)}
+.карта .легенда div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--текст2)}
+.карта .легенда i{width:22px;height:14px;border-radius:4px;display:inline-block}
+.карта .легенда b{font-family:'Unbounded',sans-serif;font-size:13px;color:var(--текст);min-width:22px;text-align:right}
+.карта .подпись{position:absolute;right:22px;top:18px;padding:10px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
+
+/* ===== 3. бассейны ===== */
+.бас{display:grid;grid-template-columns:420px 1fr;gap:34px;height:100%;min-height:0}
+.цифры_бас{display:flex;flex-direction:column;gap:18px}
+.цифра_бас{border:1px solid var(--грань);border-radius:18px;padding:22px 24px;background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55))}
+.цифра_бас b{display:block;font-family:'Unbounded',sans-serif;font-size:56px;line-height:1;color:var(--кмг);font-weight:700}
+.цифра_бас span{display:block;margin-top:8px;font-size:14.5px;line-height:1.4;color:var(--текст2)}
+.вывод{margin-top:auto;padding:18px 20px;border-radius:16px;border:1px solid rgba(62,230,184,.35);background:rgba(62,230,184,.06);font-size:15px;line-height:1.5;color:var(--текст)}
+.вывод em{font-style:normal;color:var(--мята);font-weight:600}
+.карта.светлая{background:#fff;padding:14px}
+.карта.светлая img{object-fit:contain;border-radius:12px}
+.бассейн_список{position:absolute;left:36px;bottom:30px;display:flex;flex-wrap:wrap;gap:8px;max-width:700px}
+.бассейн_список span{font-size:12.5px;padding:6px 12px;border-radius:999px;background:rgba(5,8,16,.86);border:1px solid rgba(2,174,240,.45);color:var(--кмг_свет)}
+
+/* ===== низ ===== */
+.низ{position:absolute;left:calc(98px + var(--поля_ш,0px));right:calc(98px + var(--поля_ш,0px));bottom:calc(22px + var(--поля_в,0px));
+  display:flex;align-items:center;justify-content:space-between;gap:24px;pointer-events:none}
+.низ > *{pointer-events:auto}
+#лого{height:84px;filter:brightness(0) invert(1);opacity:.85}
+.точки{display:flex;gap:11px}
+.точки button{width:9px;height:9px;border-radius:50%;background:var(--грань);transition:background .25s ease,transform .25s ease}
+.точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);box-shadow:0 0 12px rgba(2,174,240,.6)}
+.счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
+.слайд,.низ{z-index:1}
+</style>
+</head>
+<body>
+<div id="обёртка">
+<div id="кадр">
+
+<!-- ================= 1. КМГ сегодня (слайды 1+2 KIOGE 2026) ================= -->
+<section class="слайд виден" id="с1" aria-label="КМГ сегодня">
+  <div class="бровь">КазМунайГаз · итоги 2025 и планы 2026–2029</div>
+  <h2 class="заголовок дисплей">Вклад в экономику и инвестиции</h2>
+  <div class="полотно">
+    <div class="две">
+      <div class="панель">
+        <div class="имя">Вклад КМГ в экономику Казахстана · итоги 2025 г.</div>
+        <div class="доли">
+          <div class="доля"><b>27%</b><span>доля в добыче нефти и конденсата</span></div>
+          <div class="доля"><b>17%</b><span>доля в добыче природного и попутного газа</span></div>
+          <div class="доля"><b>57%</b><span>доля в транспортировке нефти</span></div>
+          <div class="доля"><b>82%</b><span>доля в переработке нефти</span></div>
+          <div class="доля"><b>9%</b><span>доля в госбюджете + Нацфонд</span></div>
+        </div>
+        <div class="люди">
+          <div><b>82<i>тыс. человек</i></b><span>сотрудники группы компаний КМГ с учётом крупных проектов</span></div>
+          <div><b>38,6<i>тыс. человек</i></b><span>сотрудники подрядных компаний</span></div>
+        </div>
+      </div>
+      <div class="панель">
+        <div class="имя">Инвестиции 2026–2029</div>
+        <h3>16,6 трлн тенге, на долю КМГ — 8,7 трлн тенге</h3>
+        <div class="инв">
+          <div class="график">
+            <div class="ось">млрд тенге по годам</div>
+            <div class="столбцы">
+              <div class="столбец включён" data-к="1"><b>1 500</b><i style="height:25%"></i><span>2026</span></div>
+              <div class="столбец включён" data-к="1"><b>5 449</b><i style="height:92%"></i><span>2027</span></div>
+              <div class="столбец включён" data-к="1"><b>5 899</b><i style="height:100%"></i><span>2028</span></div>
+              <div class="столбец включён" data-к="1"><b>3 733</b><i style="height:63%"></i><span>2029</span></div>
+            </div>
+          </div>
+          <div class="разрез">
+            <div><b>6,7<i>трлн ₸</i></b><span>нефтегазохимия</span></div>
+            <div><b>3,9<i>трлн ₸</i></b><span>переработка</span></div>
+            <div><b>3,6<i>трлн ₸</i></b><span>недропользование</span></div>
+            <div><b>1,6<i>трлн ₸</i></b><span>иные проекты</span></div>
+            <div><b>0,7<i>трлн ₸</i></b><span>ВИЭ</span></div>
+          </div>
+        </div>
+        <div class="прим">* Объём инвестиций может быть скорректирован по результатам разработки проектной документации</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 2. геологоразведка (слайды 3+4 + текст заказчика) ================= -->
+<section class="слайд" id="с2" aria-label="Геологоразведка">
+  <div class="бровь">Геологоразведка · программа до 2030 года</div>
+  <h2 class="заголовок дисплей">Ресурсная база и портфель разведочных проектов</h2>
+  <div class="полотно">
+    <div class="гео">
+      <ul class="пункты">
+        <li data-к="1"><b>748 <i>млн т ЖУ</i></b><span>Остаточные извлекаемые запасы <em>ABC1</em> на 01.01.2026 г.</span></li>
+        <li data-к="2"><b>до 2030</b><span>Принята <em>масштабная геологоразведочная программа</em></span></li>
+        <li data-к="3"><b>23 <i>проекта</i></b><span>Потенциальная геологическая ресурсная база <em>~4,7 млрд т у.т.</em></span></li>
+        <li data-к="4"><b>26 <i>скважин</i></b><span>Бурение поисковых скважин, <em>проходка 89 тыс. м</em></span></li>
+        <li data-к="5"><b>6 250 <i>км 2D</i></b><span>Сейсморазведочные работы: 2D — 6 250 км, <em>3D — 2 540 км²</em></span></li>
+        <li data-к="6"><b>60 <i>тыс. км</i></b><span>Изучение глубокозалегающих подсолевых отложений <em>Прикаспийского бассейна</em> — региональная сейсморазведка 2D</span></li>
+      </ul>
+      <div class="карта">
+        <img src="медиа/геология/карта_портфеля.jpg" alt="Карта портфеля разведочных проектов КМГ">
+        <div class="подпись">Портфель · 23 проекта</div>
+        <div class="легенда">
+          <div><i style="background:#02AEF0"></i><b>6</b>Страновой значимости</div>
+          <div><i style="background:#B06EE6"></i><b>13</b>Социальной значимости</div>
+          <div><i style="background:#F2B84B"></i><b>2</b>Малоизученные бассейны</div>
+          <div><i style="background:#1E5C4E"></i><b>2</b>Глубокие перспективы Прикаспия</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 3. бассейновые модели (клик-переход 1) ================= -->
+<section class="слайд" id="с3" aria-label="Бассейновые модели">
+  <div class="бровь">Геологоразведка · поиск и оценка участков</div>
+  <h2 class="заголовок дисплей">Цифровые бассейновые модели</h2>
+  <div class="полотно">
+    <div class="бас">
+      <div class="цифры_бас">
+        <div class="цифра_бас"><b>5 / 15</b><span>осадочных бассейнов Казахстана покрыты цифровыми моделями</span></div>
+        <div class="цифра_бас"><b>34%</b><span>территории Республики Казахстан</span></div>
+        <div class="вывод">По результатам региональных исследований и бассейнового моделирования выделены перспективные направления для геологоразведки. <em>Основной ресурсный потенциал связан с подсолевыми отложениями Прикаспийского бассейна.</em></div>
+      </div>
+      <div class="карта светлая">
+        <img src="медиа/геология/бассейны.jpg" alt="Карта бассейновых моделей на контуре Казахстана">
+        <div class="бассейн_список">
+          <span>Прикаспийский</span><span>Мангышлакский</span><span>Устюрт-Бозашинский</span><span>Южно-Тургайский</span><span>Шу-Сарысуйский</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="низ">
+  <img id="лого" src="медиа/лого_кмг.png" alt="КазМунайГаз">
+  <div class="точки" id="точки" role="tablist" aria-label="Слайды"></div>
+  <div class="счётчик" id="счётчик"></div>
+</div>
+</div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  /* кадр 1920×1080 вписывается в окно; расчётная высота 1000 — как в закупках,
+     чтобы в окне с панелью браузера не было пустых полей */
+  function вписать(){
+    var к = Math.min(window.innerWidth / 1920, window.innerHeight / 1000);
+    var ш = window.innerWidth / к, в = window.innerHeight / к, кэ = document.documentElement.style;
+    кэ.setProperty("--к", к); кэ.setProperty("--кадр_ш", ш + "px"); кэ.setProperty("--кадр_в", в + "px");
+    кэ.setProperty("--поля_ш", Math.max(0, (ш - 1920) / 2) + "px"); кэ.setProperty("--поля_в", Math.max(0, (в - 1080) / 2) + "px");
+  }
+  window.addEventListener("resize", вписать); вписать();
+
+  var слайды = [].slice.call(document.querySelectorAll(".слайд")), текущий = 0, состояние = {};
+  var точки = document.getElementById("точки"), счёт = document.getElementById("счётчик");
+  function кадрыСлайда(с){ var м = 0; [].forEach.call(с.querySelectorAll("[data-к]"), function(э){ м = Math.max(м, +э.getAttribute("data-к")); }); return м; }
+  function показатьКадры(с, до){
+    [].forEach.call(с.querySelectorAll("[data-к]"), function(э){ э.classList.toggle("включён", +э.getAttribute("data-к") <= до); });
+    состояние[с.id] = до;
+  }
+  слайды.forEach(function(с, i){
+    var т = document.createElement("button"); т.type = "button"; т.setAttribute("aria-label", "Слайд " + (i + 1));
+    т.addEventListener("click", function(){ показать(i, true); }); точки.appendChild(т);
+    показатьКадры(с, i === 0 ? кадрыСлайда(с) : 0);
+  });
+  var кнопки = [].slice.call(точки.children);
+  function показать(i, целиком){
+    if(i < 0 || i >= слайды.length || i === текущий) return;
+    слайды[текущий].classList.remove("виден"); текущий = i;
+    var с = слайды[i]; с.classList.add("виден"); показатьКадры(с, целиком ? кадрыСлайда(с) : 0);
+    кнопки.forEach(function(к, j){ к.setAttribute("aria-current", j === i ? "true" : "false"); });
+    счёт.textContent = ("0" + (i + 1)).slice(-2) + " / " + ("0" + слайды.length).slice(-2);
+  }
+  кнопки[0].setAttribute("aria-current", "true"); счёт.textContent = "01 / " + ("0" + слайды.length).slice(-2);
+  function вперёд(){ var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0; if(было < всего){ показатьКадры(с, было + 1); return; } показать(текущий + 1, false); }
+  function назад(){ var с = слайды[текущий], было = состояние[с.id] || 0; if(было > 0){ показатьКадры(с, было - 1); return; } показать(текущий - 1, true); }
+  document.addEventListener("keydown", function(с){
+    var к = с.key;
+    if(к === "ArrowRight" || к === "PageDown" || к === " " || к === "Enter"){ с.preventDefault(); вперёд(); }
+    else if(к === "ArrowLeft" || к === "PageUp" || к === "Backspace"){ с.preventDefault(); назад(); }
+    else if(к === "Home"){ с.preventDefault(); показать(0, true); }
+    else if(к === "End"){ с.preventDefault(); показать(слайды.length - 1, true); }
+    else if(к === "f" || к === "F" || к === "а" || к === "А"){ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  document.addEventListener("click", function(с){ if(с.target.closest(".точки")) return; if(с.shiftKey) назад(); else вперёд(); });
+  /* ?с=N — открыть сразу нужный слайд (клик-переходы из схемы процесса в показе) */
+  /* кириллический параметр приходит percent-encoded — сначала раскодировать */
+  var м = /[?&]с=(\d+)/.exec(decodeURIComponent(location.search));
+  if(м) показать(+м[1] - 1, true);
+  window.__геологи = { показать:показать, текущий:function(){ return текущий; } };
+})();
+</script>
+</body>
+</html>
