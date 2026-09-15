@@ -567,6 +567,7 @@ body.вглубь #процесс{display:flex}
 .шаг_процесса .номер{font-family:'Unbounded',system-ui,sans-serif;font-size:12px;letter-spacing:.2em;color:var(--кмг)}
 .шаг_процесса h3{font-family:'Unbounded',system-ui,sans-serif;font-size:clamp(14px,calc(1.05 * 19.2px),20px);font-weight:700;line-height:1.2;margin-top:10px;color:var(--текст)}
 .шаг_процесса .суть_шага{margin-top:8px;font-size:clamp(12px,calc(.8 * 19.2px),15px);line-height:1.45;color:var(--текст2)}
+.проект_чип img.серый{opacity:.55}
 .проект_чип.переход > span:nth-child(2){text-decoration:underline dotted rgba(2,174,240,.7);text-underline-offset:3px}
 .шаг_процесса.кликабельный{cursor:pointer;transition:border-color .2s, box-shadow .2s, opacity .5s ease, transform .5s ease}
 .шаг_процесса.кликабельный:hover,.шаг_процесса.кликабельный:focus-visible{border-color:rgba(2,174,240,.7);box-shadow:0 0 0 3px rgba(2,174,240,.14),0 0 28px rgba(2,174,240,.25)}
@@ -1360,7 +1361,15 @@ body.процессы .веер{display:none}
     "Компьютерное зрение — безопасность на заводе": "tumar",
     "УТО — управление транспортным обеспечением": "ии_уто",
     "AI-Broker":                       "ai_broker",
-    "KMG AISAP":                       "procupricemetal"
+    "KMG AISAP":                       "procupricemetal",
+    /* 15.09 (Адиль): значки для процессов добычи без проекта в показе —
+       серые чипы v2; gpt_image_2_5, стиль прежних значков (линии, градиент) */
+    "Построение модели пласта":                    "модель_пласта",
+    "Цифровой мониторинг ТКРС":                    "мониторинг_ткрс",
+    "Цифровое бурение":                            "цифровое_бурение",
+    "Планирование добычи и мониторинг":            "планирование_добычи",
+    "Интеллектуальное месторождение":              "интеллектуальное_месторождение",
+    "Оперативное управление механизированным фондом": "мехфонд"
   };
 
 
@@ -2231,7 +2240,12 @@ body.процессы .веер{display:none}
     if(имя && typeof имя === "object"){ подпись = имя.подпись; адрес = имя.адрес; имя = имя.имя; }
     var н = найтиПроект(имя);
     var ч = узел("button", "проект_чип", родитель); ч.type = "button";
-    if(!н){ ч.innerHTML = '<span class="точка"></span><span>' + (подпись || имя) + '</span>'; ч.disabled = true; return ч; }
+    if(!н){
+      /* серый чип: значок из ИКОНКИ, если нарисован (добыча, 15.09), иначе точка */
+      var зн0 = ИКОНКИ[имя];
+      ч.innerHTML = (зн0 ? '<img src="медиа/иконки/' + зн0 + '.png" alt="" class="серый">' : '<span class="точка"></span>') + '<span>' + (подпись || имя) + '</span>';
+      ч.disabled = true; return ч;
+    }
     var знак = ИКОНКИ[имя];
     ч.innerHTML = (знак ? '<img src="медиа/иконки/' + знак + '.png" alt="">' : '<span class="точка"></span>') +
       /* 14.09 (Жанна Зурбековна): «слово ABAI уберите, все и так понимают» — только в подписи чипа */
