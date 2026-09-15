@@ -568,6 +568,9 @@ body.вглубь #процесс{display:flex}
 .шаг_процесса h3{font-family:'Unbounded',system-ui,sans-serif;font-size:clamp(14px,calc(1.05 * 19.2px),20px);font-weight:700;line-height:1.2;margin-top:10px;color:var(--текст)}
 .шаг_процесса .суть_шага{margin-top:8px;font-size:clamp(12px,calc(.8 * 19.2px),15px);line-height:1.45;color:var(--текст2)}
 .проект_чип.переход > span:nth-child(2){text-decoration:underline dotted rgba(2,174,240,.7);text-underline-offset:3px}
+.шаг_процесса.кликабельный{cursor:pointer;transition:border-color .2s, box-shadow .2s, opacity .5s ease, transform .5s ease}
+.шаг_процесса.кликабельный:hover,.шаг_процесса.кликабельный:focus-visible{border-color:rgba(2,174,240,.7);box-shadow:0 0 0 3px rgba(2,174,240,.14),0 0 28px rgba(2,174,240,.25)}
+.подсказка_шага{margin-top:12px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--кмг)}
 .пункты_шага{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
 .пункты_шага li{position:relative;padding-left:14px;font-size:clamp(11.5px,calc(.74 * 19.2px),14px);line-height:1.35;color:var(--текст2)}
 .пункты_шага li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--кмг);opacity:.7}
@@ -1465,11 +1468,11 @@ body.процессы .веер{display:none}
          свой процесс на странице маркетинг.html (чипы-переходы). Отслеживание
          поставок из шагов ушло, проект остаётся в показе. */
       шаги: [
-        { имя:"Реализация нефти", проекты:[
-            { подпись:"Бизнес-процесс реализации нефти", имя:"Бизнес-процессы реализации нефти и нефтепродуктов", адрес:"маркетинг.html?с=1" } ] },
-        { имя:"Реализация нефтепродуктов", проекты:[
-            { подпись:"Бизнес-процесс реализации нефтепродуктов", имя:"Бизнес-процессы реализации нефти и нефтепродуктов", адрес:"маркетинг.html?с=2" },
-            "СДД — договорное делопроизводство", "SAP S/4HANA" ] },
+        /* Адиль 15.09: «удали буллеты процесса, при нажатии на всю карточку
+           выходил на это» — переход висит на карточке шага, не на чипе */
+        { имя:"Реализация нефти", проекты:[], переход:{ проект:"Бизнес-процессы реализации нефти и нефтепродуктов", адрес:"маркетинг.html?с=1" } },
+        { имя:"Реализация нефтепродуктов", проекты:["СДД — договорное делопроизводство", "SAP S/4HANA"],
+          переход:{ проект:"Бизнес-процессы реализации нефти и нефтепродуктов", адрес:"маркетинг.html?с=2" } },
         { имя:"Анализ баланса нефтепродуктов", проекты:["KMG AIAN"] }
       ],
       поддержка: [],
@@ -2281,6 +2284,19 @@ body.процессы .веер{display:none}
       if(ш.проекты && ш.проекты.length){
         var п = узел("div", "проекты_шага", к);
         ш.проекты.forEach(function(имя){ чипПроекта(имя, п); });
+      }
+      if(ш.переход){
+        /* вся карточка шага — кнопка перехода на страницу процесса (маркетинг, 15.09) */
+        к.classList.add("кликабельный"); к.setAttribute("role", "button"); к.tabIndex = 0;
+        var подск = узел("div", "подсказка_шага", к); подск.textContent = "открыть процесс →";
+        function перейти(с){
+          с.stopPropagation();
+          var н = найтиПроект(ш.переход.проект); if(!н) return;
+          открытьСистему(н.б, { проект:н.пр, группа:к });
+          setTimeout(function(){ открытьВРамке(ш.переход.адрес); }, 350);
+        }
+        к.addEventListener("click", перейти);
+        к.addEventListener("keydown", function(с){ if(с.key === "Enter" || с.key === " ") перейти(с); });
       }
       if(ш.ведётся){
         var в = узел("div", "ведётся" + (/проработк|в работе/.test(ш.ведётся) ? " проработка" : ""), к); в.textContent = ш.ведётся;
