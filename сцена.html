@@ -1900,6 +1900,10 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
     var рамка = document.getElementById("внешний_показ");
     рамка.addEventListener("load", function ф(){ рамка.removeEventListener("load", ф); рамка.focus(); разбудитьРамку(); });
     рамка.src = адрес;
+    /* Экран выбора лежит поверх рамки (z-index 2) и без этого закрывал
+       презентацию, открытую с него (Адиль 15.09: «косяк при нажатии на
+       презентацию» у Geo AI). */
+    экран_системы.classList.remove("процесс");
     экран_системы.classList.add("снаружи");
     document.getElementById("сис_кролику").hidden = true;
   }
