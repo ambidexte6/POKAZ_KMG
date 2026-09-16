@@ -128,9 +128,9 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   display:flex;align-items:center;justify-content:space-between;gap:24px;pointer-events:none}
 .низ > *{pointer-events:auto}
 #лого{height:84px;filter:brightness(0) invert(1);opacity:.85}
-/* 16.09 (Адиль): «каждая вкладка независимая» — точек и счётчика слайдов нет,
-   на страницу заходят чипами из показа; листание клавишами оставлено */
-.точки,.счётчик{display:none}
+/* 16.09 вечером (Адиль): «сделай как было раньше — два связанных слайда»;
+   дневной вариант с независимыми вкладками отклонён */
+.точки{display:flex;gap:11px}
 .точки button{width:9px;height:9px;border-radius:50%;background:var(--грань);transition:background .25s ease,transform .25s ease}
 .точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);box-shadow:0 0 12px rgba(2,174,240,.6)}
 .счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
@@ -191,8 +191,10 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   <!-- 16.09 (совещание с геологами): «слайд устаревший — возьмите третий слайд из
        БезИмени (009) и всю информацию покажите»: портфель 23 проектов и планы
        2026–2030 один в один по их слайду; запасы ABC1 и проходка сняты, их там нет. -->
-  <div class="бровь">Геологоразведка · формирование программы ГРР</div>
-  <h2 class="заголовок дисплей">Портфель разведочных проектов</h2>
+  <div class="бровь">Геологоразведка · программа до 2030 года</div>
+  <!-- 16.09 (Адиль): «Портфель разведочных проектов» дублировался в заголовке
+       слайда и в группе — заголовок теперь как чип в показе -->
+  <h2 class="заголовок дисплей">Формирование программы ГРР</h2>
   <div class="полотно">
     <div class="гео">
       <!-- 16.09 (Адиль): «портфель объедини с планами, как на их слайде» —
@@ -227,7 +229,10 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
         <img src="медиа/геология/карта_портфеля_геологов.png" alt="Портфель разведочных проектов КМГ — карта участков">
         <!-- «потом здесь должна быть ссылка на видео — опционально»; 16.09 (Адиль):
              не программа ГРР, а ролик KMG Geo AI -->
-        <button type="button" class="ролик_кнопка" data-видео="медиа/ролики/kmg_geo_ai.mp4">▶ Ролик · KMG Geo AI</button>
+        <!-- Адиль 16.09: «не просто на ролик, а на тот, что с кнопкой „Презентация“» —
+             открывает карточку KMG Geo AI в показе (страница живёт в его рамке);
+             без показа — просто ролик поверх страницы -->
+        <button type="button" class="ролик_кнопка" data-видео="медиа/ролики/kmg_geo_ai.mp4" data-проект="KMG Geo AI">▶ Ролик · KMG Geo AI</button>
       </div>
     </div>
   </div>
@@ -277,11 +282,9 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
     счёт.textContent = ("0" + (i + 1)).slice(-2) + " / " + ("0" + слайды.length).slice(-2);
   }
   кнопки[0].setAttribute("aria-current", "true"); счёт.textContent = "01 / " + ("0" + слайды.length).slice(-2);
-  /* 16.09 (Адиль): «каждая вкладка независимая» — за последним кадром слайда
-     хода на соседний слайд нет: раньше клик с бассейнов уводил на портфель.
-     Кадры внутри слайда по-прежнему раскрываются кликом и стрелками. */
-  function вперёд(){ var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0; if(было < всего) показатьКадры(с, было + 1); }
-  function назад(){ var с = слайды[текущий], было = состояние[с.id] || 0; if(было > 0) показатьКадры(с, было - 1); }
+  /* два слайда связаны: за последним кадром бассейнов идёт портфель (Адиль 16.09 вечером) */
+  function вперёд(){ var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0; if(было < всего){ показатьКадры(с, было + 1); return; } показать(текущий + 1, false); }
+  function назад(){ var с = слайды[текущий], было = состояние[с.id] || 0; if(было > 0){ показатьКадры(с, было - 1); return; } показать(текущий - 1, true); }
   document.addEventListener("keydown", function(с){
     var к = с.key;
     if(к === "ArrowRight" || к === "PageDown" || к === " " || к === "Enter"){ с.preventDefault(); вперёд(); }
@@ -302,7 +305,13 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   var слой=document.getElementById("видео_слой"), в=слой.querySelector("video");
   function закрыть(){ в.pause(); в.removeAttribute("src"); в.load(); слой.classList.remove("виден"); }
   document.querySelectorAll(".ролик_кнопка").forEach(function(к){
-    к.addEventListener("click", function(с){ с.stopPropagation(); в.src=к.dataset.видео; слой.classList.add("виден"); в.play(); });
+    к.addEventListener("click", function(с){
+      с.stopPropagation();
+      /* страница открыта в рамке показа — просим показ открыть карточку проекта */
+      var П = null; try{ П = window.parent !== window && window.parent.__показ; }catch(е){}
+      if(к.dataset.проект && П && П.открытьПроект && П.открытьПроект(к.dataset.проект)) return;
+      в.src=к.dataset.видео; слой.classList.add("виден"); в.play();
+    });
   });
   document.getElementById("видео_закрыть").addEventListener("click", закрыть);
   в.addEventListener("ended", закрыть);
