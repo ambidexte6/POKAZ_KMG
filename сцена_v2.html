@@ -507,6 +507,16 @@ body.вглубь .роль_экрана{opacity:0}
 .бп_шаг.ии .ик{color:var(--мята)}
 .бп_описание{margin:auto 0;max-width:60ch;font-size:clamp(16px,1.3vw,22px);line-height:1.55;color:var(--текст2);white-space:pre-line}
 .бп_кнопки{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+/* 16.09 (Адиль): экран выбора у проекта без шагов процесса собран как карточка —
+   заголовок, эффект, описание и кнопки одной колонкой слева, по центру по
+   вертикали (как ТКРС и AIAN). У проектов с шагами (УТО, AISAP) — прежняя
+   раскладка с панелью шагов на всю ширину. */
+#экран_системы.процесс:not(.с_шагами) #процесс_системы{justify-content:center;gap:14px;
+  padding:clamp(28px,calc(5 * 10.8px),72px) clamp(28px,calc(4 * 19.2px),64px)}
+#экран_системы.процесс:not(.с_шагами) .бп_шапка{max-width:min(52%,720px);gap:14px}
+#экран_системы.процесс:not(.с_шагами) .бп_шапка h2{font-size:clamp(26px,calc(3.8 * 19.2px),52px);line-height:1.06;letter-spacing:-.01em;text-wrap:balance}
+#экран_системы.процесс:not(.с_шагами) .бп_описание{margin:0;max-width:min(52%,720px)}
+#экран_системы.процесс:not(.с_шагами) .бп_кнопки{margin-top:10px}
 .бп_кнопки .кнопка.главная{border-color:var(--кмг);color:var(--кмг);background:rgba(2,174,240,.08)}
 
 /* ================= заставка ================= */
