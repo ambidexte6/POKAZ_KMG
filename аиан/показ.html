@@ -876,6 +876,8 @@ const ТАКТЫ = [
     вход(){
       подпись('', '');
       document.querySelectorAll('#мозаика video').forEach(в=>{ в.currentTime = 0; в.play().catch(()=>{}); });
+      /* в потоке экраны — не ссылки: «not clickable, leave only for the report» */
+      if(АВТО) document.querySelectorAll('#мозаика .экран_источника').forEach(э=>{ э.removeAttribute('href'); э.style.cursor = 'default'; });
     },
     выход(){ document.querySelectorAll('#мозаика video').forEach(в=>в.pause()); } },
   { id:'цепочка',
@@ -1031,17 +1033,31 @@ let титулОзвучен = false, автоИдёт = false, автоТайм
    be full screen»), в докладе — как раньше, в полтора раза. Сдвиг считается от
    положения плитки: экран_источника в углу сетки, и один масштаб увёл бы его
    за край. */
+let таймерКрупно = null;
 function крупно(и){
-  document.querySelectorAll('#мозаика .экран_источника').forEach((э,к)=>{
-    const надо = к === и;
-    э.classList.toggle('крупно', надо);
-    if(!АВТО) return;
-    if(!надо){ э.style.transform = ''; return; }
+  const плитки = [...document.querySelectorAll('#мозаика .экран_источника')];
+  if(!АВТО){ плитки.forEach((э,к)=>э.classList.toggle('крупно', к === и)); return; }
+  clearTimeout(таймерКрупно);
+  const была = плитки.findIndex(э=>э.classList.contains('крупно'));
+  /* сначала прежняя плитка садится на место, и только потом растёт новая:
+     иначе две увеличенные плитки летели друг через друга (Адиль 16.09) */
+  плитки.forEach(э=>{ э.classList.remove('крупно'); э.style.transform = ''; э.style.zIndex = ''; э.style.transformOrigin = ''; });
+  if(и < 0) return;
+  const вырастить = ()=>{
+    const э = плитки[и]; if(!э) return;
     const r = э.getBoundingClientRect(), W = innerWidth, H = innerHeight;
+    /* сцена может быть отмасштабирована: сдвиг считаем в её координатах */
+    const м = r.width / (э.offsetWidth || r.width) || 1;
     const k = Math.min(W * 0.96 / r.width, H * 0.96 / r.height);
-    const dx = W / 2 - (r.left + r.width / 2), dy = H / 2 - (r.top + r.height / 2);
+    const dx = (W / 2 - (r.left + r.width / 2)) / м, dy = (H / 2 - (r.top + r.height / 2)) / м;
+    /* у плиток свои углы масштабирования (в докладе они растут к центру
+       экрана из своего угла); сдвиг посчитан от центра — ставим его явно */
+    э.style.transformOrigin = 'center';
+    э.style.zIndex = '7';
+    э.classList.add('крупно');
     э.style.transform = `translate(${dx}px, ${dy}px) scale(${k})`;
-  });
+  };
+  if(была >= 0 && была !== и) таймерКрупно = setTimeout(вырастить, 720); else вырастить();
 }
 function акцент(и){ document.querySelectorAll('#эффекты .эффект').forEach((э,к)=>э.classList.toggle('акцент', к <= и)); }
 function шаг(к){ подшаг = к; применитьПодшаг(); }
@@ -1122,7 +1138,15 @@ function назад(){
 }
 обновитьХод();
 addEventListener('keydown', е=>{
-  if(АВТО && автоИдёт && е.key !== ' '){ автоТаймеры.forEach(clearTimeout); голосЭл.onended = null; голосЭл.pause(); автоИдёт = false; крупно(-1); }
+  /* Поток (KIOGE, Bridge) идёт сам: клики и стрелки во время него ничего не
+     делают (Адиль 16.09: «почему я могу кликать»). Единственный жест — первый,
+     он запускает звук. Escape оставлен как аварийный стоп на ручной обход. */
+  if(АВТО && автоИдёт){
+    if(е.key === 'Escape'){ автоТаймеры.forEach(clearTimeout); голосЭл.onended = null; голосЭл.pause(); автоИдёт = false; крупно(-1); }
+    /* глушим только клавиши листания; F11 и прочее — браузеру (Адиль: «f11 иногда нужен») */
+    if(['ArrowRight','ArrowLeft',' ','PageDown','PageUp','End','Home'].includes(е.key)) е.preventDefault();
+    return;
+  }
   if(е.key==='ArrowRight'||е.key===' '||е.key==='PageDown'){ е.preventDefault(); вперёд(); }
   if(е.key==='ArrowLeft'||е.key==='PageUp'){ е.preventDefault(); назад(); }
   // после живой демонстрации экран должен попадать в финал одним нажатием,
@@ -1148,7 +1172,11 @@ function курсорПроснулся(){
 }
 addEventListener('mousemove', курсорПроснулся);
 курсорПроснулся();
-addEventListener('click', е=>{ if(е.target.closest('.экран_источника')) return; вперёд(); });
+addEventListener('click', е=>{
+  if(АВТО && автоИдёт) return;                       // поток не листается кликом
+  if(е.target.closest('.экран_источника')) return;
+  вперёд();
+});
 
 /* цепочка не держит паузу на последнем кадре: луч уходит в небо — и сразу
    мост на карту (правка заказчика). Назад стрелкой вернуться по-прежнему можно. */
@@ -1227,6 +1255,7 @@ function перенестиИсточники(попытка){
 
 /* этапная лента цепочки — подсветка по времени видео */
 видео.addEventListener('timeupdate', ()=>{
+  if(!(ТАКТЫ[номер] && ТАКТЫ[номер].id === 'цепочка')) return;   // после ухода с такта — не трогаем
   document.querySelectorAll('.этап').forEach(э=>{
     const т = видео.currentTime;
     э.classList.toggle('горит', т >= +э.dataset.от && т < +э.dataset.до);
