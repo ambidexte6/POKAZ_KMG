@@ -168,7 +168,13 @@ svg .поток[data-к]{transform:none}
 .что_ии ul{margin:22px 0 0;padding:0;list-style:none}
 .что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:19px;line-height:1.4;color:var(--текст2)}
 .что_ии li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:10px;border-radius:50%;background:var(--мята);box-shadow:0 0 10px rgba(62,230,184,.7)}
-.итог_стр{margin-top:44px;margin-bottom:auto;font-size:22px;line-height:1.45;color:var(--текст);max-width:1600px}
+.итог_стр{margin-top:44px;font-size:22px;line-height:1.45;color:var(--текст);max-width:1600px}
+/* 16.09 (геологи): в конце презентации — переход в живую систему; открывается в новой вкладке, чтобы показ не терять */
+.в_систему{margin-top:34px;margin-bottom:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border-radius:14px;border:1px solid rgba(2,174,240,.6);
+  background:rgba(2,174,240,.12);color:#fff;font-family:'Unbounded',sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.крупно small{font-size:.42em;font-weight:600;letter-spacing:.02em;color:var(--текст2);margin-right:2px}
+.в_систему:hover{background:rgba(2,174,240,.24)}
+.в_систему small{font-family:system-ui,sans-serif;font-size:12px;letter-spacing:.02em;text-transform:none;color:var(--текст2)}
 .итог_стр b{color:var(--кмг);font-weight:600}
 
 .низ{position:absolute;left:98px;right:98px;bottom:44px;display:flex;align-items:center;justify-content:space-between;gap:24px;pointer-events:none}
@@ -230,7 +236,7 @@ svg .поток[data-к]{transform:none}
         <div class="лист" style="top:10px;left:80px;transition-delay:320ms"><i class="к"></i><i class="с"></i><div class="графа"></div><i class="с"></i></div>
       </div>
       <!-- 09.09: «80 000+ отчётов» снято — геологи дали свою статистику (KMG GeoAI.docx): 7 ТБ, 2 млн файлов (справка ФХ КБД от 08.09: 7,757 ТБ, 1 968 094 файла — заказчик просил округлить). -->
-      <div class="подп"><b>7 ТБ</b>геолого-геофизических данных, 2 млн файлов: сканы, таблицы, карты</div>
+      <div class="подп"><b>более 7 ТБ</b>геолого-геофизических данных, 2 млн файлов: сканы, таблицы, карты</div>
     </div>
 
     <!-- 2. OCR -->
@@ -268,7 +274,7 @@ svg .поток[data-к]{transform:none}
         <circle cx="250" cy="260" r="16"/><text x="250" y="292" text-anchor="middle">риск POS</text>
       </svg>
       <!-- 09.09, геологи: не «собственная» и не «обучена» — локально развёрнутая open-source модель, подвязанная к отчётам; «wiki» гостям не объяснить — «база знаний». -->
-      <div class="низ"><span>локальная open-source модель</span><span>внутри контура КМГ</span><span>подвязана к отчётам</span><span>250 фундаментальных книг в базе знаний</span></div>
+      <div class="низ"><span>локальная open-source модель</span><span>внутри контура КМГ</span><span>подвязана к отчётам</span><span>более 250 книг в базе знаний</span></div>
     </div>
 
     <!-- 4. вопрос -->
@@ -329,88 +335,18 @@ svg .поток[data-к]{transform:none}
      подсвечивают вопрос и то место ответа, ради которого вопрос задан.
      Скрины обрезаны: без боковой панели (там имена чужих сеансов) и без
      строки ввода. -->
-<section class="слайд" id="с1с" aria-label="Геологический риск: бурить или нет">
-  <div class="бровь">KMG Geo AI · так это выглядит в системе</div>
-  <div class="полотно экран">
-    <div class="скрин" data-к="1"><img src="медиа/скрины_геораг/вопрос_риск.png" alt="">
-      <div class="рамка" style="left:3%;top:0.8%;width:94%;height:4.4%" data-к="2"></div>
-      <div class="подпись_рамки" style="left:3%;top:6%" data-к="2">вопрос словами</div>
-      <div class="рамка" style="left:3%;top:42%;width:94%;height:20%" data-к="3"></div>
-      <div class="подпись_рамки" style="left:3%;top:63%" data-к="3">три компонента риска — из источников</div>
-      <div class="рамка" style="left:3%;top:82%;width:94%;height:7%" data-к="4"></div>
-      <div class="подпись_рамки" style="left:3%;top:90%" data-к="4">ассистент отделяет своё пояснение от источников</div>
-    </div>
-    <aside class="что_ии" data-к="5">
-      <div class="имя">Что делает ассистент</div>
-      <h3>Геологический риск: бурить или нет</h3>
-      <ul>
-        <li>Вопрос: что такое геологический риск (POS) и из чего он складывается при оценке ловушки</li>
-        <li>Ответ — по методике CCOP и книге Роуза: коллектор, ловушка с покрышкой, заполнение углеводородами; если любой равен нулю, вероятность обнуляется</li>
-        <li>Ассистент прямо помечает, где факты из источников, а где его пояснение</li>
-        <li>И связывает с Прикаспием: в подсолевых карбонатах риск решает покрышка и миграция, а не коллектор</li>
-      </ul>
-    </aside>
-  </div>
-</section>
-
-<section class="слайд" id="с1д" aria-label="Первичная и вторичная пористость карбонатов">
-  <div class="бровь">KMG Geo AI · так это выглядит в системе</div>
-  <div class="полотно экран">
-    <div class="скрин" data-к="1"><img src="медиа/скрины_геораг/вопрос_пористость.png" alt="">
-      <div class="рамка" style="left:3%;top:0.8%;width:94%;height:4.4%" data-к="2"></div>
-      <div class="подпись_рамки" style="left:3%;top:6%" data-к="2">вопрос словами</div>
-      <div class="рамка" style="left:3%;top:32%;width:94%;height:7%" data-к="3"></div>
-      <div class="подпись_рамки" style="left:3%;top:40%" data-к="3">нюанс именно для карбонатов</div>
-      <div class="рамка" style="left:3%;top:81%;width:94%;height:19%" data-к="4"></div>
-      <div class="подпись_рамки" style="left:3%;top:75%" data-к="4">суть различия одной таблицей</div>
-    </div>
-    <aside class="что_ии" data-к="5">
-      <div class="имя">Что делает ассистент</div>
-      <h3>Первичная и вторичная пористость карбонатов</h3>
-      <ul>
-        <li>Вопрос: объяснить простыми словами разницу между первичной и вторичной пористостью карбонатных коллекторов</li>
-        <li>Ответ структурирован: «врождённая» при осаждении и «приобретённая» после — растворение, трещины, доломитизация, стилолиты</li>
-        <li>Отдельно — почему в карбонатах первичная пористость редко выживает, а вторичная часто главная</li>
-        <li>Итог сведён в таблицу: когда появилась, как создалась, типичные виды, роль в карбонатах</li>
-      </ul>
-    </aside>
-  </div>
-</section>
-
-<section class="слайд" id="с1е" aria-label="AVO-анализ: где работает, а где обманет">
-  <div class="бровь">KMG Geo AI · так это выглядит в системе</div>
-  <div class="полотно экран">
-    <div class="скрин" data-к="1"><img src="медиа/скрины_геораг/вопрос_avo.png" alt="">
-      <div class="рамка" style="left:3%;top:0.8%;width:94%;height:4.4%" data-к="2"></div>
-      <div class="подпись_рамки" style="left:3%;top:6%" data-к="2">вопрос словами</div>
-      <div class="рамка" style="left:3%;top:41%;width:94%;height:25%" data-к="3"></div>
-      <div class="подпись_рамки" style="left:3%;top:67%" data-к="3">классы аномалий Rutherford–Williams</div>
-      <div class="рамка" style="left:3%;top:88.5%;width:94%;height:7%" data-к="4"></div>
-      <div class="подпись_рамки" style="left:3%;top:81%" data-к="4">где метод не работает: карбонаты Прикаспия</div>
-    </div>
-    <aside class="что_ии" data-к="5">
-      <div class="имя">Что делает ассистент</div>
-      <h3>AVO-анализ: где работает, а где обманет</h3>
-      <ul>
-        <li>Вопрос: для чего применяется AVO-анализ сейсмики и какие типы аномалий он выделяет</li>
-        <li>Ответ: прогноз флюида, литология, перспективные объекты, вход в инверсию; классы I–IV с примерами</li>
-        <li>Ассистент добавляет свою оценку и помечает её как мнение: для карбонатов Прикаспия AVO малоэффективен, ставку делать на другие методы</li>
-        <li>«Яркие пятна бывают ловушками» — подтверждать каротажем и инверсией, прежде чем бурить</li>
-      </ul>
-    </aside>
-  </div>
-</section>
-
-<!-- ================= 2. зачем ================= -->
+<!-- 16.09 (совещание с геологами): три слайда с вопросами сняты до замены —
+     «скрин удалим, дадим на что заменить: два или три вопроса». Разметка
+     сохранена в ИСХОДНИКИ/геология/геораг_вопросы_снятые.html -->
 <section class="слайд" id="с2" aria-label="Зачем нужен KMG Geo AI">
   <div class="бровь">Геологоразведка и добыча · ИИ</div>
-  <h2 class="заголовок дисплей">От поиска по архивам — к ответам за минуты</h2>
+  <h2 class="заголовок дисплей">От поиска по архивам — к ответам за дни</h2>
 
   <div class="цифры">
     <div class="цифра" data-к="1"><div class="шапка">Подготовка справок</div>
-      <div class="крупно стрелой">недели → минуты</div><div class="пояс">аналитические справки и сводки по отчётам</div></div>
+      <div class="крупно стрелой">недели → дни</div><div class="пояс">аналитические справки и сводки по отчётам</div></div>
     <div class="цифра" data-к="2"><div class="шапка">База</div>
-      <div class="крупно">7 ТБ</div><div class="пояс">геолого-геофизических данных, 2 млн файлов — в одном окне</div></div>
+      <div class="крупно"><small>более</small> 7 ТБ</div><div class="пояс">геолого-геофизических данных, 2 млн файлов — в одном окне</div></div>
     <div class="цифра" data-к="3"><div class="шапка">Интерпретация</div>
       <div class="крупно">×2–3</div><div class="пояс">быстрее интерпретация геоданных</div></div>
     <div class="цифра" data-к="4"><div class="шапка">Данные</div>
@@ -419,11 +355,12 @@ svg .поток[data-к]{transform:none}
 
   <div class="качества">
     <div class="качество" data-к="5"><b>Приватность ↑</b><span>Локально развёрнутая open-source модель во внутренней инфраструктуре. Данных наружу нет.</span></div>
-    <div class="качество" data-к="6"><b>Скорость ↑</b><span>Знания десятилетий — за минуты: вопрос словами вместо недель поиска по архивам.</span></div>
+    <div class="качество" data-к="6"><b>Скорость ↑</b><span>Знания десятилетий — за дни: вопрос словами вместо недель поиска по архивам.</span></div>
     <div class="качество" data-к="7"><b>Доверие ↑</b><span>Каждый ответ со ссылкой на документ и страницу. Reasoning-выводы, без галлюцинаций.</span></div>
   </div>
 
   <p class="итог_стр" data-к="7">Готовые запросы в один клик: <b>executive summary</b>, <b>риски и несостыковки</b>, <b>ключевые метрики</b>, режим Vision по сканам. Все знания по геологии — в одном окне, по запросу.</p>
+  <a class="в_систему" data-к="7" href="http://geoai.kmg.kz/" target="_blank" rel="noopener">Открыть KMG Geo AI → <small>geoai.kmg.kz · живая система</small></a>
 </section>
 
 <div class="низ">
