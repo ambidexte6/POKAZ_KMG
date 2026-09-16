@@ -9,9 +9,12 @@
    process_updated.pptx», первые два слайда): семь этапов процесса и
    анализ → эффекты. Третий слайд презентации — для сведения, в показ не
    идёт. Каркас — страница маркетинга: тот же кадр 1920×1080, палитра, низ.
-   Цифры эффектов — со слайда ОМГ (18 → 9 шагов, 2,5 → 0,5 ч, документы
-   5 → 1); телеграм-пост ОМГ называет 36 → 18 и 3 ч → 30 мин — расходится,
-   на слайде взяты цифры презентации, уточнить у ОМГ. */
+   Цифры эффектов — Арман 17.09 (видеокомментарий): 18 → 9 шагов (−50 %),
+   бумажных документов 9 → 0 (−100 %), рабочее время 4 ч → 0,5 ч (+88 %
+   эффективность). До этого стояли цифры слайда ОМГ (2,5 ч, 5 + 4 → 1 + 0,
+   +80 %, −89 %); телеграм-пост ОМГ называл 36 → 18 — снято.
+   17.09 (Арман): слайд 1 — «как в УТО, меньше текста»: у этапа одна строка
+   вместо абзаца, и кадр карточки фоном. */
 :root{
   --кмг:#02AEF0; --кмг_свет:#90D6F7; --циан:#4FE3FF; --мята:#3EE6B8; --зелёный:#3ED598;
   --фон0:#050810; --фон1:#0C1626; --янтарь:#F2B84B;
@@ -37,6 +40,8 @@ body{background:#000;color:var(--текст);overflow:hidden;
 button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 :focus-visible{outline:2px solid var(--кмг);outline-offset:4px;border-radius:4px}
 #обёртка{position:fixed;inset:0;overflow:hidden;background:var(--фон0)}
+.кадр_фон{position:absolute;inset:0;pointer-events:none;background:url("медиа/кадры/наряд_допуск.jpg") center/cover no-repeat;opacity:.34;
+  -webkit-mask-image:linear-gradient(100deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.55) 45%,#000 100%);mask-image:linear-gradient(100deg,rgba(0,0,0,.35) 0%,rgba(0,0,0,.55) 45%,#000 100%)}
 #обёртка::before{content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(calc(1200px * var(--к,1)) calc(620px * var(--к,1)) at 50% -12%, rgba(2,174,240,.14), transparent 68%),
     radial-gradient(calc(900px * var(--к,1)) calc(520px * var(--к,1)) at 92% 108%, rgba(62,213,152,.07), transparent 70%),
@@ -96,17 +101,18 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .слайд,.низ{z-index:1}
 
 /* ===== семь этапов: сетка карточек ===== */
-.этапы{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;height:100%;min-height:0;align-items:stretch}
+/* 17.09: текста в этапе одна строка — карточки не тянутся на всю высоту полотна, иначе пустые */
+.этапы{display:grid;grid-template-columns:repeat(7,1fr);gap:14px;min-height:0;align-items:start;align-content:center;height:100%}
 .этап{position:relative;display:flex;flex-direction:column;min-height:0;border:1px solid var(--грань);border-radius:18px;padding:16px 16px 14px;
   background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
 .этап.включён{opacity:1;transform:none}
 .этап .н{font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--кмг)}
-.этап h3{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:15px;line-height:1.22;font-weight:700;color:var(--текст);min-height:56px}
-.этап p{margin-top:12px;font-size:13.5px;line-height:1.42;color:var(--текст2)}
+.этап h3{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:15px;line-height:1.22;font-weight:700;color:var(--текст);min-height:38px}
+.этап p{margin-top:10px;font-size:13.5px;line-height:1.4;color:var(--текст2)}
 .этап .ии{margin-top:10px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:5px 10px;border-radius:999px;
   border:1px solid rgba(62,230,184,.6);color:var(--мята);font-size:12px;font-weight:600}
 .этап .ии::before{content:"AI";font-family:'Unbounded',sans-serif;font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid rgba(62,230,184,.6)}
-.этап .итог{margin-top:auto;padding-top:12px;border-top:1px solid var(--грань);font-size:12.5px;color:var(--приглуш)}
+.этап .итог{margin-top:16px;padding-top:12px;border-top:1px solid var(--грань);font-size:12.5px;color:var(--приглуш)}
 .этап .итог b{display:block;margin-top:3px;font-size:14px;color:var(--мята);font-weight:600}
 .этап + .этап::before{content:"→";position:absolute;left:-16px;top:60px;color:var(--циан);font-size:18px;opacity:.7}
 .примечание{margin-top:16px;font-size:13px;color:var(--приглуш)}
@@ -141,22 +147,24 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 </head>
 <body>
 <div id="обёртка">
+  <!-- 17.09 (Арман): «какой-то фон в презентацию» — кадр карточки ЭНД из показа, приглушён -->
+  <div class="кадр_фон" aria-hidden="true"></div>
 <div id="кадр">
 
 <!-- ================= 1. семь этапов ================= -->
 <section class="слайд виден" id="с1" aria-label="Электронный наряд-допуск: семь этапов">
   <div class="бровь">Управление нарядами-допусками · процесс</div>
   <h2 class="заголовок дисплей">Электронный наряд-допуск: сквозной процесс в 7 этапов</h2>
-  <p class="идея">Единый электронный маршрут — от заявки и мер безопасности до контроля условий, продления и закрытия работ. Desktop и мобильная версия; подписание — ЭЦП через FaceID в eGov mobile.</p>
+  <p class="идея">Единый электронный маршрут от заявки до закрытия работ. Desktop и мобильная версия; подписание — ЭЦП через FaceID в eGov mobile.</p>
   <div class="полотно">
     <div class="этапы">
-      <div class="этап" data-к="1"><div class="н">01</div><h3>Заявка и ответственные</h3><p>Создание электронного наряда: организация, подразделение, участок, вид и сроки работ; производитель работ, допускающий, ответственный руководитель, члены бригады.</p><div class="итог">Результат<b>Заявка сформирована</b></div></div>
-      <div class="этап" data-к="2"><div class="н">02</div><h3>Подготовительные мероприятия и оценка рисков</h3><p>Меры по подготовке рабочего места и безопасному выполнению работ. ИИ определяет типовые мероприятия, меры безопасности и риски по параметрам работ — с проверкой и дополнением.</p><span class="ии">ИИ заполняет</span><div class="итог">Результат<b>Меры и риски определены</b></div></div>
-      <div class="этап" data-к="3"><div class="н">03</div><h3>Согласование</h3><p>Ответственные лица и смежные подразделения проверяют и согласовывают наряд; маршрут, статусы, замечания и возврат на доработку.</p><div class="итог">Результат<b>Наряд согласован</b></div></div>
-      <div class="этап" data-к="4"><div class="н">04</div><h3>Инструктаж</h3><p>Целевой инструктаж бригады на месте работ; участники подтверждают ознакомление ЭЦП через FaceID в eGov mobile.</p><span class="ии">ЭЦП · FaceID</span><div class="итог">Результат<b>Бригада проинструктирована</b></div></div>
-      <div class="этап" data-к="5"><div class="н">05</div><h3>Контроль воздушной среды</h3><p>При необходимости — контроль газо-воздушной среды перед допуском и в ходе работ; результаты замеров в составе наряда. ИИ выдаёт рекомендации.</p><span class="ии">ИИ рекомендует</span><div class="итог">Результат<b>Среда проверена</b></div></div>
-      <div class="этап" data-к="6"><div class="н">06</div><h3>Продление наряда</h3><p>При продолжении работ — проверка условий, повторный допуск и продление срока с фиксацией ответственных.</p><div class="итог">Результат<b>Работы продолжаются</b></div></div>
-      <div class="этап" data-к="7"><div class="н">07</div><h3>Завершение работ</h3><p>Рабочее место приведено в безопасное состояние, приёмка допускающим, окончательное закрытие с полной историей действий.</p><div class="итог">Результат<b>Наряд закрыт</b></div></div>
+      <div class="этап" data-к="1"><div class="н">01</div><h3>Заявка и ответственные</h3><p>Организация, участок, вид и сроки работ, ответственные и бригада</p><div class="итог">Результат<b>Заявка сформирована</b></div></div>
+      <div class="этап" data-к="2"><div class="н">02</div><h3>Подготовительные мероприятия и оценка рисков</h3><p>ИИ подбирает типовые мероприятия, меры безопасности и риски</p><span class="ии">ИИ заполняет</span><div class="итог">Результат<b>Меры и риски определены</b></div></div>
+      <div class="этап" data-к="3"><div class="н">03</div><h3>Согласование</h3><p>Маршрут, статусы, замечания, возврат на доработку</p><div class="итог">Результат<b>Наряд согласован</b></div></div>
+      <div class="этап" data-к="4"><div class="н">04</div><h3>Инструктаж</h3><p>Бригада подтверждает ЭЦП через FaceID в eGov mobile</p><span class="ии">ЭЦП · FaceID</span><div class="итог">Результат<b>Бригада проинструктирована</b></div></div>
+      <div class="этап" data-к="5"><div class="н">05</div><h3>Контроль воздушной среды</h3><p>Замеры газо-воздушной среды в составе наряда, ИИ рекомендует</p><span class="ии">ИИ рекомендует</span><div class="итог">Результат<b>Среда проверена</b></div></div>
+      <div class="этап" data-к="6"><div class="н">06</div><h3>Продление наряда</h3><p>Проверка условий, повторный допуск, новый срок</p><div class="итог">Результат<b>Работы продолжаются</b></div></div>
+      <div class="этап" data-к="7"><div class="н">07</div><h3>Завершение работ</h3><p>Приёмка допускающим, закрытие с полной историей</p><div class="итог">Результат<b>Наряд закрыт</b></div></div>
     </div>
   </div>
   <p class="примечание">Этап 5 — при требовании контроля газо-воздушной среды; этап 6 — при продолжении или продлении работ.</p>
@@ -172,8 +180,8 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
         <h3>Анализ · как было</h3>
         <div class="цифры_а">
           <div class="цифра_а"><div class="шапка">Шагов</div><div class="крупно">18</div><div class="пояс">общее количество шагов</div></div>
-          <div class="цифра_а"><div class="шапка">Документов</div><div class="крупно">5 + 4</div><div class="пояс">входящих и исходящих</div></div>
-          <div class="цифра_а"><div class="шапка">Рабочее время</div><div class="крупно">2,5 ч</div><div class="пояс">на одну процедуру</div></div>
+          <div class="цифра_а"><div class="шапка">Документов</div><div class="крупно">9</div><div class="пояс">бумажных документов</div></div>
+          <div class="цифра_а"><div class="шапка">Рабочее время</div><div class="крупно">4 ч</div><div class="пояс">на одну процедуру</div></div>
         </div>
         <ul class="пункты_а">
           <li><b>Нет целостности процесса</b> — рутинные задачи вручную или на бумаге</li>
@@ -185,7 +193,7 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
         <h3>Эффекты · как стало</h3>
         <div class="цифры_а">
           <div class="цифра_а"><div class="шапка">Шагов</div><div class="крупно">9</div><div class="пояс">сквозной процесс</div></div>
-          <div class="цифра_а"><div class="шапка">Документов</div><div class="крупно">1 + 0</div><div class="пояс">бумажных — ноль</div></div>
+          <div class="цифра_а"><div class="шапка">Документов</div><div class="крупно">0</div><div class="пояс">бумажных документов</div></div>
           <div class="цифра_а"><div class="шапка">Рабочее время</div><div class="крупно">0,5 ч</div><div class="пояс">на одну процедуру</div></div>
         </div>
         <ul class="пункты_а">
@@ -194,9 +202,9 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
           <li><b>Подписание ЭЦП</b> — с компьютера и с телефона на объекте, через FaceID в eGov mobile</li>
         </ul>
         <div class="эффекты_а" data-к="3">
-          <div class="эффект_а"><div class="крупно">+80 %</div><div class="пояс">эффективность процесса</div></div>
+          <div class="эффект_а"><div class="крупно">+88 %</div><div class="пояс">эффективность процесса</div></div>
           <div class="эффект_а"><div class="крупно">−50 %</div><div class="пояс">шагов в процессе</div></div>
-          <div class="эффект_а"><div class="крупно">−89 %</div><div class="пояс">бумажной документации</div></div>
+          <div class="эффект_а"><div class="крупно">−100 %</div><div class="пояс">бумажной документации</div></div>
         </div>
         <a class="в_систему" data-к="3" href="https://hse-dev.kmg.kz/" target="_blank" rel="noopener">Открыть систему → <small>hse-dev.kmg.kz</small></a>
       </div>
