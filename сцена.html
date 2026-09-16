@@ -403,6 +403,7 @@ body.вглубь .роль_экрана{opacity:0}
 /* 16.09 (Адиль): подписи департаментов под карточкой сняты */
 .сис_отв{display:none}
 .сис_низ{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+#сис_ссылки{display:contents}
 .кнопка{padding:13px 22px;border-radius:8px;border:1px solid var(--грань);
   font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--текст2);
   text-decoration:none;display:inline-flex;align-items:center;cursor:pointer;
@@ -605,6 +606,10 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
       <!-- 16.09 (Адиль): у системы со своей презентацией кнопка стоит и здесь,
            под описанием, а не только справа сверху — там её не находят -->
       <button class="кнопка" id="сис_презентация" type="button" hidden>Презентация →</button>
+      <!-- 16.09 (Адиль: «а где три кнопки разных показов?»): ссылки проекта
+           рисуются и здесь, а не только на экране выбора с роликом — у AIAN
+           ролика нет, и кнопки версий иначе не видны нигде -->
+      <span id="сис_ссылки"></span>
       <button class="кнопка" id="сис_ролик" type="button" disabled>Ролик на согласовании</button>
     </div>
   </div>
@@ -991,7 +996,7 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
              «Демо»), KIOGE и Bridge сплошным потоком под озвучку; финал везде
              один: прозрачность рынка · прогнозирование дефицита и профицита НП ·
              ТЭ безопасность · снижение социального напряжения (Адиль 16.09) */
-          демо:"аиан/показ.html",
+          демо:"аиан/показ.html", кнопка_демо:"Доклад — по клику",
           ссылки:[
             { имя:"KIOGE — поток", адрес:"аиан/показ.html?версия=kioge" },
             { имя:"Bridge — поток", адрес:"аиан/показ.html?версия=bridge" }
@@ -1737,6 +1742,18 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
     var през = document.getElementById("сис_презентация");
     през.hidden = !(пр.внешний && !снаружиСайт(пр.внешний));
     през.textContent = (пр.кнопка_внешнего || "Презентация") + " →";
+    /* подпись кнопки демо — своя, если задана (у AIAN: «Доклад — по клику») */
+    демо.textContent = пр.кнопка_демо || "Открыть демо";
+    var ссыл = document.getElementById("сис_ссылки"); ссыл.innerHTML = "";
+    (пр.ссылки || []).forEach(function(с){
+      var кн = document.createElement("button"); кн.type = "button"; кн.className = "кнопка";
+      кн.textContent = с.имя + (с.адрес ? " →" : " · адрес уточняется"); кн.disabled = !с.адрес;
+      кн.addEventListener("click", function(е){
+        е.stopPropagation();
+        if(снаружиСайт(с.адрес)) window.open(с.адрес, "_blank", "noopener"); else открытьВРамке(с.адрес);
+      });
+      ссыл.appendChild(кн);
+    });
     /* неактивная кнопка «Ролик на согласовании» снята везде (Адиль 10.09);
        разметка оставлена на случай возврата */
     document.getElementById("сис_ролик").hidden = true;
