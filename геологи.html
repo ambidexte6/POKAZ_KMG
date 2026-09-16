@@ -277,14 +277,15 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
     счёт.textContent = ("0" + (i + 1)).slice(-2) + " / " + ("0" + слайды.length).slice(-2);
   }
   кнопки[0].setAttribute("aria-current", "true"); счёт.textContent = "01 / " + ("0" + слайды.length).slice(-2);
-  function вперёд(){ var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0; if(было < всего){ показатьКадры(с, было + 1); return; } показать(текущий + 1, false); }
-  function назад(){ var с = слайды[текущий], было = состояние[с.id] || 0; if(было > 0){ показатьКадры(с, было - 1); return; } показать(текущий - 1, true); }
+  /* 16.09 (Адиль): «каждая вкладка независимая» — за последним кадром слайда
+     хода на соседний слайд нет: раньше клик с бассейнов уводил на портфель.
+     Кадры внутри слайда по-прежнему раскрываются кликом и стрелками. */
+  function вперёд(){ var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0; if(было < всего) показатьКадры(с, было + 1); }
+  function назад(){ var с = слайды[текущий], было = состояние[с.id] || 0; if(было > 0) показатьКадры(с, было - 1); }
   document.addEventListener("keydown", function(с){
     var к = с.key;
     if(к === "ArrowRight" || к === "PageDown" || к === " " || к === "Enter"){ с.preventDefault(); вперёд(); }
     else if(к === "ArrowLeft" || к === "PageUp" || к === "Backspace"){ с.preventDefault(); назад(); }
-    else if(к === "Home"){ с.preventDefault(); показать(0, true); }
-    else if(к === "End"){ с.preventDefault(); показать(слайды.length - 1, true); }
     else if(к === "f" || к === "F" || к === "а" || к === "А"){ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
   });
   document.addEventListener("click", function(с){ if(с.target.closest(".точки")) return; if(с.shiftKey) назад(); else вперёд(); });
