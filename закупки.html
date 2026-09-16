@@ -180,7 +180,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .пэ_цепь.длинные .пэ_шаг span{font-size:13px;line-height:1.45;color:var(--текст2)}
 .пэ_цепь.длинные .пэ_шаг em{font-style:normal;font-size:12.5px;color:#F0AE4A;margin-top:4px}
 .пэ_цепь.длинные .пэ_шаг img{width:52px;height:52px}
-.пэ_низ{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:stretch}
+/* 17.09: без блока «было → стало» низ — одна панель с тремя процентами в ряд */
+.пэ_низ{display:grid;grid-template-columns:1fr;gap:34px;align-items:stretch}
 .пэ_низ > div{border:1px solid var(--грань);border-radius:16px;padding:18px 22px;background:rgba(12,22,38,.6)}
 .пэ_низ .имя{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
 .столбики{display:flex;gap:40px;align-items:flex-end;height:150px;margin-top:16px;padding-left:6px}
@@ -211,10 +212,10 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .полосы .было{width:100%;background:rgba(124,141,166,.28)}
 .полосы .стало{width:100%;background:linear-gradient(90deg,var(--мята),rgba(62,230,184,.35));transition:width 1.2s cubic-bezier(.2,.7,.3,1) .3s}
 .было_стало.включён .полосы .стало{width:var(--д)}
-.пэ_проценты{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;align-content:start}
+.пэ_проценты{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 22px;align-content:start}
 .пэ_проценты .имя{grid-column:1/-1}
-.пц b{display:block;font-family:'Unbounded',sans-serif;font-size:26px;color:var(--кмг);line-height:1.1}
-.пц span{font-size:12.5px;color:var(--приглуш)}
+.пц b{display:block;font-family:'Unbounded',sans-serif;font-size:34px;color:var(--кмг);line-height:1.1}
+.пц span{font-size:14px;color:var(--текст2)}
 
 .пэ.одна{grid-template-columns:1fr;margin-top:26px}
 .пэ.одна .я{font-size:18px;padding:16px 0}
@@ -1040,7 +1041,8 @@ body.экраны #обёртка::after{display:none}
       <!-- 16.09 (Есмамбетов): скрин списка заявок заменён на карточку заявки —
            товар «Провод СИП-3 1×35» и подобранный пул поставщиков; тексты по скрину,
            «без человека» снято (Арман: «с применением ИИ») -->
-      <h3>Маркетинговое исследование: пул поставщиков подобран с применением ИИ</h3>
+      <!-- 17.09 (Арман): «ИИ здесь не применяется» — подобран автоматически -->
+      <h3>Маркетинговое исследование: пул поставщиков подобран автоматически</h3>
       <ul>
         <li>Товар из заявки — «Провод СИП-3 1×35», категория по АСУ НСИ</li>
         <li>Пул поставщиков: 8 по умолчанию — реестр КТП по ЕНС ТРУ, участники закупок по историческим данным КМГ и открытые источники</li>
@@ -1276,7 +1278,8 @@ body.экраны #обёртка::after{display:none}
 
 <!-- 15.09 (закупщики через Есмамбетова): «лист 7 убрать полностью — это лист про
      текущее состояние с барьерами». Скрыт, не удалён. -->
-<section class="слайд скрыт" id="с4т" aria-label="Шаг 6 · текущее состояние">
+<!-- 17.09 (Арман): лист барьеров возвращён — «наоборот, надо оставить»; скрыт был 15.09 по закупщикам -->
+<section class="слайд" id="с4т" aria-label="Шаг 6 · текущее состояние">
   <div class="бровь">Шаг 6 · текущее состояние · Zakup.sk и SK Store</div>
   <h2 class="заголовок дисплей">Текущее состояние: два барьера на пути закупки</h2>
   <p class="идея">Закупки посредством Zakup.sk и закупки посредством SK Store идут по одному плану: план утверждается ЭЦП в Zakup.sk, заказ на поставку подписывается ЭЦП обеих сторон.</p>
@@ -1353,8 +1356,10 @@ body.экраны #обёртка::after{display:none}
        «передано на закуп», плашка площадки — про автоматическую детализацию и
        публикацию, значок AI у площадки убран («тут не используется»), карточка
        справа — «Заказ на поставку сформирован и утверждён» без подписи. -->
-  <div class="бровь">Шаг 6 · KMG AISAP и SK Store</div>
-  <h2 class="заголовок дисплей">Взаимодействие систем на этапе планирования и проведения закупки</h2>
+  <!-- 17.09 (Арман): «целевое видение вернуть» — заголовок снова про целевое видение,
+       содержимое — в редакции закупщиков 15.09 -->
+  <div class="бровь">Шаг 6 · целевое видение · KMG AISAP и SK Store</div>
+  <h2 class="заголовок дисплей">Целевое видение: как системы ведут закупку от плана до заказа</h2>
 
   <div class="полотно">
     <svg class="потоки" viewBox="0 0 1724 640" style="position:absolute;left:0;top:0;width:1724px;height:640px;pointer-events:none" aria-hidden="true">
@@ -1527,18 +1532,16 @@ body.экраны #обёртка::after{display:none}
       <div class="пэ_шаг" data-к="5"><img src="медиа/иконки_закупки/шаг7.png" alt=""><i>05</i><b>Сквозная ответственность за процесс</b><span>Единая ответственность от потребности до использования ТМЦ</span></div>
     </div>
     <div class="пэ_низ">
-      <div class="было_стало" data-к="6">
-        <div class="имя">Было → стало</div>
-        <div class="ряд_бс"><span>шагов в процессе</span><div class="полосы"><i class="было"><em>203</em></i><i class="стало" style="--д:66%"><em>133</em></i></div><b>−34 %</b></div>
-        <div class="ряд_бс"><span>часов на процесс</span><div class="полосы"><i class="было"><em>437</em></i><i class="стало" style="--д:34%"><em>148</em></i></div><b>−66 %</b></div>
-        <div class="ряд_бс"><span>исходящих документов</span><div class="полосы"><i class="было"><em>25</em></i><i class="стало" style="--д:8%"><em>2</em></i></div><b>−92 %</b></div>
-      </div>
+      <!-- 17.09 (Арман): блок «Было → стало» (203 → 133 шагов, 437 → 148 часов,
+           25 → 2 документов) снят — цифры «стало» пересчитываются (шагов будет
+           24, часы не считали), пришлёт утром. Пока — только эффективность. -->
       <div class="пэ_проценты" data-к="6">
         <div class="имя">Эффективность процессов</div>
-        <div class="пц"><b>+69 %</b><span>формирование потребности</span></div>
-        <div class="пц"><b>+55 %</b><span>маркетинг цен</span></div>
-        <div class="пц"><b>+50 %</b><span>план закупок</span></div>
-        <div class="пц"><b>−10–20 %</b><span>времени планирования закупок</span></div>
+        <!-- 17.09 (Арман): потребность и маркетинг формируются автоматически — +100 %;
+             план закупок +95 %; «время планирования закупок −10–20 %» снято -->
+        <div class="пц"><b>+100 %</b><span>формирование потребности</span></div>
+        <div class="пц"><b>+100 %</b><span>маркетинг цен</span></div>
+        <div class="пц"><b>+95 %</b><span>план закупок</span></div>
       </div>
     </div>
   </div>
