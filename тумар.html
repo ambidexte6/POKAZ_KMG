@@ -42,6 +42,7 @@ body.экраны #обёртка::after{display:none}
 #кадр{width:var(--кадр_ш,1920px);height:var(--кадр_в,1080px);position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(var(--к,1));transform-origin:center center;overflow:hidden}
 .слайд{position:absolute;inset:0;padding:calc(76px + var(--поля_в,0px)) calc(98px + var(--поля_ш,0px)) calc(96px + var(--поля_в,0px));display:flex;flex-direction:column;
   opacity:0;visibility:hidden;transform:translateY(16px);transition:opacity .42s ease,transform .42s ease,visibility 0s .42s}
+.слайд.скрыт{display:none}
 .слайд.виден{opacity:1;visibility:visible;transform:none;transition:opacity .42s ease,transform .42s ease}
 .бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
 h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top:10px}
@@ -142,7 +143,8 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   </div>
 </section>
 
-<section class="слайд" id="с1" aria-label="Зачем">
+<!-- 16.09 (заказчик через Адиля): «второй слайд со статистикой уберём» — скрыт, не удалён -->
+<section class="слайд скрыт" id="с1" aria-label="Зачем">
   <div class="бровь">Зачем · предпосылки создания</div>
   <h2 class="заголовок дисплей">Спуско-подъёмные операции — самая опасная работа на скважине</h2>
   <div class="полотно">
@@ -252,7 +254,7 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
     кэ.setProperty("--поля_ш", Math.max(0, (ш - 1920) / 2) + "px"); кэ.setProperty("--поля_в", Math.max(0, (в - 1080) / 2) + "px");
   }
   window.addEventListener("resize", вписать); вписать();
-  var слайды = [].slice.call(document.querySelectorAll(".слайд")), текущий = 0, состояние = {};
+  var слайды = [].slice.call(document.querySelectorAll(".слайд:not(.скрыт)")), текущий = 0, состояние = {};
   var точки = document.getElementById("точки"), счёт = document.getElementById("счётчик");
   function кадрыСлайда(с){ var м = 0; [].forEach.call(с.querySelectorAll("[data-к]"), function(э){ м = Math.max(м, +э.getAttribute("data-к")); }); return м; }
   function показатьКадры(с, до){ [].forEach.call(с.querySelectorAll("[data-к]"), function(э){ э.classList.toggle("включён", +э.getAttribute("data-к") <= до); }); состояние[с.id] = до; }
