@@ -331,10 +331,16 @@ body.вглубь .роль_экрана{opacity:0}
   display:flex;align-items:center;gap:28px;padding:14px 30px;border-radius:18px;
   border:1px solid rgba(2,174,240,.28);background:rgba(5,8,16,.55);backdrop-filter:blur(8px);
   white-space:nowrap;pointer-events:none;transition:opacity .4s}
-.итог_эффекта .метка{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
-.итог_эффекта .цифра{display:flex;align-items:baseline;gap:8px}
-.итог_эффекта .цифра b{font-size:clamp(20px,calc(1.6 * 19.2px),31px);font-weight:700;color:var(--кмг_свет);letter-spacing:-.01em}
-.итог_эффекта .цифра span{font-size:13px;color:var(--текст2)}
+/* 17.09, разбор по дизайн-системе сцены: метка — в стиле номера бирки
+   (Unbounded, циан, разрядка), а не третьим стилем подписей; число не крупнее
+   h1 (27 px) — строка итог, а не заголовок экрана; подписи к числам — Golos,
+   как весь текст показа, Unbounded при 13 px читался тяжело; 14 px вместо 12–13
+   — расстояние до стенда 2–3 м. Цифры округлены и подписаны «оценка»: до 2030
+   года десятые читаются как отчёт, а не как прогноз. */
+.итог_эффекта .метка{font-family:'Unbounded',system-ui,sans-serif;font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--кмг);opacity:.85}
+.итог_эффекта .цифра{display:flex;align-items:baseline;gap:9px}
+.итог_эффекта .цифра b{font-size:clamp(19px,calc(1.4 * 19.2px),27px);font-weight:700;color:var(--кмг_свет);letter-spacing:-.01em}
+.итог_эффекта .цифра span{font-family:'Golos Text',system-ui,sans-serif;font-size:14px;color:var(--текст2)}
 .итог_эффекта .разд{width:1px;height:30px;background:rgba(2,174,240,.28)}
 body.вглубь .итог_эффекта{opacity:0}
 
@@ -708,10 +714,10 @@ body.процессы .веер{display:none}
 
 <!-- Общий эффект программы за 2026–2030 — только на уровне цепочки -->
 <div class="итог_эффекта" id="итог_эффекта" aria-label="Общий эффект программы за 2026–2030">
-  <span class="метка">Эффект программы · 2026–2030</span>
-  <span class="цифра дисплей"><b>420,7 млрд ₸</b><span>по всем проектам</span></span>
+  <span class="метка">Ожидаемый эффект 2026–2030 · оценка</span>
+  <span class="цифра дисплей"><b>≈ 420 млрд ₸</b><span>по всем проектам</span></span>
   <span class="разд"></span>
-  <span class="цифра дисплей"><b>+2 864 тыс. т</b><span>дополнительной добычи</span></span>
+  <span class="цифра дисплей"><b>+2,9 млн т</b><span>нефти дополнительно</span></span>
 </div>
 <div class="веер" id="веер"></div>
 <div id="процесс" aria-live="polite"></div>
