@@ -321,6 +321,23 @@ body.экран_роли .бирка:not(.своя){opacity:.6}
   transition:opacity .4s}
 body.вглубь .роль_экрана{opacity:0}
 
+/* ===== общий эффект программы (Адиль 16.09: «цифры эффекта до 2030 на главной») =====
+   420,7 млрд ₸ и +2 864 тыс. т дополнительной добычи за 2026–2030 по всем
+   проектам — цифры Адиля 16.09, источник сводный, по переделам не бьются,
+   поэтому строка одна и только на уровне цепочки. Внутри передела гаснет:
+   там свои эффекты у карточек, и общая цифра рядом с ними читалась бы как
+   эффект этого передела. */
+.итог_эффекта{position:fixed;left:50%;bottom:34px;transform:translateX(-50%);z-index:40;
+  display:flex;align-items:center;gap:28px;padding:14px 30px;border-radius:18px;
+  border:1px solid rgba(2,174,240,.28);background:rgba(5,8,16,.55);backdrop-filter:blur(8px);
+  white-space:nowrap;pointer-events:none;transition:opacity .4s}
+.итог_эффекта .метка{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
+.итог_эффекта .цифра{display:flex;align-items:baseline;gap:8px}
+.итог_эффекта .цифра b{font-size:clamp(20px,calc(1.6 * 19.2px),31px);font-weight:700;color:var(--кмг_свет);letter-spacing:-.01em}
+.итог_эффекта .цифра span{font-size:13px;color:var(--текст2)}
+.итог_эффекта .разд{width:1px;height:30px;background:rgba(2,174,240,.28)}
+body.вглубь .итог_эффекта{opacity:0}
+
 /* ================= подпись передела ================= */
 #подпись_передела{position:fixed;z-index:14;left:34px;pointer-events:none;
   display:flex;flex-direction:column;gap:7px;max-width:min(34ch,calc(30 * 19.2px));
@@ -598,6 +615,14 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
   <div class="линия" id="линия"></div>
 </div></div>
 
+
+<!-- Общий эффект программы за 2026–2030 — только на уровне цепочки -->
+<div class="итог_эффекта" id="итог_эффекта" aria-label="Общий эффект программы за 2026–2030">
+  <span class="метка">Эффект программы · 2026–2030</span>
+  <span class="цифра дисплей"><b>420,7 млрд ₸</b><span>по всем проектам</span></span>
+  <span class="разд"></span>
+  <span class="цифра дисплей"><b>+2 864 тыс. т</b><span>дополнительной добычи</span></span>
+</div>
 <div class="веер" id="веер"></div>
 <div id="подпись_передела"></div>
 
