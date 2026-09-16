@@ -128,7 +128,9 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   display:flex;align-items:center;justify-content:space-between;gap:24px;pointer-events:none}
 .низ > *{pointer-events:auto}
 #лого{height:84px;filter:brightness(0) invert(1);opacity:.85}
-.точки{display:flex;gap:11px}
+/* 16.09 (Адиль): «каждая вкладка независимая» — точек и счётчика слайдов нет,
+   на страницу заходят чипами из показа; листание клавишами оставлено */
+.точки,.счётчик{display:none}
 .точки button{width:9px;height:9px;border-radius:50%;background:var(--грань);transition:background .25s ease,transform .25s ease}
 .точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);box-shadow:0 0 12px rgba(2,174,240,.6)}
 .счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
@@ -144,6 +146,17 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 #видео_слой.виден{display:flex}
 #видео_слой video{width:100%;height:100%;object-fit:contain}
 #видео_слой button{position:absolute;right:28px;top:22px;padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.5);color:#fff;font-family:'Unbounded',sans-serif;font-size:12px;cursor:pointer}
+
+/* группы портфеля и планов: заголовок и буллеты, как на слайде геологов */
+.группы{display:flex;flex-direction:column;gap:22px;margin-top:6px}
+.группа{padding:18px 22px;border-radius:16px;border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
+  opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.группа.включён{opacity:1;transform:none}
+.группа h3{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;color:var(--кмг);margin:0 0 12px}
+.группа ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.группа li{position:relative;padding-left:18px;font-size:16px;line-height:1.4;color:var(--текст2)}
+.группа li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--кмг)}
+.группа li b{font-family:'Unbounded',sans-serif;font-size:17px;color:var(--текст);font-weight:700}
 </style>
 </head>
 <body>
@@ -182,23 +195,36 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   <h2 class="заголовок дисплей">Портфель разведочных проектов</h2>
   <div class="полотно">
     <div class="гео">
-      <ul class="пункты">
-        <li data-к="1"><b>23 <i>проекта</i></b><span>на разных стадиях подготовки, <em>геологический потенциал до 4,7 млрд т у.т.</em></span></li>
-        <li class="подзаг" data-к="2"><b>Планы <i>2026–2030</i></b></li>
-        <li data-к="3"><b>6 250 <i>км</i></b><span>Сейсморазведка 2D · <em>3D — 2 542 км²</em></span></li>
-        <li data-к="4"><b>60 000 <i>км</i></b><span>Региональная сейсморазведка 2D</span></li>
-        <li data-к="5"><b>22 <i>тыс. точек</i></b><span>Геохимическая съёмка</span></li>
-        <li data-к="6"><b>26 <i>скважин</i></b><span>Бурение поисковых скважин</span></li>
-      </ul>
-      <div class="карта">
-        <img src="медиа/геология/карта_портфеля.jpg" alt="Карта портфеля разведочных проектов КМГ">
-        <div class="подпись">Портфель · 23 проекта</div>
-        <div class="легенда">
-          <div><i style="background:#02AEF0"></i><b>6</b>Страновой значимости</div>
-          <div><i style="background:#B06EE6"></i><b>13</b>Социальной значимости</div>
-          <div><i style="background:#F2B84B"></i><b>2</b>Малоизученные бассейны</div>
-          <div><i style="background:#1E5C4E"></i><b>2</b>Глубокие перспективы Прикаспия</div>
+      <!-- 16.09 (Адиль): «портфель объедини с планами, как на их слайде» —
+           две группы с буллетами один в один по третьему слайду БезИмени (009) -->
+      <div class="группы">
+        <div class="группа" data-к="1">
+          <h3>Портфель разведочных проектов</h3>
+          <ul>
+            <li><b>23</b> проекта на разных стадиях подготовки</li>
+            <li>Геологический потенциал до <b>4,7 млрд т у.т.</b></li>
+            <li>Проекты страновой значимости — <b>6</b></li>
+            <li>Проекты социальной значимости — <b>13</b></li>
+            <li>Малоизученные бассейны — <b>2</b></li>
+            <li>Глубокие перспективы Прикаспия — <b>2</b></li>
+          </ul>
         </div>
+        <div class="группа" data-к="2">
+          <h3>Планы 2026–2030</h3>
+          <ul>
+            <li>Сейсморазведка 2D — <b>6 250 км</b></li>
+            <li>Сейсморазведка 3D — <b>2 542 км²</b></li>
+            <li>Региональная сейсморазведка 2D — <b>60 000 км</b></li>
+            <li>Геохимическая съёмка — <b>22 тыс. точек</b></li>
+            <li>Бурение — <b>26 скважин</b></li>
+          </ul>
+        </div>
+      </div>
+      <!-- 16.09 (Адиль): карта — со слайда геологов «БезИмени (009) (1).pptx»
+           как есть, с их подписями участков и легендой; своя легенда снята,
+           чтобы не дублировать. Файл — их картинка без правок. -->
+      <div class="карта светлая">
+        <img src="медиа/геология/карта_портфеля_геологов.png" alt="Портфель разведочных проектов КМГ — карта участков">
         <!-- «потом здесь должна быть ссылка на видео — опционально»: ролик программы ГРР -->
         <button type="button" class="ролик_кнопка" data-видео="медиа/ролики/мпгрр.mp4">▶ Ролик · программа ГРР</button>
       </div>
