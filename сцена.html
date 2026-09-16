@@ -602,6 +602,9 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
     <div class="сис_низ">
       <span class="сост" id="сис_состояние">—</span>
       <a class="кнопка" id="сис_демо" target="_blank" rel="noopener">Открыть демо</a>
+      <!-- 16.09 (Адиль): у системы со своей презентацией кнопка стоит и здесь,
+           под описанием, а не только справа сверху — там её не находят -->
+      <button class="кнопка" id="сис_презентация" type="button" hidden>Презентация →</button>
       <button class="кнопка" id="сис_ролик" type="button" disabled>Ролик на согласовании</button>
     </div>
   </div>
@@ -1723,6 +1726,9 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
 
     var демо = document.getElementById("сис_демо");
     if(пр.демо){ демо.href = пр.демо; демо.hidden = false; } else { демо.hidden = true; }
+    var през = document.getElementById("сис_презентация");
+    през.hidden = !(пр.внешний && !снаружиСайт(пр.внешний));
+    през.textContent = (пр.кнопка_внешнего || "Презентация") + " →";
     /* неактивная кнопка «Ролик на согласовании» снята везде (Адиль 10.09);
        разметка оставлена на случай возврата */
     document.getElementById("сис_ролик").hidden = true;
@@ -2019,6 +2025,7 @@ body.без_мыши, body.без_мыши *{cursor:none !important}
     else открытьВРамке(текущаяСистема.внешний);
   }
   document.getElementById("сис_кролику").addEventListener("click", кСистемеСнаружи);
+  document.getElementById("сис_презентация").addEventListener("click", кСистемеСнаружи);
   /* «Открыть демо» с локальным адресом — тоже в рамке, без новой вкладки. */
   document.getElementById("сис_демо").addEventListener("click", function(с){
     if(!текущаяСистема || !текущаяСистема.демо || снаружиСайт(текущаяСистема.демо)) return;
