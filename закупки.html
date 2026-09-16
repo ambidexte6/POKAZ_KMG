@@ -410,7 +410,7 @@ svg .сбор[data-к]{transform:none}
 .кал .т{font-family:'Golos Text',sans-serif;font-size:8px;fill:var(--текст2)}
 .заявка{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px}
 .заявка svg{width:56px;height:68px}
-.заявка span{font-size:11px;line-height:1.2;text-align:center;color:var(--кмг)}
+.заявка span{font-size:11px;line-height:1.2;text-align:center;color:var(--кмг);max-width:64px}
 .док{fill:rgba(2,174,240,.14);stroke:var(--кмг);stroke-width:1.6}
 .строки{fill:none;stroke:rgba(2,174,240,.7);stroke-width:1.4}
 .площадка .секретарь{margin-top:10px;display:inline-block;font-size:12.5px;color:var(--мята);
@@ -721,7 +721,8 @@ body.экраны #обёртка::after{display:none}
   <div class="бровь">Helicopter view</div>
   <div class="система_имя дисплей">KMG AISAP <span>AI Satyp Alu Platformasy</span></div>
   <h2 class="заголовок дисплей">Сквозной процесс проведения процедур закупок посредством ИИ</h2>
-  <div class="подзаг">без участия человеческого фактора</div>
+  <!-- 16.09 (закупщики): «убрать все „без участия человека“» -->
+  <div class="подзаг">сквозная автоматизация с участием ИИ</div>
   <div class="семь">
     <div class="полоса готово" data-к="2"><b>Реализовано</b> · 4 шага из 7</div>
     <div class="полоса работа" data-к="2"><b>В работе</b> · 3 шага</div>
@@ -851,7 +852,7 @@ body.экраны #обёртка::after{display:none}
     <div class="склад" style="left:450px;top:150px;width:420px" data-к="1">
       <div class="имя">Шаг 1 · KMG AISAP · модуль формирования потребности</div>
       <div class="заг">ИИ анализирует данные и формирует потребность <span class="ии">AI</span></div>
-      <p class="ищет" style="margin-top:8px">запуск по настраиваемому расписанию · без участия человека</p>
+      <p class="ищет" style="margin-top:8px">запуск по настраиваемому расписанию</p>
       <div class="сетка"><i class="ячейка" style="transition-delay:0ms"></i><i class="ячейка" style="transition-delay:18ms"></i><i class="ячейка" style="transition-delay:36ms"></i><i class="ячейка" style="transition-delay:54ms"></i><i class="ячейка" style="transition-delay:72ms"></i><i class="ячейка пусто" style="transition-delay:90ms"></i><i class="ячейка" style="transition-delay:108ms"></i><i class="ячейка" style="transition-delay:126ms"></i><i class="ячейка" style="transition-delay:144ms"></i><i class="ячейка" style="transition-delay:162ms"></i><i class="ячейка" style="transition-delay:180ms"></i><i class="ячейка" style="transition-delay:198ms"></i><i class="ячейка" style="transition-delay:216ms"></i><i class="ячейка" style="transition-delay:234ms"></i><i class="ячейка пусто" style="transition-delay:252ms"></i><i class="ячейка" style="transition-delay:270ms"></i><i class="ячейка" style="transition-delay:288ms"></i><i class="ячейка" style="transition-delay:306ms"></i><i class="ячейка" style="transition-delay:324ms"></i><i class="ячейка" style="transition-delay:342ms"></i><i class="ячейка" style="transition-delay:360ms"></i><i class="ячейка" style="transition-delay:378ms"></i><i class="ячейка пусто" style="transition-delay:396ms"></i><i class="ячейка" style="transition-delay:414ms"></i><i class="ячейка" style="transition-delay:432ms"></i><i class="ячейка" style="transition-delay:450ms"></i><i class="ячейка" style="transition-delay:468ms"></i><i class="ячейка пусто" style="transition-delay:486ms"></i><i class="ячейка" style="transition-delay:504ms"></i><i class="ячейка" style="transition-delay:522ms"></i><i class="ячейка" style="transition-delay:540ms"></i><i class="ячейка" style="transition-delay:558ms"></i></div>
       <div class="ключ"><span class="есть">есть</span><span class="нет">заканчивается</span></div>
       <div class="сияние" data-к="3"></div>
@@ -1387,7 +1388,8 @@ body.экраны #обёртка::after{display:none}
         <marker id="стрелка_циан4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0 0L10 5L0 10z" fill="#4FE3FF"/></marker>
       </defs>
-      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M300 280 H374" data-к="2"/>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M300 258 H310" data-к="2"/>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M356 258 H376" data-к="2"/>
       <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M1020 280 H1092" data-к="4"/>
     </svg>
 
