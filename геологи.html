@@ -66,8 +66,12 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .идея{margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--приглуш);max-width:1500px}
 .полотно{position:relative;margin-top:26px;flex:1;min-height:0}
 
-/* ===== ресурсная база: буллиты + карта портфеля ===== */
-.гео{display:grid;grid-template-columns:640px 1fr;gap:34px;height:100%;min-height:0}
+/* ===== ресурсная база: буллиты + карта портфеля =====
+   16.09, вторая правка Адиля: карта была тесной (1052 px на контейнер) и
+   легенда переносилась на две строки. Колонка буллетов ужата до 520 px,
+   промежуток до 26 px — карта получила ~1200 px и заняла всю доступную
+   16:9-высоту без чёрных полос по бокам (сама картинка ровно 1920×1080). */
+.гео{display:grid;grid-template-columns:520px 1fr;gap:26px;height:100%;min-height:0}
 .пункты{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:6px}
 .пункты li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:14px 18px;border-radius:16px;
   border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
@@ -87,12 +91,12 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
    у восточного края уходили за рамку. */
 .карта_блок{display:flex;flex-direction:column;gap:14px;min-height:0}
 .карта_блок > .карта{flex:1;min-height:0}
-.карта_блок > .карта img{object-fit:contain;object-position:left center}
-.карта_блок > .легенда{display:flex;flex-direction:row;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px 26px;
-  padding:12px 22px;border-radius:14px;background:rgba(5,8,16,.78);border:1px solid var(--грань)}
-.карта_блок > .легенда div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--текст2)}
-.карта_блок > .легенда i{width:22px;height:14px;border-radius:4px;display:inline-block}
-.карта_блок > .легенда b{font-family:'Unbounded',sans-serif;font-size:13px;color:var(--текст);min-width:22px;text-align:right}
+.карта_блок > .карта img{object-fit:contain;object-position:center}
+.карта_блок > .легенда{display:flex;flex-direction:row;flex-wrap:nowrap;align-items:center;justify-content:space-between;gap:18px;
+  padding:10px 18px;border-radius:14px;background:rgba(5,8,16,.78);border:1px solid var(--грань)}
+.карта_блок > .легенда div{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--текст2);white-space:nowrap}
+.карта_блок > .легенда i{width:20px;height:12px;border-radius:3px;display:inline-block;flex:0 0 auto}
+.карта_блок > .легенда b{font-family:'Unbounded',sans-serif;font-size:12.5px;color:var(--текст);min-width:18px;text-align:right}
 
 /* ===== 3. бассейны ===== */
 .бас{display:grid;grid-template-columns:420px 1fr;gap:34px;height:100%;min-height:0}
