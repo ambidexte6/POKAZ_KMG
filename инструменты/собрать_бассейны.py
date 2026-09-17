@@ -63,6 +63,19 @@ css = '''
 .живо .счёт{position:absolute;right:22px;top:18px;padding:8px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
 .живо .источник{position:absolute;right:22px;bottom:24px;font-size:12px;color:var(--приглуш)}
 .живая_сетка{display:grid;grid-template-columns:1fr 380px;gap:30px;height:100%;min-height:0}
+/* ===== Прикаспий: две картинки геологов стопкой по кликам (структурная поверхность девона, очаг генерации) =====
+   Общий механизм кадров включает все элементы с data-к ≤ текущего, а показать надо только верхний —
+   включённые, за которыми идёт включённый сосед, гасятся через :has (Chrome 105+). Картинки на белом —
+   это скрины Petrel/PetroMod как есть, фон бокса белый, чтобы не было тёмных полей по краям. */
+.живо.стопка_карт{background:#fff}
+.живо.стопка_карт img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .8s ease}
+.живо.стопка_карт img.включён{opacity:1}
+.живо.стопка_карт img.включён:has(~ img.включён){opacity:0}
+.живо.стопка_карт .титр{opacity:0;transition:opacity .8s ease}
+.живо.стопка_карт .титр.включён{opacity:1}
+.живо.стопка_карт .титр.включён:has(~ .титр.включён){opacity:0}
+.живо.стопка_карт .источник{top:18px;bottom:auto;color:#4B5A70}   /* внизу справа у PetroMod свой логотип */
+.живо.стопка_карт .вуаль{background:linear-gradient(180deg,rgba(5,8,16,0) 78%,rgba(5,8,16,.55) 100%)}
 .портфель{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:var(--фон0);min-height:0;display:flex;align-items:center;justify-content:center}
 .портфель img{max-width:100%;max-height:100%;object-fit:contain}
 '''
@@ -112,6 +125,28 @@ def свг_группа(ключ, кадр):
           <div><i style="background:rgba(175,192,216,.8)"></i>малоперспективные</div>
         </div>
       </div>
+    </div>
+  </div>
+</section>
+'''
+
+# --- слайд 1б: Прикаспий в цифре — девон и очаг генерации (слайды 5–6 их pptx 17_09_2) ---
+слайд1б = '''
+<section class="слайд" id="с1б" aria-label="Прикаспийский бассейн в цифре">
+  <div class="бровь">Геологоразведка · цифровая бассейновая модель · Прикаспий</div>
+  <h2 class="заголовок дисплей">Прикаспий в цифре: от поверхности девона до очага генерации</h2>
+  <div class="полотно">
+    <div class="живая_сетка">
+      <div class="живо стопка_карт">
+        <img src="медиа/геология/кейсы/прикаспий_девон.jpg" data-к="1" alt="Структурная поверхность девона (D3), Прикаспийский бассейн">
+        <img src="медиа/геология/кейсы/очаг_генерации.jpg" data-к="2" alt="3D-модель бассейна в PetroMod: фации и очаг генерации УВ">
+        <div class="вуаль"></div>
+        <div class="титр" data-к="1"><span>Структурная поверхность девона (D3)</span><small>глубины от −4 000 до −14 000 м · Petrel</small></div>
+        <div class="титр" data-к="2"><span>Очаг генерации УВ</span><small>3D-модель бассейна, фации по разрезу · PetroMod</small></div>
+        <div class="источник">Департамент геологоразведки КМГ</div>
+      </div>
+      <ul class="бас_список">
+''' + li('1', '', '<em>Структурная поверхность девона</em> — карта глубин кровли девона по всему бассейну; поверх неё контуры участков и месторождения', 1, 'пять') + li('2', '', '<em>Очаг генерации УВ</em> — объёмная модель бассейна: где нефть образовалась, куда мигрировала и где могла скопиться', 2, 'мнб') + li('34', '%', 'территории страны покрыто пятью цифровыми бассейновыми моделями', 2) + '''      </ul>
     </div>
   </div>
 </section>
@@ -227,6 +262,6 @@ a = база.index('<script>\n(function(){\n  "use strict";'); b = база.inde
 })();
 </script>
 '''
-страница = голова + '\n</head>\n<body>\n<div id="обёртка">\n<div id="кадр">\n' + слайд1 + слайд2 + слайд3 + слайд4 + низ + листание + видео + '\n</body>\n</html>\n'
+страница = голова + '\n</head>\n<body>\n<div id="обёртка">\n<div id="кадр">\n' + слайд1 + слайд1б + слайд2 + слайд3 + слайд4 + низ + листание + видео + '\n</body>\n</html>\n'
 io.open(R + 'бассейны.html', 'w', encoding='utf-8').write(страница)
 print('ok', len(страница))
