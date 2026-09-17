@@ -120,41 +120,41 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 /* ===== проблемы и эффекты (11.09, таблица Есмамбетова + «Концептуальное
    видение по закупкам», цифры эффектов оттуда) ===== */
 .пэ_шапка{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:22px}
-.пэ_шапка div{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;border-bottom:1px solid rgba(124,141,166,.35)}
+.пэ_шапка div{font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;border-bottom:1px solid rgba(124,141,166,.35)}
 .пэ_шапка div:last-child{color:var(--мята);border-bottom-color:rgba(62,230,184,.45)}
 .пэ{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;row-gap:0;margin-top:4px}
 .пэ .ряд{display:contents}
-.пэ .я{padding:14px 0;border-bottom:1px solid rgba(124,141,166,.18);font-size:15.5px;line-height:1.38;color:var(--текст2);
+.пэ .я{padding:14px 0;border-bottom:1px solid rgba(124,141,166,.18);font-size:20px;line-height:1.38;color:var(--текст2);
   opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
 .пэ .я.включён{opacity:1;transform:none}
 .пэ .я b{color:var(--текст);font-weight:700}
 .пэ .я.эф b{color:var(--мята)}
-.пэ .я .н{display:inline-block;width:26px;color:var(--кмг);font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700}
+.пэ .я .н{display:inline-block;width:26px;color:var(--кмг);font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700}
 .пэ .я.эф .н{color:var(--мята)}
 .пэ .я em{font-style:normal;color:var(--кмг);font-weight:700}
 .пэ_цифры{margin-top:44px;display:flex;gap:18px}
 .пэ_цифры div{flex:1;border-top:2px solid rgba(2,174,240,.42);padding-top:10px}
-.пэ_цифры b{display:block;font-family:'Unbounded',sans-serif;font-size:26px;color:var(--кмг);font-weight:700;line-height:1.1}
-.пэ_цифры span{display:block;margin-top:5px;font-size:13px;line-height:1.35;color:var(--приглуш)}
-.пэ_прим{margin-top:8px;font-size:11.5px;color:var(--приглуш)}
+.пэ_цифры b{display:block;font-family:'Unbounded',sans-serif;font-size:30.5px;color:var(--кмг);font-weight:700;line-height:1.1}
+.пэ_цифры span{display:block;margin-top:5px;font-size:17.5px;line-height:1.35;color:var(--приглуш)}
+.пэ_прим{margin-top:8px;font-size:15.5px;color:var(--приглуш)}
 /* ===== проблемы: плитки + одна панель сути (14.09) ===== */
 .пп_плитки{position:relative;margin-top:26px;display:grid;grid-template-columns:repeat(5,1fr);gap:22px;padding-top:24px}
 .пп_плитки .нить{stroke:rgba(124,141,166,.5);stroke-dasharray:6 8}
 .пп_плитка{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid rgba(240,174,74,.3);
   background:linear-gradient(180deg,rgba(12,22,38,.9),rgba(5,8,16,.7))}
 .пп_плитка img{width:48px;height:48px;object-fit:contain;filter:grayscale(1) brightness(.65)}
-.пп_плитка em{position:absolute;right:14px;top:10px;font-family:'Unbounded',sans-serif;font-style:normal;font-size:11px;color:#F0AE4A;font-weight:700}
-.пп_плитка b{font-size:15px;line-height:1.25;color:var(--текст)}
+.пп_плитка em{position:absolute;right:14px;top:10px;font-family:'Unbounded',sans-serif;font-style:normal;font-size:15px;color:#F0AE4A;font-weight:700}
+.пп_плитка b{font-size:19px;line-height:1.25;color:var(--текст)}
 .пп_маркер{position:absolute;inset:-1px;border-radius:14px;border:2px solid #F0AE4A;box-shadow:0 0 0 4px rgba(240,174,74,.14),0 0 28px rgba(240,174,74,.3);pointer-events:none}
 .пп_панели{position:relative;flex:0 0 auto;margin-top:34px;height:360px}
 .пп_панель{position:absolute;inset:0;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:stretch}
 .пп_текст{border:1px solid var(--грань);border-radius:18px;padding:26px 30px;background:rgba(12,22,38,.6)}
-.пп_н{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#F0AE4A}
-.пп_текст h3{margin:10px 0 0;font-family:'Unbounded',system-ui,sans-serif;font-size:26px;line-height:1.2;font-weight:700;color:var(--текст);text-wrap:balance}
-.пп_текст p{margin:18px 0 0;font-size:18px;line-height:1.6;color:var(--текст2);max-width:60ch}
+.пп_н{font-size:15.5px;letter-spacing:.2em;text-transform:uppercase;color:#F0AE4A}
+.пп_текст h3{margin:10px 0 0;font-family:'Unbounded',system-ui,sans-serif;font-size:30.5px;line-height:1.2;font-weight:700;color:var(--текст);text-wrap:balance}
+.пп_текст p{margin:18px 0 0;font-size:23px;line-height:1.6;color:var(--текст2);max-width:60ch}
 .пп_акцент{border:1px solid rgba(240,174,74,.4);border-radius:18px;padding:26px 30px;background:rgba(240,174,74,.06);display:flex;flex-direction:column;justify-content:center;gap:12px}
-.пп_акцент b{font-family:'Unbounded',sans-serif;font-size:34px;line-height:1.15;color:#F0AE4A;text-wrap:balance}
-.пп_акцент span{font-size:15px;line-height:1.4;color:var(--текст2)}
+.пп_акцент b{font-family:'Unbounded',sans-serif;font-size:36.5px;line-height:1.15;color:#F0AE4A;text-wrap:balance}
+.пп_акцент span{font-size:19px;line-height:1.4;color:var(--текст2)}
 
 /* ===== проблемы и эффекты как цепочка (закупщики 11.09: «там только текст») ===== */
 .пэ_полотно{margin-top:26px;display:flex;flex-direction:column;gap:34px;flex:1}
@@ -173,83 +173,83 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .пэ_цепь.проблемы .пэ_шаг i{color:#F0AE4A}
 .пэ_цепь.эффекты .пэ_шаг{border-color:rgba(62,230,184,.4)}
 .пэ_цепь.эффекты .пэ_шаг i{color:var(--мята)}
-.пэ_шаг i{font-family:'Unbounded',sans-serif;font-style:normal;font-size:12px;font-weight:700;letter-spacing:.1em}
-.пэ_шаг b{font-size:15.5px;line-height:1.25;color:var(--текст);min-height:2.5em}
-.пэ_шаг span{font-size:12.5px;line-height:1.35;color:var(--приглуш)}
-.пэ_цепь.длинные .пэ_шаг b{font-size:15px;min-height:0}
-.пэ_цепь.длинные .пэ_шаг span{font-size:13px;line-height:1.45;color:var(--текст2)}
-.пэ_цепь.длинные .пэ_шаг em{font-style:normal;font-size:12.5px;color:#F0AE4A;margin-top:4px}
+.пэ_шаг i{font-family:'Unbounded',sans-serif;font-style:normal;font-size:16px;font-weight:700;letter-spacing:.1em}
+.пэ_шаг b{font-size:20px;line-height:1.25;color:var(--текст);min-height:2.5em}
+.пэ_шаг span{font-size:17px;line-height:1.35;color:var(--приглуш)}
+.пэ_цепь.длинные .пэ_шаг b{font-size:19px;min-height:0}
+.пэ_цепь.длинные .пэ_шаг span{font-size:17.5px;line-height:1.45;color:var(--текст2)}
+.пэ_цепь.длинные .пэ_шаг em{font-style:normal;font-size:17px;color:#F0AE4A;margin-top:4px}
 .пэ_цепь.длинные .пэ_шаг img{width:52px;height:52px}
 /* 17.09: без блока «было → стало» низ — одна панель с тремя процентами в ряд */
 .пэ_низ{display:grid;grid-template-columns:1fr;gap:34px;align-items:stretch}
 .пэ_низ > div{border:1px solid var(--грань);border-radius:16px;padding:18px 22px;background:rgba(12,22,38,.6)}
-.пэ_низ .имя{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
+.пэ_низ .имя{font-size:15.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
 .столбики{display:flex;gap:40px;align-items:flex-end;height:150px;margin-top:16px;padding-left:6px}
 .столб{position:relative;width:64px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
 .столб i{display:block;width:100%;height:var(--в);border-radius:6px 6px 0 0;background:linear-gradient(180deg,rgba(2,174,240,.55),rgba(2,174,240,.15));
   transform:scaleY(0);transform-origin:bottom;transition:transform .9s cubic-bezier(.2,.7,.3,1)}
 .пэ_остатки.включён .столб i{transform:scaleY(1)}
 .столб.горит i{background:linear-gradient(180deg,#F0AE4A,rgba(240,174,74,.25))}
-.столб em{position:absolute;top:-2px;font-style:normal;font-size:15px;font-weight:700;color:var(--текст);transform:translateY(calc(-100% - 4px));opacity:0;transition:opacity .5s ease .7s}
+.столб em{position:absolute;top:-2px;font-style:normal;font-size:19px;font-weight:700;color:var(--текст);transform:translateY(calc(-100% - 4px));opacity:0;transition:opacity .5s ease .7s}
 .столб:nth-child(1) em{top:calc(100% - 60%)}.столб:nth-child(2) em{top:0}
 .пэ_остатки.включён .столб em{opacity:1}
-.столб u{text-decoration:none;font-size:12px;color:var(--приглуш);margin-top:6px}
-.подпись_ост{margin-top:12px;font-size:13px;color:var(--текст2)}
+.столб u{text-decoration:none;font-size:16px;color:var(--приглуш);margin-top:6px}
+.подпись_ост{margin-top:12px;font-size:17.5px;color:var(--текст2)}
 .подпись_ост strong{color:#F0AE4A}
 .кубики{display:flex;gap:16px;margin-top:18px}
-.кубики span{flex:1;border-radius:12px;padding:14px 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--приглуш);
+.кубики span{flex:1;border-radius:12px;padding:14px 16px;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--приглуш);
   border:1px solid var(--грань);background:rgba(5,8,16,.6);transform:translateY(10px);opacity:0;transition:all .5s ease}
 .пэ_системы.включён .кубики span{transform:none;opacity:1}
 .пэ_системы.включён .кубики span:nth-child(2){transition-delay:.12s}.пэ_системы.включён .кубики span:nth-child(3){transition-delay:.24s}
-.кубики b{display:block;font-family:'Unbounded',sans-serif;font-size:30px;color:var(--текст);margin-bottom:4px}
+.кубики b{display:block;font-family:'Unbounded',sans-serif;font-size:35.5px;color:var(--текст);margin-bottom:4px}
 .кубики .одинс b{color:#F0AE4A}
 .ряд_бс{display:grid;grid-template-columns:200px 1fr 80px;align-items:center;gap:16px;margin-top:14px}
-.ряд_бс span{font-size:13.5px;color:var(--текст2)}
-.ряд_бс b{font-family:'Unbounded',sans-serif;font-size:18px;color:var(--мята);text-align:right}
+.ряд_бс span{font-size:18px;color:var(--текст2)}
+.ряд_бс b{font-family:'Unbounded',sans-serif;font-size:23px;color:var(--мята);text-align:right}
 .полосы{display:flex;flex-direction:column;gap:5px}
 .полосы i{position:relative;display:block;height:16px;border-radius:4px}
-.полосы i em{position:absolute;right:8px;top:-1px;font-style:normal;font-size:12px;font-weight:700;color:var(--текст)}
+.полосы i em{position:absolute;right:8px;top:-1px;font-style:normal;font-size:16px;font-weight:700;color:var(--текст)}
 .полосы .было{width:100%;background:rgba(124,141,166,.28)}
 .полосы .стало{width:100%;background:linear-gradient(90deg,var(--мята),rgba(62,230,184,.35));transition:width 1.2s cubic-bezier(.2,.7,.3,1) .3s}
 .было_стало.включён .полосы .стало{width:var(--д)}
 .пэ_проценты{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 22px;align-content:start}
 .пэ_проценты .имя{grid-column:1/-1}
-.пц b{display:block;font-family:'Unbounded',sans-serif;font-size:34px;color:var(--кмг);line-height:1.1}
-.пц span{font-size:14px;color:var(--текст2)}
+.пц b{display:block;font-family:'Unbounded',sans-serif;font-size:36.5px;color:var(--кмг);line-height:1.1}
+.пц span{font-size:19px;color:var(--текст2)}
 
 .пэ.одна{grid-template-columns:1fr;margin-top:26px}
-.пэ.одна .я{font-size:18px;padding:16px 0}
-.пэ.одна .я .н{width:34px;font-size:13px}
+.пэ.одна .я{font-size:23px;padding:16px 0}
+.пэ.одна .я .н{width:34px;font-size:17.5px}
 .эф_две{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;margin-top:10px}
-.эф_список.пэ.одна .я{font-size:16.5px;padding:13px 0}
+.эф_список.пэ.одна .я{font-size:21px;padding:13px 0}
 .эф_цифры{display:flex;flex-direction:column;gap:14px;padding-top:18px}
-.эф_бирка{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--мята);padding-bottom:8px;border-bottom:1px solid rgba(62,230,184,.45)}
+.эф_бирка{font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--мята);padding-bottom:8px;border-bottom:1px solid rgba(62,230,184,.45)}
 .эф_к{display:flex;align-items:center;gap:18px;padding:10px 0;border-bottom:1px solid rgba(124,141,166,.18)}
-.эф_к b{font-family:'Unbounded',sans-serif;font-size:30px;color:var(--кмг);font-weight:700;min-width:170px;line-height:1}
-.эф_к.малый b{font-size:22px}
-.эф_к span{font-size:15px;color:var(--текст);line-height:1.3}
-.эф_к span i{display:block;font-style:normal;font-size:12.5px;color:var(--приглуш);margin-top:3px}
+.эф_к b{font-family:'Unbounded',sans-serif;font-size:35.5px;color:var(--кмг);font-weight:700;min-width:170px;line-height:1}
+.эф_к.малый b{font-size:26px}
+.эф_к span{font-size:19px;color:var(--текст);line-height:1.3}
+.эф_к span i{display:block;font-style:normal;font-size:17px;color:var(--приглуш);margin-top:3px}
 
 /* 11.09: блокеры текущего процесса — янтарём, как незакрытое */
 .карточка.блокер{border-color:rgba(240,174,74,.6);background:rgba(240,174,74,.08)}
 .карточка.блокер b{color:#F0AE4A}
-.карточка .метка_блокер{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#F0AE4A;border:1px solid rgba(240,174,74,.5);border-radius:6px;padding:3px 8px}
+.карточка .метка_блокер{display:inline-block;margin-top:8px;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#F0AE4A;border:1px solid rgba(240,174,74,.5);border-radius:6px;padding:3px 8px}
 @media (prefers-reduced-motion: reduce){
   .слайд{transition:opacity .01s linear, visibility 0s .01s;transform:none}
   .слайд.виден{transition:opacity .01s linear}
 }
 
-.бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
-h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top:10px;max-width:1600px}
-.идея{margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--приглуш);max-width:1500px}
+.бровь{font-size:19px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
+h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top:10px;max-width:1600px}
+.идея{margin-top:10px;font-size:20px;line-height:1.45;color:var(--приглуш);max-width:1500px}
 
 /* ===== чипы систем (в опорах их больше нет, остаются для бирок) ===== */
-.чип{display:inline-block;font-family:'Unbounded',sans-serif;font-size:11.5px;
+.чип{display:inline-block;font-family:'Unbounded',sans-serif;font-size:15.5px;
   letter-spacing:.03em;padding:6px 12px;border-radius:999px;white-space:nowrap;
   border:1px solid rgba(2,174,240,.45);color:var(--кмг);background:rgba(2,174,240,.10)}
 .чип.обмен{border-color:rgba(62,213,152,.5);color:var(--мята);background:rgba(62,213,152,.10)}
 .чип.пусто{border-color:var(--грань);color:var(--приглуш);background:transparent;
-  font-family:'Golos Text',sans-serif;font-size:12.5px;letter-spacing:.02em}
+  font-family:'Golos Text',sans-serif;font-size:17px;letter-spacing:.02em}
 
 /* ===== общие элементы процессных слайдов =====
    Три слайда собраны по одному покадровому сценарию заказчика (документ
@@ -259,34 +259,34 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .система{position:absolute;border:1px solid var(--грань);border-radius:20px;
   background:linear-gradient(180deg, rgba(12,22,38,.88), rgba(5,8,16,.62));
   padding:22px 26px 24px}
-.система > .имя{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+.система > .имя{font-size:17px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--приглуш);line-height:1.35}
 .модуль{margin-top:16px;border:1.5px solid rgba(2,174,240,.55);border-radius:14px;
   background:rgba(2,174,240,.10);padding:16px 18px 16px}
-.модуль .заг{font-size:19px;font-weight:700;color:var(--текст);line-height:1.25;
+.модуль .заг{font-size:24.5px;font-weight:700;color:var(--текст);line-height:1.25;
   display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.модуль .ии{font-family:'Unbounded',sans-serif;font-size:10px;letter-spacing:.14em;
+.модуль .ии{font-family:'Unbounded',sans-serif;font-size:13.5px;letter-spacing:.14em;
   padding:4px 8px;border-radius:999px;border:1px solid var(--кмг);color:var(--кмг)}
 .модуль.обмен{border-color:rgba(62,213,152,.6);background:rgba(62,213,152,.10)}
 .модуль.обмен .ии{border-color:var(--мята);color:var(--мята)}
 .действия{margin-top:14px;list-style:none;display:flex;flex-direction:column;gap:7px}
-.действия li{font-size:15.5px;line-height:1.4;color:var(--текст2);padding-left:18px;position:relative}
+.действия li{font-size:20px;line-height:1.4;color:var(--текст2);padding-left:18px;position:relative}
 .действия li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;
   border-radius:50%;background:var(--кмг)}
 .действия li.ключ{color:var(--мята);font-weight:600}
 .действия li.ключ::before{background:var(--мята)}
 .источники{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
-.источник{font-size:13.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--грань);
+.источник{font-size:18px;padding:6px 11px;border-radius:999px;border:1px solid var(--грань);
   color:var(--текст2);background:rgba(12,22,38,.6)}
 .карточка{position:absolute;border-radius:16px;padding:18px 22px;
   border:1px solid rgba(62,213,152,.45);background:rgba(62,213,152,.09)}
-.карточка b{display:block;font-size:17px;color:var(--мята);font-weight:700}
+.карточка b{display:block;font-size:22px;color:var(--мята);font-weight:700}
 .карточка b .ии{margin-left:8px;vertical-align:middle}
 .карточка ul{margin-top:10px;list-style:none;display:flex;flex-direction:column;gap:5px}
-.карточка li{font-size:14.5px;color:var(--текст2);line-height:1.35}
+.карточка li{font-size:18.5px;color:var(--текст2);line-height:1.35}
 .карточка.синяя{border-color:rgba(2,174,240,.5);background:rgba(2,174,240,.09)}
 .карточка.синяя b{color:var(--кмг)}
-.бирка_срок{position:absolute;font-family:'Unbounded',sans-serif;font-size:12px;
+.бирка_срок{position:absolute;font-family:'Unbounded',sans-serif;font-size:16px;
   letter-spacing:.08em;padding:9px 14px;border-radius:12px;
   border:1px solid rgba(2,174,240,.6);color:var(--кмг);background:rgba(2,174,240,.14)}
 
@@ -307,7 +307,7 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .поток_подпись.назад{fill:var(--мята)}
 svg .поток[data-к]{transform:none}
 .стрела .подпись{position:absolute;left:-8px;right:-8px;bottom:12px;text-align:center;
-  font-size:13px;line-height:1.3;color:var(--текст2)}
+  font-size:17.5px;line-height:1.3;color:var(--текст2)}
 .стрела.назад .подпись{bottom:auto;top:12px;color:var(--мята)}
 .стрела.вниз .подпись{left:14px;right:auto;bottom:auto;top:50%;transform:translateY(-50%);
   text-align:left;white-space:normal;width:220px}
@@ -326,16 +326,16 @@ svg .поток[data-к]{transform:none}
 /* ===== слайд 1: как рождается потребность ===== */
 .склад{position:absolute;border:1.5px solid rgba(2,174,240,.55);border-radius:18px;
   background:linear-gradient(180deg, rgba(12,22,38,.92), rgba(5,8,16,.7));padding:20px 24px 22px}
-.склад .имя{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
-.склад .заг{margin-top:8px;font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
-.склад .ии{font-family:'Unbounded',sans-serif;font-size:10px;letter-spacing:.14em;padding:4px 8px;
+.склад .имя{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
+.склад .заг{margin-top:8px;font-size:23px;font-weight:700;display:flex;align-items:center;gap:10px}
+.склад .ии{font-family:'Unbounded',sans-serif;font-size:13.5px;letter-spacing:.14em;padding:4px 8px;
   border-radius:999px;border:1px solid var(--кмг);color:var(--кмг)}
 .склад .сетка{margin-top:16px;display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
 .ячейка{aspect-ratio:1;border-radius:5px;background:rgba(2,174,240,.22);border:1px solid rgba(2,174,240,.48);
   opacity:0;transform:scale(.55);transition:opacity .3s ease,transform .35s cubic-bezier(.2,.8,.3,1)}
 .склад.включён .ячейка{opacity:1;transform:none}
 .ячейка.пусто{background:transparent;border-style:dashed;border-color:rgba(124,141,166,.7)}
-.склад .ключ{margin-top:14px;display:flex;gap:18px;font-size:13px;color:var(--приглуш)}
+.склад .ключ{margin-top:14px;display:flex;gap:18px;font-size:17.5px;color:var(--приглуш)}
 .склад .ключ span{display:flex;align-items:center;gap:7px}
 .склад .ключ span::before{content:"";width:11px;height:11px;border-radius:3px}
 .склад .ключ .есть::before{background:rgba(2,174,240,.22);border:1px solid rgba(2,174,240,.48)}
@@ -351,8 +351,8 @@ svg .поток[data-к]{transform:none}
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.7))}
 .исток .мини{flex:0 0 70px;height:56px}
 .исток .мини svg{width:70px;height:56px;display:block}
-.исток b{display:block;font-size:15px;line-height:1.25;color:var(--текст)}
-.исток span{display:block;margin-top:4px;font-size:12.5px;line-height:1.3;color:var(--приглуш)}
+.исток b{display:block;font-size:19px;line-height:1.25;color:var(--текст)}
+.исток span{display:block;margin-top:4px;font-size:17px;line-height:1.3;color:var(--приглуш)}
 .мини .з{fill:rgba(2,174,240,.55);stroke:none}
 .мини .п{fill:none;stroke:rgba(124,141,166,.8);stroke-dasharray:2 2}
 .мини .к{fill:none;stroke:rgba(2,174,240,.6);stroke-width:1.5}
@@ -366,41 +366,41 @@ svg .поток[data-к]{transform:none}
   transition:stroke-dashoffset .8s ease}
 .сбор.включён{stroke-dashoffset:0}
 svg .сбор[data-к]{transform:none}
-.пилюля{position:absolute;font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.04em;
+.пилюля{position:absolute;font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.04em;
   padding:14px 20px;border-radius:999px;border:1.5px solid rgba(2,174,240,.6);color:var(--кмг);
   background:rgba(2,174,240,.12)}
 
 /* ===== слайд 2: маркетинг цен и бюджет ===== */
-.склад .ищет{margin-top:12px;font-size:14px;line-height:1.45;color:var(--текст2)}
+.склад .ищет{margin-top:12px;font-size:19px;line-height:1.45;color:var(--текст2)}
 .склад .ищет strong,.карточка .кодчип strong{color:var(--кмг);font-weight:700}
 .карточка li.мятн{color:var(--мята)}
 .справочник{position:absolute;border:1px solid var(--грань);border-radius:14px;padding:12px 14px;
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.7))}
-.справочник b{display:block;font-size:14px;color:var(--текст)}
-.справочник > span{display:block;font-size:11.5px;color:var(--приглуш);line-height:1.3;margin-top:2px}
+.справочник b{display:block;font-size:19px;color:var(--текст)}
+.справочник > span{display:block;font-size:15.5px;color:var(--приглуш);line-height:1.3;margin-top:2px}
 .справочник ul{margin-top:8px;list-style:none;display:flex;flex-direction:column;gap:4px}
-.справочник li{font-size:12px;white-space:nowrap;color:var(--приглуш);display:flex;justify-content:space-between;gap:8px;
+.справочник li{font-size:16px;white-space:nowrap;color:var(--приглуш);display:flex;justify-content:space-between;gap:8px;
   padding:3px 6px;border-radius:6px;transition:background .5s ease .6s,color .5s ease .6s}
-.справочник li span{font-size:11.5px;white-space:nowrap}
+.справочник li span{font-size:15.5px;white-space:nowrap}
 .справочник.включён li.совп{background:rgba(2,174,240,.16);color:var(--текст)}
 .справочник.включён li.совп span{color:var(--кмг)}
 .поставщик{position:absolute;width:240px;border:1px solid var(--грань);border-radius:12px;padding:10px 14px;
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.7))}
-.поставщик b{font-size:13.5px;color:var(--текст);display:inline-block;min-width:150px}
-.поставщик .код{margin-left:8px;font-size:11px;color:var(--кмг)}
+.поставщик b{font-size:18px;color:var(--текст);display:inline-block;min-width:150px}
+.поставщик .код{margin-left:8px;font-size:15px;color:var(--кмг)}
 /* 11.09: товаропроизводители (КТП, закупщики 13.09: «не ТПФ») подчёркнуты — закупщики просили выделить */
-.поставщик .тпф{margin-left:8px;font-size:11px;color:var(--мята);border:1px solid rgba(62,230,184,.5);border-radius:5px;padding:1px 6px}
+.поставщик .тпф{margin-left:8px;font-size:15px;color:var(--мята);border:1px solid rgba(62,230,184,.5);border-radius:5px;padding:1px 6px}
 .поставщик.тп{border-color:rgba(62,230,184,.55)}
 .поставщик .кп{margin-top:8px;height:14px;position:relative;display:flex;align-items:center;gap:8px}
 .поставщик .кп i{display:block;height:6px;border-radius:3px;background:linear-gradient(90deg, rgba(62,213,152,.35), var(--зелёный))}
-.поставщик .кп em{font-style:normal;font-size:12px;color:var(--мята);white-space:nowrap;margin-left:auto}
+.поставщик .кп em{font-style:normal;font-size:16px;color:var(--мята);white-space:nowrap;margin-left:auto}
 .карточка .шкала{position:relative;height:34px;margin-top:12px;border-bottom:2px solid var(--грань)}
 .карточка .шкала i{position:absolute;top:14px;width:2px;height:12px;background:var(--мята)}
 .карточка .шкала i.сред{background:var(--кмг)}
-.карточка .шкала span{position:absolute;top:-2px;font-size:11px;transform:translateX(-50%)}
+.карточка .шкала span{position:absolute;top:-2px;font-size:15px;transform:translateX(-50%)}
 .карточка .шкала span.низ{left:26%;color:var(--мята)}
 .карточка .шкала span.сред{left:70%;color:var(--кмг)}
-.склад .статус{margin-top:14px;display:inline-block;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;
+.склад .статус{margin-top:14px;display:inline-block;padding:8px 12px;border-radius:999px;font-size:17.5px;font-weight:600;
   border:1px solid rgba(62,213,152,.6);color:var(--мята);background:rgba(62,213,152,.12)}
 .сбор.назад{stroke:var(--зелёный)}
 
@@ -411,25 +411,25 @@ svg .сбор[data-к]{transform:none}
 .кал .т{font-family:'Golos Text',sans-serif;font-size:8px;fill:var(--текст2)}
 .заявка{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px}
 .заявка svg{width:56px;height:68px}
-.заявка span{font-size:11px;line-height:1.2;text-align:center;color:var(--кмг);max-width:64px}
+.заявка span{font-size:15px;line-height:1.2;text-align:center;color:var(--кмг);max-width:64px}
 .док{fill:rgba(2,174,240,.14);stroke:var(--кмг);stroke-width:1.6}
 .строки{fill:none;stroke:rgba(2,174,240,.7);stroke-width:1.4}
-.площадка .секретарь{margin-top:10px;display:inline-block;font-size:12.5px;color:var(--мята);
+.площадка .секретарь{margin-top:10px;display:inline-block;font-size:17px;color:var(--мята);
   border:1px solid rgba(62,213,152,.5);border-radius:999px;padding:5px 11px;background:rgba(62,213,152,.1)}
 .участник{position:absolute;width:130px;display:flex;flex-direction:column;align-items:center;gap:6px;
   padding:12px 8px;border-radius:12px;border:1px solid var(--грань);background:rgba(12,22,38,.7)}
 .участник svg{width:40px;height:48px}
-.участник b{font-size:12.5px;color:var(--текст2);font-weight:600}
+.участник b{font-size:17px;color:var(--текст2);font-weight:600}
 .галка{fill:none;stroke:var(--мята);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
   stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .5s ease}
 .участник.включён .галка,.документ.включён .галка,.галка.включён{stroke-dashoffset:0}
 .участник.победитель{border-color:rgba(62,213,152,.6);box-shadow:0 0 18px rgba(62,213,152,.35)}
 .участник.победитель b{color:var(--мята)}
-.участник.победитель::after{content:"выбран";font-size:11px;color:var(--мята)}
+.участник.победитель::after{content:"выбран";font-size:15px;color:var(--мята)}
 .договор{display:flex;align-items:center;gap:18px}
 .договор .печать{width:64px;height:64px;flex:0 0 64px}
 .договор .цепь{width:64px;height:32px;margin-left:auto}
-.договор span{display:block;font-size:13px;color:var(--текст2);margin-top:4px}
+.договор span{display:block;font-size:17.5px;color:var(--текст2);margin-top:4px}
 .круг{fill:none;stroke:var(--кмг);stroke-width:1.8}
 .круг.мята{stroke:var(--мята)}
 .круг.серая{stroke:var(--приглуш)}
@@ -452,32 +452,32 @@ svg .сбор[data-к]{transform:none}
 .лента .документ .док{fill:rgba(2,174,240,.14)}
 .лента .т.серый{fill:var(--приглуш)}
 svg .ось[data-к]{transform:none}
-.карточка.календ b{font-size:15px}
+.карточка.календ b{font-size:19px}
 
 /* ===== 0. семь шагов ===== */
 .семь{margin-top:auto;display:grid;grid-template-columns:repeat(7,1fr);gap:22px}
 .шаг7{border-top:2px solid rgba(2,174,240,.42);padding-top:16px}
-.шаг7 .н{font-family:'Unbounded',sans-serif;font-size:14px;color:var(--кмг);font-weight:700}
-.шаг7 h3{margin-top:12px;font-size:20px;font-weight:700;line-height:1.25;min-height:76px}
-.шаг7 .сис{margin-top:12px;font-size:14px;line-height:1.4;color:var(--приглуш)}
+.шаг7 .н{font-family:'Unbounded',sans-serif;font-size:19px;color:var(--кмг);font-weight:700}
+.шаг7 h3{margin-top:12px;font-size:25.5px;font-weight:700;line-height:1.25;min-height:76px}
+.шаг7 .сис{margin-top:12px;font-size:19px;line-height:1.4;color:var(--приглуш)}
 .шаг7.обмен{border-top-color:rgba(62,213,152,.55)}
 .шаг7.обмен .н{color:var(--мята)}
 .лента7{margin-top:40px;margin-bottom:auto;width:1724px;height:60px}
 .лента7 .ось{stroke:var(--циан);stroke-width:2;fill:none;opacity:.6}
 /* карточка товара — один пример через все слайды */
-.товар_имя{margin-top:8px;font-size:17px;font-weight:700;color:var(--текст)}
+.товар_имя{margin-top:8px;font-size:22px;font-weight:700;color:var(--текст)}
 .карточка li.цена_стр{color:var(--кмг)}
 .карточка li strong{color:var(--кмг)}
 
 /* ===== первая страница ===== */
-.система_имя{margin-top:22px;font-size:34px;font-weight:700;color:var(--кмг)}
-.система_имя span{display:block;font-family:'Golos Text',sans-serif;font-size:16px;font-weight:400;
+.система_имя{margin-top:22px;font-size:36.5px;font-weight:700;color:var(--кмг)}
+.система_имя span{display:block;font-family:'Golos Text',sans-serif;font-size:20.5px;font-weight:400;
   color:var(--приглуш);letter-spacing:.04em;margin-top:4px}
-.подзаг{margin-top:8px;font-size:22px;color:var(--текст2)}
+.подзаг{margin-top:8px;font-size:26px;color:var(--текст2)}
 /* Иконки шагов сгенерированы одним листом (nano_banana_pro) и нарезаны:
    лист — медиа/иконки_закупки/лист.png, чтобы перерезать при нужде. */
 .шаг7 .ик{width:76px;height:76px;margin-top:10px;display:block;object-fit:contain}
-.шаг7 .сис b{display:block;font-size:15px;color:var(--текст);font-weight:700}
+.шаг7 .сис b{display:block;font-size:19px;color:var(--текст);font-weight:700}
 .шаг7 .сис b.платформа{color:var(--кмг)}
 .шаг7 .сис span{display:block;margin-top:4px}
 /* семь шагов открываются одним нажатием — каскадом слева направо */
@@ -490,7 +490,7 @@ svg .ось[data-к]{transform:none}
 .семь .шаг7:nth-child(9){transition-delay:.66s}
 .лента7{transition-delay:.8s}
 /* полосы над колонками: четыре реализованных шага и три в работе */
-.семь .полоса{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;
+.семь .полоса{font-size:17.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;
   border-bottom:2px solid rgba(124,141,166,.35);margin-bottom:6px}
 .семь .полоса b{font-weight:700}
 .семь .полоса.готово{grid-column:1/5;border-bottom-color:var(--мята)}
@@ -506,7 +506,7 @@ svg .ось[data-к]{transform:none}
 .шаг7 .сис b.внешняя{color:var(--внеш)}
 /* плашка статуса — на одной высоте у всех: строка системы фиксированной высоты */
 .шаг7 .сис{min-height:62px}
-.шаг7 .ст{margin-top:14px;font-size:13px;line-height:1.35}
+.шаг7 .ст{margin-top:14px;font-size:17.5px;line-height:1.35}
 .шаг7 .ст b{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-weight:700}
 .шаг7 .ст b::before{content:"";width:8px;height:8px;border-radius:50%}
 .шаг7.готово .ст b{color:var(--мята);border:1px solid rgba(62,230,184,.6);background:rgba(62,230,184,.12)}
@@ -516,12 +516,12 @@ svg .ось[data-к]{transform:none}
 .шаг7 .ст span{display:block;margin-top:6px;color:var(--приглуш)}
 /* карточка товара: поля в две колонки «имя — значение» */
 .поля li{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-.поля li span{color:var(--приглуш);font-size:13px;white-space:nowrap}
+.поля li span{color:var(--приглуш);font-size:17.5px;white-space:nowrap}
 .поля li strong{color:var(--текст);font-weight:600;text-align:right}
 .поля li em{font-style:normal;color:var(--приглуш);text-align:right}
 .поля li strong.мятн{color:var(--мята)}
 /* статус документа потребности — чип; на шаге 2–3 меняется по кадрам (data-к / data-до) */
-.поля li strong.стат{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;
+.поля li strong.стат{display:inline-block;padding:3px 10px;border-radius:999px;font-size:16px;font-weight:700;
   border:1px solid rgba(62,213,152,.6);color:var(--мята);background:rgba(62,213,152,.12)}
 .поля li strong.стат.идёт{border-color:rgba(79,227,255,.6);color:var(--циан);background:rgba(79,227,255,.1)}
 .поля li strong.стат[data-к]{display:none}
@@ -530,9 +530,9 @@ svg .ось[data-к]{transform:none}
 .поля li strong.мятн[data-к]{display:none}
 .поля li strong.мятн[data-к].включён{display:inline}
 .поля.две{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
-.карточка .средняя{margin-top:10px;font-size:13px;color:var(--приглуш)}
-.карточка .средняя strong{display:block;font-size:24px;color:var(--мята);font-weight:700;margin-top:2px}
-.карточка li.прим{color:var(--приглуш);font-size:13px}
+.карточка .средняя{margin-top:10px;font-size:17.5px;color:var(--приглуш)}
+.карточка .средняя strong{display:block;font-size:28.5px;color:var(--мята);font-weight:700;margin-top:2px}
+.карточка li.прим{color:var(--приглуш);font-size:17.5px}
 .карточка li strong.акцент{color:var(--мята)}
 .шестерня{width:40px;height:40px;margin-top:14px;display:block;fill:none;stroke:var(--кмг);stroke-width:2}
 .шестерня .крут{transform-origin:20px 20px;animation:кручение 1.6s linear infinite}
@@ -544,37 +544,37 @@ svg .ось[data-к]{transform:none}
 /* ===== титул ===== */
 #с00{justify-content:center}
 .титул_имя{font-size:118px;font-weight:700;line-height:1;color:var(--кмг)}
-.титул_расш{margin-top:18px;font-size:40px;color:var(--текст)}
-.титул_расш.en{margin-top:0;font-size:26px;color:var(--текст2)}
+.титул_расш{margin-top:18px;font-size:43px;color:var(--текст)}
+.титул_расш.en{margin-top:0;font-size:30.5px;color:var(--текст2)}
 .титул_черта{width:132px;height:3px;background:var(--кмг);margin:30px 0 26px;border-radius:2px;box-shadow:0 0 22px rgba(2,174,240,.55)}
-.титул_суть{font-size:26px;color:var(--текст2);max-width:1200px;line-height:1.4}
+.титул_суть{font-size:30.5px;color:var(--текст2);max-width:1200px;line-height:1.4}
 /* подпись-следствие под карточкой */
 /* список товаров пилота — две колонки, строка: номер · наименование · группа · код АСУ НСИ */
 .пилот{margin:0;padding:0;list-style:none;columns:2;column-gap:44px}
-.пилот li{display:flex;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--грань);break-inside:avoid;font-size:16.5px}
-.пилот li i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:12px;color:var(--кмг);flex:0 0 28px}
+.пилот li{display:flex;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--грань);break-inside:avoid;font-size:21px}
+.пилот li i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:16px;color:var(--кмг);flex:0 0 28px}
 .пилот li b{font-weight:600;color:var(--текст);flex:1 1 auto;line-height:1.3}
-.пилот li span{color:var(--приглуш);font-size:13px;flex:0 0 190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.пилот li em{font-style:normal;color:var(--мята);font-size:14.5px;flex:0 0 180px;text-align:right;white-space:nowrap}
+.пилот li span{color:var(--приглуш);font-size:17.5px;flex:0 0 190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.пилот li em{font-style:normal;color:var(--мята);font-size:18.5px;flex:0 0 180px;text-align:right;white-space:nowrap}
 /* скрины систем: рамка в палитре показа, картинка по ширине; четыре экрана — сеткой 2×2 */
 .скрин{position:absolute;max-height:100%;border:1.5px solid rgba(2,174,240,.45);border-radius:14px;overflow:hidden;background:#0C1626;
   box-shadow:0 0 40px rgba(2,174,240,.18)}
 .скрин img{display:block;width:100%;height:auto}
 .скрин .рамка{position:absolute;border:2.5px solid var(--мята);border-radius:6px;box-shadow:0 0 0 4px rgba(62,230,184,.18),0 0 24px rgba(62,230,184,.5)}
-.скрин .подпись_рамки{position:absolute;font-size:15px;font-weight:700;color:var(--мята);padding:6px 12px;border-radius:999px;
+.скрин .подпись_рамки{position:absolute;font-size:19px;font-weight:700;color:var(--мята);padding:6px 12px;border-radius:999px;
   background:rgba(5,8,16,.85);border:1px solid rgba(62,230,184,.6)}
 /* один скрин на слайд, справа — что делает ИИ; картинка в исходном разрешении, не ужата */
 .полотно.экран{display:flex;gap:40px;align-items:flex-start}
 .экран .скрин{position:relative;flex:0 0 auto;max-width:1220px}
 .экран .скрин img{max-height:760px;width:auto;max-width:1220px}
 .что_ии{flex:1 1 auto;min-width:380px;padding-top:6px}
-.что_ии .имя{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
-.что_ии h3{margin-top:12px;font-size:28px;line-height:1.25;font-weight:700}
+.что_ии .имя{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
+.что_ии h3{margin-top:12px;font-size:33px;line-height:1.25;font-weight:700}
 .что_ии ul{margin:22px 0 0;padding:0;list-style:none}
-.что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:19px;line-height:1.4;color:var(--текст2)}
+.что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:24.5px;line-height:1.4;color:var(--текст2)}
 .что_ии li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:10px;border-radius:50%;background:var(--мята);box-shadow:0 0 10px rgba(62,230,184,.7)}
 .что_ии li:nth-child(1){transition-delay:.05s}.что_ии li:nth-child(2){transition-delay:.15s}.что_ии li:nth-child(3){transition-delay:.25s}.что_ии li:nth-child(4){transition-delay:.35s}.что_ии li:nth-child(5){transition-delay:.45s}
-.след{position:absolute;font-size:16px;line-height:1.45;color:var(--текст2);border-left:2px solid var(--кмг);padding-left:14px}
+.след{position:absolute;font-size:20.5px;line-height:1.45;color:var(--текст2);border-left:2px solid var(--кмг);padding-left:14px}
 /* шаг 1: шина сбора */
 .сбор.шина{opacity:.35}
 /* календарь: дни до срока загораются по очереди */
@@ -600,7 +600,7 @@ svg .день[data-к],svg .срок[data-к]{transform:none}
 .волна.включён{animation:волна 2.4s ease-out infinite}
 @keyframes волна{0%{opacity:.75;transform:scale(1)}100%{opacity:0;transform:scale(4.2)}}
 .найден{fill:var(--зелёный);filter:drop-shadow(0 0 12px rgba(62,213,152,.85))}
-.имя_точки,.имя_найден{font-family:'Golos Text',sans-serif;font-size:15px}
+.имя_точки,.имя_найден{font-family:'Golos Text',sans-serif;font-size:19px}
 .имя_точки{fill:var(--текст2)}
 .имя_найден{fill:var(--мята)}
 svg [data-к]{transition:opacity .45s ease}
@@ -617,7 +617,7 @@ svg .луч[data-к],svg .возврат[data-к]{transform:none}
   transition:background .25s ease, transform .25s ease}
 .точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);
   box-shadow:0 0 12px rgba(2,174,240,.6)}
-.счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
+.счётчик{font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.14em;color:var(--приглуш)}
 
 @media print{
   @page{size:1920px 1080px;margin:0}
@@ -852,7 +852,7 @@ body.экраны #обёртка::after{display:none}
         <li><span>Место поставки</span><strong>Мангистауская обл., пос. Ынтымак (база СПО)</strong></li>
       </ul>
     </div>
-    <div class="пилюля" style="left:1440px;top:306px" data-к="5">Маркетинг цен</div>
+    <div class="пилюля" style="left:1440px;top:372px" data-к="5">Маркетинг цен</div>
     <p class="след" style="left:1440px;top:160px;width:284px" data-к="5">После того как потребность сформирована, автоматически проводится маркетинговое исследование.</p>
   </div>
 </section>
@@ -1396,21 +1396,21 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- 3. площадка -->
-    <div class="склад площадка" style="left:380px;top:150px;width:640px;height:264px" data-к="2">
+    <div class="склад площадка" style="left:380px;top:130px;width:700px;height:330px" data-к="2">
       <div class="имя">Шаг 6 · SK Store · электронная площадка</div>
       <div class="заг">Процедура закупки: победитель — наименьшая цена</div>
       <div class="секретарь" data-к="2">автоматическая детализация категории и карточки товара · автоматическая публикация товаров на торги</div>
-      <div class="участник " style="left:30px;top:124px;transition-delay:0ms" data-к="3">
+      <div class="участник " style="left:30px;top:180px;transition-delay:0ms" data-к="3">
         <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
           <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:600ms"/></svg>
         <b>Поставщик 1</b>
       </div>
-      <div class="участник победитель" style="left:240px;top:124px;transition-delay:180ms" data-к="3">
+      <div class="участник победитель" style="left:270px;top:180px;transition-delay:180ms" data-к="3">
         <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
           <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:780ms"/></svg>
         <b>Поставщик 2</b>
       </div>
-      <div class="участник " style="left:450px;top:124px;transition-delay:360ms" data-к="3">
+      <div class="участник " style="left:510px;top:180px;transition-delay:360ms" data-к="3">
         <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
           <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:960ms"/></svg>
         <b>Поставщик 3</b>
@@ -1421,7 +1421,7 @@ body.экраны #обёртка::after{display:none}
          поставщику уходит уведомление о победе и сроке поставки по Правилам,
          подписи обеих сторон не нужны («это типа революция»). Юридическую
          сторону закупщики берут на себя. -->
-    <div class="карточка договор" style="left:1100px;top:200px;width:560px" data-к="4">
+    <div class="карточка договор" style="left:1130px;top:200px;width:560px" data-к="4">
       <svg viewBox="0 0 64 64" class="печать"><circle cx="32" cy="32" r="28" class="круг"/><circle cx="32" cy="32" r="20" class="круг"/>
         <path d="M20 33l8 8 16-16" class="галка включён"/></svg>
       <div><b>Заказ на поставку сформирован и утверждён</b></div>

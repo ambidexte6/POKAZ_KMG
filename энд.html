@@ -57,9 +57,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(16px);
   transition:opacity .42s ease,transform .42s ease,visibility 0s .42s}
 .слайд.виден{opacity:1;visibility:visible;transform:none;transition:opacity .42s ease,transform .42s ease}
-.бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
-h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top:10px}
-.идея{margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--приглуш);max-width:1500px}
+.бровь{font-size:19px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
+h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top:10px}
+.идея{margin-top:10px;font-size:20px;line-height:1.45;color:var(--приглуш);max-width:1500px}
 .полотно{position:relative;margin-top:26px;flex:1;min-height:0}
 
 /* ===== колонки процесса: шаг сверху, работы снизу ===== */
@@ -70,23 +70,23 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .колонка.включён{opacity:1;transform:none}
 .шаг{position:relative;border:1px solid rgba(2,174,240,.45);border-radius:18px;padding:18px 20px 18px 22px;
   background:linear-gradient(180deg,rgba(2,174,240,.14),rgba(2,174,240,.05))}
-.шаг .н{font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--кмг)}
-.шаг h3{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:19px;line-height:1.22;font-weight:700;color:var(--текст)}
-.колонка + .колонка .шаг::before{content:"→";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--циан);font-size:22px;opacity:.7}
+.шаг .н{font-family:'Unbounded',sans-serif;font-size:16px;letter-spacing:.2em;color:var(--кмг)}
+.шаг h3{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:24.5px;line-height:1.22;font-weight:700;color:var(--текст)}
+.колонка + .колонка .шаг::before{content:"→";position:absolute;left:-24px;top:50%;transform:translateY(-50%);color:var(--циан);font-size:26px;opacity:.7}
 .работы{flex:1;margin-top:14px;border:1px solid var(--грань);border-radius:18px;padding:18px 20px;
   background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));display:flex;flex-direction:column;min-height:0}
 .работы ul{list-style:none;display:flex;flex-direction:column;gap:12px}
-.работы li{position:relative;padding-left:16px;font-size:14.5px;line-height:1.42;color:var(--текст2)}
+.работы li{position:relative;padding-left:16px;font-size:18.5px;line-height:1.42;color:var(--текст2)}
 .работы li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--мята);opacity:.85}
 .работы li em{font-style:normal;color:var(--текст);font-weight:600}
 .системы{margin-top:auto;padding-top:14px;display:flex;flex-wrap:wrap;gap:8px}
 /* 16.09 (Адиль): системы под шагом — карточками, как чипы в показе
    (значок + имя), а не пилюлями; значки те же, что в сцене */
 .чип{display:inline-flex;align-items:center;gap:10px;padding:8px 12px 8px 10px;border-radius:12px;border:1px solid rgba(2,174,240,.25);
-  background:rgba(2,174,240,.07);font-size:14px;font-weight:600;line-height:1.25;color:var(--текст, #e8f1ff);white-space:nowrap}
+  background:rgba(2,174,240,.07);font-size:19px;font-weight:600;line-height:1.25;color:var(--текст, #e8f1ff);white-space:nowrap}
 .чип img{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(2,174,240,.5))}
 .чип .точка{width:12px;height:12px;margin:0 10px;border-radius:50%;background:var(--кмг)}
-.чип.ии::after{content:"AI";font-size:9px;padding:2px 5px;border-radius:5px;border:1px solid rgba(2,174,240,.6)}
+.чип.ии::after{content:"AI";font-size:12px;padding:2px 5px;border-radius:5px;border:1px solid rgba(2,174,240,.6)}
 .чип.внешн{border-color:rgba(242,184,75,.5);color:var(--янтарь);background:rgba(242,184,75,.08)}
 
 /* ===== низ ===== */
@@ -97,7 +97,7 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .точки{display:flex;gap:11px}
 .точки button{width:9px;height:9px;border-radius:50%;background:var(--грань);transition:background .25s ease,transform .25s ease}
 .точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);box-shadow:0 0 12px rgba(2,174,240,.6)}
-.счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
+.счётчик{font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.14em;color:var(--приглуш)}
 .слайд,.низ{z-index:1}
 
 /* ===== семь этапов: сетка карточек ===== */
@@ -106,43 +106,43 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .этап{position:relative;display:flex;flex-direction:column;min-height:0;border:1px solid var(--грань);border-radius:18px;padding:16px 16px 14px;
   background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
 .этап.включён{opacity:1;transform:none}
-.этап .н{font-family:'Unbounded',sans-serif;font-size:12px;letter-spacing:.2em;color:var(--кмг)}
-.этап h3{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:15px;line-height:1.22;font-weight:700;color:var(--текст);min-height:38px}
-.этап p{margin-top:10px;font-size:13.5px;line-height:1.4;color:var(--текст2)}
+.этап .н{font-family:'Unbounded',sans-serif;font-size:16px;letter-spacing:.2em;color:var(--кмг)}
+.этап h3{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:19px;line-height:1.22;font-weight:700;color:var(--текст);min-height:38px}
+.этап p{margin-top:10px;font-size:18px;line-height:1.4;color:var(--текст2)}
 .этап .ии{margin-top:10px;display:inline-flex;align-items:center;gap:8px;align-self:flex-start;padding:5px 10px;border-radius:999px;
-  border:1px solid rgba(62,230,184,.6);color:var(--мята);font-size:12px;font-weight:600}
-.этап .ии::before{content:"AI";font-family:'Unbounded',sans-serif;font-size:10px;padding:1px 5px;border-radius:4px;border:1px solid rgba(62,230,184,.6)}
-.этап .итог{margin-top:16px;padding-top:12px;border-top:1px solid var(--грань);font-size:12.5px;color:var(--приглуш)}
-.этап .итог b{display:block;margin-top:3px;font-size:14px;color:var(--мята);font-weight:600}
-.этап + .этап::before{content:"→";position:absolute;left:-16px;top:60px;color:var(--циан);font-size:18px;opacity:.7}
-.примечание{margin-top:16px;font-size:13px;color:var(--приглуш)}
+  border:1px solid rgba(62,230,184,.6);color:var(--мята);font-size:16px;font-weight:600}
+.этап .ии::before{content:"AI";font-family:'Unbounded',sans-serif;font-size:13.5px;padding:1px 5px;border-radius:4px;border:1px solid rgba(62,230,184,.6)}
+.этап .итог{margin-top:16px;padding-top:12px;border-top:1px solid var(--грань);font-size:17px;color:var(--приглуш)}
+.этап .итог b{display:block;margin-top:3px;font-size:19px;color:var(--мята);font-weight:600}
+.этап + .этап::before{content:"→";position:absolute;left:-16px;top:60px;color:var(--циан);font-size:23px;opacity:.7}
+.примечание{margin-top:16px;font-size:17.5px;color:var(--приглуш)}
 /* ===== анализ → эффекты ===== */
 .анализ{display:grid;grid-template-columns:1fr 1fr;gap:34px;height:100%;min-height:0}
 .колонка_а{display:flex;flex-direction:column;gap:16px;min-height:0;opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
 .колонка_а.включён{opacity:1;transform:none}
-.колонка_а h3{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;color:var(--текст)}
+.колонка_а h3{font-family:'Unbounded',sans-serif;font-size:25.5px;font-weight:700;color:var(--текст)}
 .колонка_а.было h3{color:var(--янтарь)}.колонка_а.стало h3{color:var(--мята)}
 .цифры_а{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .цифра_а{border:1px solid var(--грань);border-radius:16px;padding:16px 18px;background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6))}
-.цифра_а .шапка{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш)}
-.цифра_а .крупно{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:34px;font-weight:700;line-height:1.05}
+.цифра_а .шапка{font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш)}
+.цифра_а .крупно{margin-top:8px;font-family:'Unbounded',sans-serif;font-size:36.5px;font-weight:700;line-height:1.05}
 .было .цифра_а .крупно{color:var(--янтарь)}.стало .цифра_а .крупно{color:var(--мята)}
-.цифра_а .пояс{margin-top:6px;font-size:13px;color:var(--текст2)}
+.цифра_а .пояс{margin-top:6px;font-size:17.5px;color:var(--текст2)}
 .пункты_а{list-style:none;display:flex;flex-direction:column;gap:10px}
-.пункты_а li{position:relative;padding-left:18px;font-size:15px;line-height:1.42;color:var(--текст2)}
+.пункты_а li{position:relative;padding-left:18px;font-size:19px;line-height:1.42;color:var(--текст2)}
 .пункты_а li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:50%;background:var(--кмг)}
 .стало .пункты_а li::before{background:var(--мята)}
 .пункты_а b{color:var(--текст);font-weight:600}
 .эффекты_а{margin-top:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;opacity:0;transition:opacity .45s ease}
 .эффекты_а.включён{opacity:1}
 .эффект_а{border:1px solid rgba(62,230,184,.45);border-radius:16px;padding:16px 18px;background:rgba(62,230,184,.06)}
-.эффект_а .крупно{font-family:'Unbounded',sans-serif;font-size:30px;font-weight:700;color:var(--мята)}
-.эффект_а .пояс{margin-top:6px;font-size:13px;color:var(--текст2)}
+.эффект_а .крупно{font-family:'Unbounded',sans-serif;font-size:35.5px;font-weight:700;color:var(--мята)}
+.эффект_а .пояс{margin-top:6px;font-size:17.5px;color:var(--текст2)}
 .в_систему{margin-top:18px;align-self:flex-start;display:inline-flex;align-items:center;gap:12px;padding:12px 22px;border-radius:14px;border:1px solid rgba(2,174,240,.6);
-  background:rgba(2,174,240,.12);color:#fff;font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;opacity:0;transition:opacity .45s ease}
+  background:rgba(2,174,240,.12);color:#fff;font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none;opacity:0;transition:opacity .45s ease}
 .в_систему.включён{opacity:1}
 .в_систему:hover{background:rgba(2,174,240,.24)}
-.в_систему small{font-family:'Golos Text',sans-serif;font-size:12px;letter-spacing:.02em;text-transform:none;color:var(--текст2)}
+.в_систему small{font-family:'Golos Text',sans-serif;font-size:16px;letter-spacing:.02em;text-transform:none;color:var(--текст2)}
 </style>
 </head>
 <body>
