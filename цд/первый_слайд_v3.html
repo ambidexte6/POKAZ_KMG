@@ -130,14 +130,31 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
 
 /* переходы наружу — неприметные, в том же окне */
-#next,#demo2,#pilot{position:fixed;z-index:12;display:inline-flex;align-items:center;gap:8px;
+#next,#demo2,#pilot,#далее{position:fixed;z-index:12;display:inline-flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:17px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--dim);text-decoration:none;border:1px solid var(--line);padding:8px 13px;
   background:rgba(10,18,32,.45);backdrop-filter:blur(6px);opacity:.42;
   transition:opacity .25s,color .25s,border-color .25s,background .25s}
-#next:hover,#next:focus-visible,#pilot:hover,#pilot:focus-visible,#pilot.on,
+#next:hover,#next:focus-visible,#pilot:hover,#pilot:focus-visible,#pilot.on,#demo2.on,#далее:hover,#далее:focus-visible,
 #demo2:hover,#demo2:focus-visible{opacity:1;color:var(--cyan);border-color:var(--cyan);background:rgba(79,227,255,.08)}
-#next .arw,#demo2 .arw,#pilot .arw{font-size:19px;line-height:1}
+#next .arw,#demo2 .arw,#pilot .arw,#далее .arw{font-size:19px;line-height:1}
+#далее{right:26px;bottom:22px;font-size:14px;padding:6px 11px;opacity:.35}
+/* карточка эффектов — та же вёрстка, что панель эффектов подводки (demo_with_map.html) */
+#эффекты{position:fixed;right:26px;top:50%;transform:translateY(-50%) translateX(40px);width:34vw;min-width:420px;max-width:660px;
+  max-height:86vh;z-index:11;padding:22px 26px 20px;overflow:hidden auto;
+  background:linear-gradient(180deg,rgba(6,11,20,.96),rgba(4,8,15,.985));border:1px solid rgba(140,170,210,.16);
+  opacity:0;transition:opacity .5s,transform .6s cubic-bezier(.22,.61,.36,1);pointer-events:none}
+#эффекты.on{opacity:1;transform:translateY(-50%);pointer-events:auto}
+#эффекты .hd{font-family:var(--mono);font-size:19px;letter-spacing:.24em;text-transform:uppercase;color:var(--amber,#F0AE4A);margin-bottom:6px}
+#эффекты .ct{margin-top:14px;padding-top:12px;border-top:1px solid rgba(140,170,210,.16);opacity:0;transform:translateY(10px);transition:opacity .5s,transform .5s}
+#эффекты.on .ct{opacity:1;transform:none}
+#эффекты .ct .nm{font-family:var(--mono);font-size:16.5px;letter-spacing:.14em;text-transform:uppercase;color:#DCE7F5;margin-bottom:6px}
+#эффекты .fx{display:flex;align-items:baseline;gap:12px;padding:4px 0}
+#эффекты .fx .v{font-family:var(--mono);font-size:26px;font-weight:700;color:var(--teal,#35D0C2);flex:0 0 auto;line-height:1.05}
+#эффекты .fx .l{font-size:19px;color:#9DB4CE;line-height:1.3}
+#эффекты .road{margin-top:14px;padding-top:12px;border-top:1px solid rgba(140,170,210,.16)}
+#эффекты .rd .y{font-family:var(--mono);font-size:22px;font-weight:700;color:var(--amber,#F0AE4A)}
+#эффекты .rd .d{font-size:17px;color:#9DB4CE;margin-top:2px}
 #pilot{right:150px;top:20px}
 #demo2{right:150px;top:70px}
 /* карточка пилотного актива — та же, что в подводке (demo_with_map.html), тем же слотом справа */
@@ -313,13 +330,18 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
      заключение ГД ЭМГ — тот же куб с карточкой эффектов и этап тиражирования, это вход
      `demo_with_map.html?вход=эффекты` (лента подводки пропускается) -->
 <a id="pilot" href="#">пилотный актив<span class="arw">▸</span></a>
-<!-- копия в общем показе КМГ: подводки demo_with_map.html здесь нет, кнопка «эффекты и тираж» снята -->
+<!-- 18.09 (Адиль, ночь): «эффекты» — карточкой поверх модели, как пилотный актив, без перезагрузки
+     страницы (перезагрузка модели лагала); «далее» — маленькая, внизу справа, сразу на карту
+     тиражирования: своя страница, модель не трогается -->
+<a id="demo2" href="#">эффекты<span class="arw">▸</span></a>
+<a id="далее" href="тиражирование.html">далее<span class="arw">→</span></a>
 <div id="справка"><div class="hd"></div><div class="nm"></div><div class="sub"></div>
   <div class="паспорт ярус"></div><div class="сделано ярус"></div></div>
+<div id="эффекты"><div class="hd"></div><div class="body"></div><div class="road"></div></div>
 <!-- слайд открыт внутри demo_with_map.html — кнопка вела бы саму в себя -->
 <script>/* в рамке подводки (demo_with_map.html ставит `?в_рамке=1`) кнопки не нужны: «эффекты» вели бы
    в саму себя, карточку ведёт сама подводка. В рамке общего показа КМГ (сцена цепочки) кнопки остаются. */
-if (new URLSearchParams(location.search).get('в_рамке') === '1'){ document.getElementById('pilot').remove(); }
+if (new URLSearchParams(location.search).get('в_рамке') === '1'){ document.getElementById('demo2').remove(); document.getElementById('pilot').remove(); document.getElementById('далее').remove(); }
 /* 16.09: ключ короткого показа (`?коротко=1`) с главного экрана передавался подводке; 18.09
    кнопка ведёт сразу на эффекты (`?вход=эффекты` уже в href), и ключ ей не нужен */</script>
 <div id="chip"></div>
@@ -1667,7 +1689,7 @@ function refresh(){
      она открывалась поверх модели до первого касания и закрывала собой то,
      ради чего слайд и открыт. Её содержание переехало на главный экран
      показа, где под него есть отдельный кадр. */
-  if(a && !(typeof ярусСпр === 'number' && ярусСпр > 0)) showPanel(a); else $('panel').classList.remove('vis');
+  if(a && !(typeof ярусСпр === 'number' && ярусСпр > 0) && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты)) showPanel(a); else $('panel').classList.remove('vis');
   controls.autoRotateSpeed = ROT_SPEED;
   updateNavLine();
   // список меняет высоту и заново центрируется — уточняем позицию, когда раскладка устоялась
@@ -2250,11 +2272,66 @@ let ярусСпр = 0;
     кн.classList.toggle('on', ярусСпр > 0);
     if(ярусСпр > 0){ state.locked = null; state.hover = null; refresh(); }
   }
-  кн.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); показать(ярусСпр >= 2 ? 0 : ярусСпр + 1); });
-  addEventListener('keydown', e => { if(e.key === 'Escape') показать(0); });
+  кн.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); закрытьЭффекты(); показать(ярусСпр >= 2 ? 0 : ярусСпр + 1); });
+  addEventListener('keydown', e => { if(e.key === 'Escape'){ показать(0); закрытьЭффекты(); } });
+  window.__закрытьСправку = () => показать(0);
   // `?справка=N` — карточка с N ярусами при открытии (снимки)
   const н = +(new URLSearchParams(location.search).get('справка') || 0);
   if(н > 0) setTimeout(() => показать(н), 1200);
+})();
+
+/* ── карточка эффектов ────────────────────────────────────────────────
+   Те же цифры, что на панели эффектов подводки (demo_with_map.html, такт «пилот»,
+   эффекты) + блок пилота из сценария 18.09; одно нажатие — открыть, второе — убрать. */
+const ЭФФЕКТЫ = {
+  шапка:'Ожидаемые эффекты по контурам',
+  контуры:[
+    ['ЦД пласта',   [['−5%','снижение CAPEX']]],
+    ['ЦД скважины', [['−3%','сроки вывода на режим']]],
+    ['ЦД добычи и наземной инфраструктуры', [['−5%','управляемые потери добычи'],['−3%','CAPEX/OPEX инфраструктуры']]],
+    ['Пилот · В. Молдабек', [['+100 тыс. т','дополнительной добычи в год'],['КИН до 22%','коэффициент извлечения нефти'],['550 → 700','суток межремонтный период']]],
+  ],
+  итоги:[['окт. 2026','реализация пилотного проекта']],
+};
+let эффектыОткрыты = false;
+function закрытьЭффекты(){
+  эффектыОткрыты = false;
+  const э = document.getElementById('эффекты'), кн = document.getElementById('demo2');
+  if(э) э.classList.remove('on'); if(кн) кн.classList.remove('on');
+}
+(function карточкаЭффектов(){
+  const кн = document.getElementById('demo2'), э = document.getElementById('эффекты');
+  if(!кн || !э) return;
+  э.querySelector('.hd').textContent = ЭФФЕКТЫ.шапка;
+  const тело = э.querySelector('.body');
+  ЭФФЕКТЫ.контуры.forEach(([имя, строки], i) => {
+    const к = document.createElement('div'); к.className = 'ct'; к.style.transitionDelay = (i*0.09 + 0.05).toFixed(2) + 's';
+    const н = document.createElement('div'); н.className = 'nm'; н.textContent = имя; к.appendChild(н);
+    for(const [знач, подпись] of строки){
+      const ф = document.createElement('div'); ф.className = 'fx';
+      const v = document.createElement('span'); v.className = 'v'; v.textContent = знач;
+      const l = document.createElement('span'); l.className = 'l'; l.textContent = подпись;
+      ф.append(v, l); к.appendChild(ф);
+    }
+    тело.appendChild(к);
+  });
+  const дорога = э.querySelector('.road');
+  ЭФФЕКТЫ.итоги.forEach(([знач, подпись]) => {
+    const р = document.createElement('div'); р.className = 'rd';
+    const y = document.createElement('div'); y.className = 'y'; y.textContent = знач;
+    const d = document.createElement('div'); d.className = 'd'; d.textContent = подпись;
+    р.append(y, d); дорога.appendChild(р);
+  });
+  кн.addEventListener('click', e => {
+    e.preventDefault(); e.stopPropagation();
+    if(эффектыОткрыты){ закрытьЭффекты(); return; }
+    if(window.__закрытьСправку) window.__закрытьСправку();
+    эффектыОткрыты = true; э.classList.add('on'); кн.classList.add('on');
+    state.locked = null; state.hover = null; refresh();
+  });
+  document.getElementById('далее').addEventListener('click', e => e.stopPropagation());
+  // `?эффекты=1` — карточка при открытии (снимки)
+  if(new URLSearchParams(location.search).get('эффекты') === '1') setTimeout(() => кн.click(), 1200);
 })();
 
 /* ── вход по адресу: раскрыть слой без мыши ───────────────────────────
