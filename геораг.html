@@ -200,6 +200,41 @@ svg .поток[data-к]{transform:none}
   -webkit-print-color-adjust:exact;print-color-adjust:exact
 }
 .слайд,.низ{z-index:1}
+
+/* ===== 17.09 (геологи, «Сценарий демонстрации в.5 (Финал)»): кейсы, Data Room, ML ===== */
+.кейс{display:grid;grid-template-columns:1fr 560px;gap:34px;height:680px;min-height:0;align-items:start}
+.кейс .сканы{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;min-height:0;align-content:start}
+.кейс .скан{position:relative;aspect-ratio:3/4;border-radius:16px;overflow:hidden;border:1px solid var(--грань);background:#0C1626;min-height:0;
+  opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.кейс .скан.включён{opacity:1;transform:none}
+.кейс .скан img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;filter:brightness(.92)}
+.кейс .скан span{position:absolute;left:12px;bottom:12px;padding:6px 10px;border-radius:10px;background:rgba(5,8,16,.86);border:1px solid var(--грань);font-size:12.5px;color:var(--текст2)}
+.кейс .стопка{position:relative;aspect-ratio:1.9;min-height:0;border-radius:16px;overflow:hidden;border:1px solid var(--грань);background:#0C1626}
+.кейс .стопка img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .6s ease}
+.кейс .стопка img.включён{opacity:1}
+.кейс .стопка .подпись{position:absolute;left:14px;top:14px;padding:8px 12px;border-radius:10px;background:rgba(5,8,16,.86);border:1px solid var(--грань);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг);opacity:0;transition:opacity .6s}
+.кейс .стопка .подпись.включён{opacity:1}
+.кейс .стопка img.включён:has(~ img.включён),.кейс .стопка .подпись.включён:has(~ .подпись.включён){opacity:0}
+.кейс .что_ии{min-width:0}
+.кейс .что_ии li{font-size:17px;margin-top:12px}
+.дата_рум{display:grid;grid-template-columns:1fr 1fr;gap:40px;height:680px;min-height:0;align-content:start;padding-top:24px}
+.дата_рум .карточка_др{border:1px solid var(--грань);border-radius:22px;padding:30px 34px;background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));
+  opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
+.дата_рум .карточка_др.включён{opacity:1;transform:none}
+.дата_рум h3{font-family:'Unbounded',sans-serif;font-size:22px;font-weight:700;line-height:1.25}
+.дата_рум h3 small{display:block;margin-top:6px;font-family:'Golos Text',sans-serif;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш);font-weight:400}
+.дата_рум ul{list-style:none;margin:18px 0 0;padding:0}
+.дата_рум li{position:relative;padding-left:24px;margin-top:12px;font-size:17px;line-height:1.42;color:var(--текст2)}
+.дата_рум li::before{content:"";position:absolute;left:0;top:10px;width:9px;height:9px;border-radius:50%;background:var(--кмг);box-shadow:0 0 10px rgba(2,174,240,.7)}
+.дата_рум .крупно_др{margin-top:22px;font-family:'Unbounded',sans-serif;font-size:34px;color:var(--мята);font-weight:700}
+.дата_рум .крупно_др small{display:block;margin-top:4px;font-family:'Golos Text',sans-serif;font-size:14px;color:var(--текст2);font-weight:400}
+.мл{display:grid;grid-template-columns:1fr 460px;gap:34px;height:680px;min-height:0}
+.мл .видео{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#000;min-height:0}
+.мл .видео video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.мл .видео .титр{position:absolute;left:24px;bottom:22px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.82);border-left:4px solid var(--кмг);font-size:18px;font-weight:600}
+.мл .видео .титр small{display:block;font-size:12.5px;font-weight:400;color:var(--приглуш);margin-top:3px}
+.мл .видео .источник{position:absolute;right:22px;bottom:22px;font-size:12px;color:var(--приглуш)}
+.мл .видео .метка{position:absolute;right:22px;top:18px;padding:6px 12px;border-radius:999px;border:1px solid rgba(240,174,74,.6);color:var(--янтарь);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;background:rgba(5,8,16,.8)}
 </style>
 </head>
 <body>
@@ -238,7 +273,8 @@ svg .поток[data-к]{transform:none}
         <div class="лист" style="top:10px;left:80px;transition-delay:320ms"><i class="к"></i><i class="с"></i><div class="графа"></div><i class="с"></i></div>
       </div>
       <!-- 09.09: «80 000+ отчётов» снято — геологи дали свою статистику (KMG GeoAI.docx): 7 ТБ, 2 млн файлов (справка ФХ КБД от 08.09: 7,757 ТБ, 1 968 094 файла — заказчик просил округлить). -->
-      <div class="подп"><b>более 7 ТБ</b>геолого-геофизических данных, 2 млн файлов: сканы, таблицы, карты</div>
+      <!-- 17.09: в сценарии в.5 (Финал) геологи пишут «7,8 ТБ» — ставим их цифру, а не «более 7» -->
+      <div class="подп"><b>7,8 ТБ</b>геолого-геофизических данных, 2 млн файлов: сканы, таблицы, карты</div>
     </div>
 
     <!-- 2. OCR -->
@@ -276,7 +312,7 @@ svg .поток[data-к]{transform:none}
         <circle cx="250" cy="260" r="16"/><text x="250" y="292" text-anchor="middle">риск POS</text>
       </svg>
       <!-- 09.09, геологи: не «собственная» и не «обучена» — локально развёрнутая open-source модель, подвязанная к отчётам; «wiki» гостям не объяснить — «база знаний». -->
-      <div class="низ"><span>локальная open-source модель</span><span>внутри контура КМГ</span><span>подвязана к отчётам</span><span>более 250 книг в базе знаний</span></div>
+      <div class="низ"><span>локальная open-source модель</span><span>GPU «Казахтелекома», закрытый контур</span><span>подвязана к отчётам</span><span>более 250 книг в базе знаний</span></div>
     </div>
     <!-- 16.09 (Адиль): под базой знаний — крупно «более 250 книг», как «более 7 ТБ» слева -->
     <div class="книги" data-к="3"><b>более 250 книг</b>по геологии и методические материалы КМГ в базе знаний</div>
@@ -378,28 +414,136 @@ svg .поток[data-к]{transform:none}
   </div>
 </section>
 
+
+<!-- ================= кейс 1: исторические данные (сценарий в.5, п. 5) ================= -->
+<section class="слайд" id="с3а" aria-label="Кейс 1 · исторические данные">
+  <div class="бровь">Кейс 1 · от известного к неизвестному</div>
+  <h2 class="заголовок дисплей">Разрозненные данные советского периода — в структурированную основу за минуты</h2>
+  <div class="полотно">
+    <div class="кейс">
+      <div class="сканы">
+        <div class="скан" data-к="1"><img src="медиа/геология/кейсы/ссср_акт.jpg" alt="Акт по скважине, машинопись"><span>отчёты и акты — машинопись, сканы</span></div>
+        <div class="скан" data-к="2"><img src="медиа/геология/кейсы/ссср_карта.jpg" alt="Схема сейсмопрофилей прошлых лет"><span>сейсмические профили разных лет</span></div>
+        <div class="скан" data-к="3"><img src="медиа/геология/кейсы/ссср_разрез.jpg" alt="Временной разрез низкого качества"><span>низкое качество сейсморазведки периода СССР</span></div>
+      </div>
+      <aside class="что_ии" data-к="4">
+        <div class="имя">Что делает KMG Geo AI</div>
+        <h3>Оцифровать, структурировать, сопоставить</h3>
+        <ul>
+          <li>По многим перспективным территориям основные ГРР проводились в советский период: данные разрознены, в старых отчётах, часть материалов сложно читать</li>
+          <li>Ассистент оцифровывает и структурирует историческую информацию: находит ключевые данные, выделяет результаты исследований, сопоставляет материалы разных лет</li>
+          <li>Вместо длительного ручного просмотра архивов геолог за считанные минуты получает структурированную основу для оценки участка</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= кейс 2: доразведка зрелых месторождений — Каражанбас ================= -->
+<section class="слайд" id="с3б" aria-label="Кейс 2 · Каражанбас">
+  <div class="бровь">Кейс 2 · доразведка зрелых месторождений</div>
+  <h2 class="заголовок дисплей">Каражанбас: продолжение структуры в море</h2>
+  <div class="полотно">
+    <div class="кейс">
+      <div class="стопка">
+        <img src="медиа/геология/кейсы/каражанбас_изученность.jpg" data-к="1" alt="Сейсмическая изученность участка Каражанбас море">
+        <img src="медиа/геология/кейсы/каражанбас_структура.jpg" data-к="2" alt="Структурная карта по пласту Б с контуром ВНК">
+        <img src="медиа/геология/кейсы/каражанбас_план_3d.jpg" data-к="3" alt="План 3D-сейсморазведки">
+        <div class="подпись" data-к="1">Сейсмическая изученность · исторические 2D и 3D 2024</div>
+        <div class="подпись" data-к="2">Структурная карта по пласту Б · контур ВНК · продолжение в море</div>
+        <div class="подпись" data-к="3">План 3D-сейсморазведки · 63 км² · кратность 200</div>
+      </div>
+      <aside class="что_ии" data-к="1">
+        <div class="имя">Что делает KMG Geo AI</div>
+        <h3>Поднять десятилетия данных и найти недоизученное</h3>
+        <ul>
+          <li data-к="1">За десятилетия накоплен огромный объём исторических данных — материалы скважин, исследования, отчёты. Ассистент быстро поднимает и сопоставляет их и выявляет потенциально недоизученные интервалы</li>
+          <li data-к="2">На модели видно продолжение структуры в море: участок Каражанбас море — западное продолжение подтверждённой нефтеносной структуры</li>
+          <li data-к="3">Это позволяет определить, где целесообразно провести дополнительную сейсморазведку, чтобы подтвердить перспективность</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<!-- ================= Data Room ================= -->
+<section class="слайд" id="с3в" aria-label="Виртуальный Data Room">
+  <div class="бровь">На базе KMG Geo AI</div>
+  <h2 class="заголовок дисплей">Виртуальный Data Room — защищённая комната данных для инвесторов</h2>
+  <div class="полотно">
+    <div class="дата_рум">
+      <div class="карточка_др" data-к="1">
+        <h3>Сегодня<small>подготовка материалов для партнёров</small></h3>
+        <ul>
+          <li>Геологоразведка — инвестиции в условиях высокой неопределённости; для разделения рисков КМГ привлекает партнёров</li>
+          <li>Подготовка геологических материалов для каждого нового партнёра требует значительного участия наших специалистов</li>
+          <li>Материалы — в разных системах и архивах, вопросы партнёров — по кругу одни и те же</li>
+        </ul>
+        <div class="крупно_др" style="color:var(--янтарь)">месяцы<small>цикл подготовки материалов по проекту</small></div>
+      </div>
+      <div class="карточка_др" data-к="2">
+        <h3>Data Room<small>виртуальная комната данных на базе KMG Geo AI</small></h3>
+        <ul>
+          <li>Партнёр получает структурированный и защищённый доступ к материалам проекта — в закрытом контуре, без выгрузки наружу</li>
+          <li>ИИ-ассистент отвечает на типовые вопросы по материалам со ссылками на документы и страницы</li>
+          <li>Специалисты КМГ подключаются к содержательным вопросам, а не к сбору папок</li>
+        </ul>
+        <div class="крупно_др">недели<small>цель — сократить цикл подготовки материалов с месяцев до недель</small></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= машинное обучение на сейсмике ================= -->
+<section class="слайд" id="с3г" aria-label="Машинное обучение на сейсморазведочных данных">
+  <div class="бровь">Следующий уровень · в работе</div>
+  <h2 class="заголовок дисплей">Машинное обучение на сейсморазведочных данных</h2>
+  <div class="полотно">
+    <div class="мл">
+      <div class="видео">
+        <!-- ролик геологов из Petrel: первые 90 с записи 3D-автотрекинга (они: «первые полторы минуты полезные»), ускорен в 1,5 раза -->
+        <video src="медиа/геология/petrel/автотрекинг.mp4" poster="медиа/геология/petrel/автотрекинг.jpg" muted playsinline loop preload="auto"></video>
+        <div class="метка">в работе</div>
+        <div class="титр">Автоматическое прослеживание горизонта по сейсмическому кубу<small>3D-автотрекинг · Petrel · ускорено ×1,5</small></div>
+        <div class="источник">Департамент геологоразведки КМГ</div>
+      </div>
+      <aside class="что_ии" data-к="1">
+        <div class="имя">Что меняется</div>
+        <h3>От ручной разметки разрезов — к алгоритмам</h3>
+        <ul>
+          <li>Сегодня геолог вручную прослеживает на сейсмических разрезах пласты и разломы — это занимает недели</li>
+          <li>Тестируем алгоритмы, которые автоматизируют эту разметку и существенно сокращают время построения модели</li>
+          <li>Цифровизация охватывает уже не только работу с накопленными знаниями, но и обработку новых геологоразведочных данных</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
+
 <section class="слайд" id="с2" aria-label="Зачем нужен KMG Geo AI">
   <div class="бровь">Геологоразведка и добыча · ИИ</div>
-  <h2 class="заголовок дисплей">От поиска по архивам — к ответам за дни</h2>
-
+  <h2 class="заголовок дисплей">Что это даёт на практике</h2>
+  <!-- 17.09 (геологи, сценарий в.5 «Финал», раздел «Что это даёт на практике»): цифры и
+       формулировки — дословно из сценария; прежние «×2–3 интерпретация» и «100 % закрытый
+       контур» сняты, закрытый контур ушёл в качества -->
   <div class="цифры">
-    <div class="цифра" data-к="1"><div class="шапка">Подготовка справок</div>
-      <div class="крупно стрелой">недели → дни</div><div class="пояс">аналитические справки и сводки по отчётам</div></div>
-    <div class="цифра" data-к="2"><div class="шапка">База</div>
-      <div class="крупно"><small>более</small> 7 ТБ</div><div class="пояс">геолого-геофизических данных, 2 млн файлов — в одном окне</div></div>
-    <div class="цифра" data-к="3"><div class="шапка">Интерпретация</div>
-      <div class="крупно">×2–3</div><div class="пояс">быстрее интерпретация геоданных</div></div>
+    <div class="цифра" data-к="1"><div class="шапка">Скорость</div>
+      <div class="крупно стрелой">2–3 недели → 2–3 дня</div><div class="пояс">подготовка первичного геологического обоснования — примерно в 5–7 раз быстрее</div></div>
+    <div class="цифра" data-к="2"><div class="шапка">Трудозатраты</div>
+      <div class="крупно стрелой">80–120 → 16–24 ч</div><div class="пояс">трудочасов на такой этап, если рабочую неделю принять за 40 часов</div></div>
+    <div class="цифра" data-к="3"><div class="шапка">Масштаб</div>
+      <div class="крупно стрелой">10 → 20</div><div class="пояс">проектов в год при той же команде — без пропорционального увеличения штата</div></div>
     <div class="цифра" data-к="4"><div class="шапка">Данные</div>
-      <div class="крупно">100%</div><div class="пояс">закрытый контур — ни один документ не покидает периметр</div></div>
+      <div class="крупно">7,8 ТБ</div><div class="пояс">2 млн файлов корпоративного массива — тысячи документов анализируются за секунды вместо ручного просмотра</div></div>
   </div>
 
   <div class="качества">
-    <div class="качество" data-к="5"><b>Приватность ↑</b><span>Локально развёрнутая open-source модель во внутренней инфраструктуре. Данных наружу нет.</span></div>
-    <div class="качество" data-к="6"><b>Скорость ↑</b><span>Знания десятилетий — за дни: вопрос словами вместо недель поиска по архивам.</span></div>
-    <div class="качество" data-к="7"><b>Доверие ↑</b><span>Каждый ответ со ссылкой на документ и страницу. Reasoning-выводы, без галлюцинаций.</span></div>
+    <div class="качество" data-к="5"><b>Главный эффект — время геологов</b><span>ИИ берёт на себя рутинный поиск, сопоставление и первичный анализ; специалист — интерпретацию и геологическое решение.</span></div>
+    <div class="качество" data-к="6"><b>Доверие ↑</b><span>Каждый вывод — со ссылкой на исходный документ и страницу; окончательное решение всегда за специалистом.</span></div>
+    <div class="качество" data-к="7"><b>Закрытый контур</b><span>Работает на GPU-мощностях «Казахтелекома», локальная open-source модель — ни один документ не покидает периметр.</span></div>
   </div>
 
-  <p class="итог_стр" data-к="7">Готовые запросы в один клик: <b>executive summary</b>, <b>риски и несостыковки</b>, <b>ключевые метрики</b>, режим Vision по сканам. Все знания по геологии — в одном окне, по запросу.</p>
+  <p class="итог_стр" data-к="7">От длительного ручного поиска информации — к быстрому анализу данных и принятию решений на их основе. Дальше — испытание самого инструмента на реальных геологических данных.</p>
   <a class="в_систему" data-к="7" href="http://geoai.kmg.kz/" target="_blank" rel="noopener">Открыть KMG Geo AI → <small>geoai.kmg.kz · живая система</small></a>
 </section>
 
@@ -434,6 +578,7 @@ svg .поток[data-к]{transform:none}
     показатьКадры(с, целиком?кадрыСлайда(с):0);
     кнопки.forEach(function(к,j){ к.setAttribute("aria-current", j===i?"true":"false"); });
     счёт.textContent=("0"+(i+1)).slice(-2)+" / "+("0"+слайды.length).slice(-2);
+    слайды.forEach(function(сл,j){ [].forEach.call(сл.querySelectorAll("video"),function(в){ if(j===i){ в.currentTime=0; var п=в.play(); if(п&&п.catch) п.catch(function(){}); } else в.pause(); }); });
   }
   кнопки[0].setAttribute("aria-current","true"); счёт.textContent="01 / "+("0"+слайды.length).slice(-2);
   function вперёд(){ var с=слайды[текущий], всего=кадрыСлайда(с), было=состояние[с.id]||0; if(было<всего){ показатьКадры(с,было+1); return; } показать(текущий+1,false); }
@@ -446,6 +591,7 @@ svg .поток[data-к]{transform:none}
     else if(к==="f"||к==="F"||к==="а"||к==="А"){ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
   });
   document.addEventListener("click",function(с){ if(с.target.closest(".точки")) return; if(с.shiftKey) назад(); else вперёд(); });
+  var старт=+new URLSearchParams(location.search).get("с"); if(старт>1) показать(старт-1,true);
 })();
 </script>
 </body>
