@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>КМГ · второй экран с цифрами</title>
+<title>КМГ · KIOGE 2026 — малый экран</title>
 <style>
-/* Страница для геологов внутри показа (Адиль 15.09): из «KIOGE 2026.pptx»
-   слайды 1–2 схлопнуты в один (вклад в экономику + инвестиции), 3–4 — в
-   один (карта портфеля + буллиты из текста заказчика); третий слайд —
-   бассейновые модели, клик-переход (1) из схемы «БезИмени (009).pptx».
-   Палитра, шрифты и кадр 1920×1080 — те же, что в закупках и в показе:
-   страницы стоят на одном стенде. Открывается из показа в рамке
-   (?с=N — сразу нужный слайд) и отдельной ссылкой. */
+/* Малый экран KIOGE 2026 (Адиль 17.09: «мы делали такой, но думали, что
+   это для геологов, а это общий»). Шесть слайдов: карточка КМГ (вклад и
+   инвестиции) и пять переделов на одной карте Казахстана — геология,
+   добыча, транспортировка, переработка, маркетинг. Тексты — из «KIOGE 2026
+   +2.docx» дословно; состав активов на карте — черновой, по открытым
+   данным, сверить с ДДиН/ДТ/ДП. Крутится сам по кругу, листается стрелками.
+   Каркас — цифры_кмг.html, карта — контуры областей и рельеф из AIAN. */
 :root{
   --кмг:#02AEF0; --кмг_свет:#90D6F7; --циан:#4FE3FF; --мята:#3EE6B8; --зелёный:#3ED598;
   --фон0:#050810; --фон1:#0C1626; --янтарь:#F2B84B; --сирень:#B06EE6;
@@ -146,6 +146,42 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 #видео_слой.виден{display:flex}
 #видео_слой video{width:100%;height:100%;object-fit:contain}
 #видео_слой button{position:absolute;right:28px;top:22px;padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.5);color:#fff;font-family:'Unbounded',sans-serif;font-size:12px;cursor:pointer}
+
+/* ===== карта переделов (KIOGE) ===== */
+.кио{display:grid;grid-template-columns:560px 1fr;gap:34px;height:100%;min-height:0}
+.кио .пункты b{min-width:132px;font-size:22px}
+.кио .пункты span{font-size:14.5px}
+.карта_св{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:var(--фон0);min-height:0;
+  display:flex;align-items:center;justify-content:center}
+.карта_св svg{width:100%;height:100%;display:block}
+.карта_св .область{fill:rgba(12,22,38,.55);stroke:rgba(2,174,240,.35);stroke-width:1.2;vector-effect:non-scaling-stroke}
+.карта_св .страна{fill:none;stroke:rgba(144,214,247,.7);stroke-width:2;vector-effect:non-scaling-stroke}
+.карта_св .рельеф{opacity:.55}
+.карта_св .точка{fill:var(--кмг);stroke:#fff;stroke-width:1.5;vector-effect:non-scaling-stroke}
+.карта_св .точка.мега{fill:var(--янтарь)}
+.карта_св .точка.план{fill:none;stroke:var(--сирень);stroke-width:2;stroke-dasharray:4 3}
+.карта_св .точка.завод{fill:var(--мята)}
+.карта_св .точка.порт{fill:var(--циан)}
+.карта_св .труба{fill:none;stroke:var(--кмг);stroke-width:3.5;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke;
+  stroke-dasharray:1200;stroke-dashoffset:1200;animation:протяжка 2.4s ease forwards}
+.карта_св .труба.газ{stroke:var(--мята)}
+.карта_св .экспорт{fill:none;stroke:var(--янтарь);stroke-width:3;stroke-dasharray:10 8;vector-effect:non-scaling-stroke;opacity:.85}
+@keyframes протяжка{to{stroke-dashoffset:0}}
+.карта_св .ореол{fill:var(--кмг);opacity:.18;animation:пульс 2.6s ease-in-out infinite}
+.карта_св .ореол.мега{fill:var(--янтарь)}.карта_св .ореол.завод{fill:var(--мята)}
+@keyframes пульс{0%,100%{transform:scale(1);opacity:.18}50%{transform:scale(1.5);opacity:.05}}
+.карта_св .ярлык{font-family:'Golos Text',sans-serif;font-size:12.5px;font-weight:600;fill:var(--текст);paint-order:stroke;stroke:rgba(5,8,16,.9);stroke-width:4px;stroke-linejoin:round}
+.карта_св .ярлык.тихий{fill:var(--текст2);font-weight:400;font-size:11.5px}
+.карта_св .легенда{position:absolute;left:22px;bottom:18px;display:flex;flex-direction:column;gap:7px;padding:12px 16px;border-radius:14px;
+  background:rgba(5,8,16,.78);border:1px solid var(--грань)}
+.карта_св .легенда div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--текст2)}
+.карта_св .легенда i{width:14px;height:14px;border-radius:50%;display:inline-block;border:1.5px solid #fff}
+.карта_св .подпись{position:absolute;right:22px;top:18px;padding:10px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
+.карта_св .зарубеж{position:absolute;left:22px;top:18px;padding:12px 16px;border-radius:14px;background:rgba(5,8,16,.78);border:1px solid rgba(62,230,184,.45);
+  font-size:13px;line-height:1.4;color:var(--текст2);max-width:300px}
+.карта_св .зарубеж b{display:block;color:var(--мята);font-family:'Unbounded',sans-serif;font-size:13px;margin-bottom:4px}
+.слайд.виден .карта_св .труба{animation-play-state:running}
 </style>
 </head>
 <!-- 16.09: второй экран показа — «карточка КазМунайГаза», цифры вклада и инвестиций.
@@ -205,7 +241,109 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   </div>
 </section>
 
-<!-- ================= 2. геологоразведка (слайды 3+4 + текст заказчика) ================= -->
+
+<section class="слайд" id="с2" aria-label="Геологоразведка: от знания того, что под землёй">
+  <div class="бровь">KIOGE 2026 · 01 · геологоразведка</div>
+  <h2 class="заголовок дисплей">Геологоразведка: от знания того, что под землёй</h2>
+  <div class="полотно">
+    <div class="кио">
+      <ul class="пункты">
+      <li data-к="1"><b>748<i>млн т ЖУ</i></b><span>остаточные извлекаемые запасы (ABC1 на 01.01.2026)</span></li>
+      <li data-к="2"><b>23<i>проекта</i></b><span>масштабная геологоразведочная программа до 2030 года · потенциальная геологическая ресурсная база <em>≈ 4,7 млрд т у.т.</em></span></li>
+      <li data-к="3"><b>26<i>скважин</i></b><span>бурение поисковых скважин, проходка <em>89 тыс. м</em></span></li>
+      <li data-к="4"><b>6 250<i>км 2D</i></b><span>сейсморазведочные работы · 3D — <em>2 540 км²</em></span></li>
+      <li data-к="5"><b>60<i>тыс. км</i></b><span>изучение глубокозалегающих подсолевых отложений Прикаспийского бассейна — региональная сейсморазведка 2D</span></li>
+      </ul>
+      <div class="карта_св" data-слой="с2">
+        <div class="подпись">Портфель разведочных проектов</div>
+        
+        <div class="легенда"><div><i style="background:var(--кмг);"></i>участки с действующими контрактами</div><div><i style="background:transparent;border:2px dashed var(--сирень)"></i>планируемые к получению контракта</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с3" aria-label="Добыча: 14 активов по всей стране">
+  <div class="бровь">KIOGE 2026 · 02 · добыча нефти</div>
+  <h2 class="заголовок дисплей">Добыча: 14 активов по всей стране</h2>
+  <div class="полотно">
+    <div class="кио">
+      <ul class="пункты">
+      <li data-к="1"><b>14<i>активов</i></b><span>КМГ управляет 14 добычными активами: <em>11 операционных</em> и <em>3 мегапроекта</em></span></li>
+      <li data-к="2"><b>26,2<i>млн т</i></b><span>объём добычи нефти в 2025 году</span></li>
+      <li data-к="3"><b>+4,8 %</b><span>стратегия увеличения КИН на 2027–2066 годы</span></li>
+      <li data-к="4"><b>118<i>технологий</i></b><span>повышения нефтеотдачи · потенциал дополнительной добычи <em>111 млн т нефти</em> до 2066 года</span></li>
+      </ul>
+      <div class="карта_св" data-слой="с3">
+        <div class="подпись">Добычные активы КМГ</div>
+        
+        <div class="легенда"><div><i style="background:var(--кмг);"></i>операционные активы</div><div><i style="background:var(--янтарь);"></i>мегапроекты</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с4" aria-label="Транспортировка: трубы, станции, флот">
+  <div class="бровь">KIOGE 2026 · 03 · транспортировка нефти</div>
+  <h2 class="заголовок дисплей">Транспортировка: трубы, станции, флот</h2>
+  <div class="полотно">
+    <div class="кио">
+      <ul class="пункты">
+      <li data-к="1"><b>7<i>активов</i></b><span>логистических активов · <em>100 %</em> объёма транспортировки нефти</span></li>
+      <li data-к="2"><b>78,5<i>млн т</i></b><span>объём экспорта нефти в 2025 году</span></li>
+      <li data-к="3"><b>5 197<i>км</i></b><span>магистральных нефтепроводов · <em>36</em> нефтеперекачивающих станций</span></li>
+      <li data-к="4"><b>1,446<i>млн м³</i></b><span>мощностей резервуарного хранения нефти</span></li>
+      <li data-к="5"><b>15<i>судов</i></b><span>флот: <em>7 танкеров</em> (дедвейт 300 000 т), 3 контейнеровоза, 3 буксира, 2 сухогруза</span></li>
+      </ul>
+      <div class="карта_св" data-слой="с4">
+        <div class="подпись">Логистическая инфраструктура</div>
+        
+        <div class="легенда"><div><i style="background:var(--кмг);border-radius:2px;height:4px"></i>магистральные нефтепроводы</div><div><i style="background:var(--циан);"></i>морской порт · флот</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с5" aria-label="Переработка: пять заводов">
+  <div class="бровь">KIOGE 2026 · 04 · переработка нефти</div>
+  <h2 class="заголовок дисплей">Переработка: пять заводов</h2>
+  <div class="полотно">
+    <div class="кио">
+      <ul class="пункты">
+      <li data-к="1"><b>5<i>активов</i></b><span>перерабатывающих активов · порядка <em>99 %</em> переработки нефти на внутреннем рынке</span></li>
+      <li data-к="2"><b>18,2<i>млн т</i></b><span>переработка нефти за 2025 год · светлых нефтепродуктов — <em>13,6 млн т</em></span></li>
+      <li data-к="3"><b>17,5 → 28<i>млн т</i></b><span>расширение мощностей трёх крупных НПЗ страны к 2032 году</span></li>
+      <li data-к="4"><b>5,9<i>млн т</i></b><span>НПЗ Petromidia и Vega в Румынии — общая мощность в год</span></li>
+      </ul>
+      <div class="карта_св" data-слой="с5">
+        <div class="подпись">Перерабатывающие активы</div>
+        <div class="зарубеж"><b>Румыния · Petromidia и Vega</b>KMG International: два НПЗ общей мощностью 5,9 млн т в год</div>
+        <div class="легенда"><div><i style="background:var(--мята);"></i>НПЗ и заводы КМГ</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с6" aria-label="Маркетинг: от завода до потребителя">
+  <div class="бровь">KIOGE 2026 · 05 · маркетинг</div>
+  <h2 class="заголовок дисплей">Маркетинг: от завода до потребителя</h2>
+  <div class="полотно">
+    <div class="кио">
+      <ul class="пункты">
+      <li data-к="1"><b>95 %</b><span>потребностей внутреннего рынка в бензине, дизельном и авиационном топливе</span></li>
+      <li data-к="2"><b>51 %</b><span>сжиженным нефтяным газом · <em>66 %</em> — полипропиленом</span></li>
+      <li data-к="3"><b>4<i>страны</i></b><span>сеть АЗС KMG International / Rompetrol: Болгария, Грузия, Молдова, Словения</span></li>
+      <li data-к="4"><b>1 400+<i>точек</i></b><span>продаж нефтепродуктов в Европе и портовая инфраструктура на Чёрном море</span></li>
+      </ul>
+      <div class="карта_св" data-слой="с6">
+        <div class="подпись">Рынок и экспорт</div>
+        
+        <div class="легенда"><div><i style="background:var(--мята);"></i>внутренний рынок — поставки с НПЗ</div><div><i style="background:var(--янтарь);border-radius:2px;height:4px"></i>экспорт · Европа</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 
 
@@ -270,6 +408,72 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   window.__геологи = { показать:показать, текущий:function(){ return текущий; } };
 })();
 </script>
+
+<script>
+(function(){
+  "use strict";
+  /* Карта: та же проекция, что в AIAN (равнопромежуточная с поправкой на 48°).
+     Координаты объектов — черновые, по открытым данным; сверить с ДЗО. */
+  var КОС = Math.cos(48*Math.PI/180), П = null;
+  function xy(лон, лат){ return [ (лон-П.х0)*КОС*П.к, (П.у0-лат)*П.к ]; }
+  var НС = "http://www.w3.org/2000/svg";
+  function э(р, а){ var n = document.createElementNS(НС, р); for(var k in (а||{})) n.setAttribute(k, а[k]); return n; }
+  var ОБЪЕКТЫ = {
+    с2: { точки: [
+      ["Каратон подсолевой",53.5,46.6,""],["Прикаспий палеозой (ГИН)",51.2,49.0,"план"],["Тайсойган",55.0,47.9,""],
+      ["Мугоджары",58.4,48.5,"план"],["Устюрт 1,2",55.6,44.4,""],["Каспий Северный",50.4,45.7,""],["Большой Жамбыл",51.6,44.2,"план"],
+      ["Жылыой",54.4,46.4,""],["Тургай ПЗ-2",63.6,47.4,"план"],["Торгай Северный (ГИН)",64.6,50.2,"план"],["Шу-Сарысу",70.6,44.9,""],
+      ["Озен Северный",52.9,44.1,""],["Болашак",53.4,45.4,""],["Березовский",50.3,50.9,"план"] ] },
+    с3: { точки: [
+      ["Озенмунайгаз",52.85,43.34,""],["Эмбамунайгаз",54.0,46.95,""],["Мангистаумунайгаз",52.1,43.6,""],["Каражанбасмунай",51.4,45.2,""],
+      ["КазМунайТениз",50.7,44.6,""],["Казгермунай",65.3,45.05,""],["ПетроКазахстан Кумколь",65.2,46.3,""],["Казахтуркмунай",56.5,48.1,""],
+      ["Урихтау",57.9,47.7,""],["Казахойл Актобе",57.3,48.9,""],["Амангельды Газ",72.2,43.4,""],
+      ["Тенгиз",53.4,46.2,"мега"],["Кашаган",51.2,46.1,"мега"],["Карачаганак",53.4,51.2,"мега"] ] },
+    с4: { трубы: [
+      [[52.85,43.34],[52.3,45.2],[51.9,47.1],[51.2,49.6],[50.3,51.0]],           /* Узень — Атырау — Самара */
+      [[55.5,48.4],[54.6,48.0],[53.2,47.5],[51.9,47.1]],                          /* Кенкияк — Атырау */
+      [[55.5,48.4],[58.0,48.0],[61.5,47.4],[65.2,46.3]],                          /* Кенкияк — Кумколь */
+      [[65.2,46.3],[68.5,47.7],[71.65,48.7]],                                     /* Кумколь — Атасу */
+      [[71.65,48.7],[76.0,46.9],[80.0,45.8],[82.5,45.2]],                         /* Атасу — Алашанькоу */
+      [[76.95,52.3],[73.1,49.8],[71.65,48.7],[70.5,45.5],[69.6,42.35]] ],         /* Павлодар — Шымкент */
+      точки: [["Порт Актау · КМТФ",51.2,43.65,"порт"],["Атырау",51.9,47.1,""],["Кенкияк",55.5,48.4,""],["Кумколь",65.2,46.3,""],["Атасу",71.65,48.7,""]] },
+    с5: { точки: [["Атырауский НПЗ",51.92,47.1,"завод"],["Павлодарский НХЗ",76.95,52.3,"завод"],["ПКОП · Шымкент",69.6,42.35,"завод"],["Caspi Bitum · Актау",51.2,43.65,"завод"]] },
+    с6: { точки: [["АНПЗ",51.92,47.1,"завод"],["ПНХЗ",76.95,52.3,"завод"],["ПКОП",69.6,42.35,"завод"],["Каспибитум",51.2,43.65,"завод"],
+                  ["Астана",71.4,51.2,"тихий"],["Алматы",76.9,43.25,"тихий"],["Актобе",57.2,50.3,"тихий"],["Караганда",73.1,49.8,"тихий"]],
+          экспорт: [[[51.2,43.65],[48.5,43.2],[46.6,43.0]],[[51.9,47.1],[50.0,49.5],[48.0,51.0]]] }
+  };
+  fetch("медиа/карта/области_кз.json").then(function(r){ return r.json(); }).then(function(данные){
+    var минЛон=999,максЛон=-999,минЛат=999,максЛат=-999;
+    Object.keys(данные).forEach(function(к){ данные[к].кольца.forEach(function(кольцо){ кольцо.forEach(function(п){
+      минЛон=Math.min(минЛон,п[0]); максЛон=Math.max(максЛон,п[0]); минЛат=Math.min(минЛат,п[1]); максЛат=Math.max(максЛат,п[1]); }); }); });
+    var Ш=1500, В=830, к=Math.min(Ш/((максЛон-минЛон)*КОС), В/(максЛат-минЛат));
+    П={х0:минЛон, у0:максЛат, к:к};
+    var шир=(максЛон-минЛон)*КОС*к, выс=(максЛат-минЛат)*к;
+    function путь(о){ return о.кольца.map(function(кольцо){ return "M"+кольцо.map(function(п){ return xy(п[0],п[1]).map(function(ч){ return ч.toFixed(1); }).join(","); }).join("L")+"Z"; }).join(" "); }
+    var н=0;
+    document.querySelectorAll(".карта_св").forEach(function(бокс){
+      var s=э("svg",{viewBox:"-20 -20 "+(шир+40)+" "+(выс+40)});
+      var дефы=э("defs"); var обр=э("clipPath",{id:"кио_обрезка_"+(++н)});
+      Object.keys(данные).forEach(function(кк){ обр.appendChild(э("path",{d:путь(данные[кк])})); });
+      дефы.appendChild(обр); s.appendChild(дефы);
+      s.appendChild(э("image",{href:"медиа/карта/рельеф.jpg",x:0,y:0,width:шир,height:выс,preserveAspectRatio:"none","clip-path":"url(#кио_обрезка_"+н+")","class":"рельеф"}));
+      Object.keys(данные).forEach(function(кк){ s.appendChild(э("path",{d:путь(данные[кк]),"class":"область"})); });
+      var о = ОБЪЕКТЫ[бокс.getAttribute("data-слой")] || {};
+      (о.трубы||[]).forEach(function(л,i){ var p=э("path",{d:"M"+л.map(function(т){ return xy(т[0],т[1]).map(function(ч){return ч.toFixed(1);}).join(","); }).join("L"),"class":"труба"}); p.style.animationDelay=(i*0.35)+"s"; s.appendChild(p); });
+      (о.экспорт||[]).forEach(function(л){ s.appendChild(э("path",{d:"M"+л.map(function(т){ return xy(т[0],т[1]).map(function(ч){return ч.toFixed(1);}).join(","); }).join("L"),"class":"экспорт"})); });
+      (о.точки||[]).forEach(function(т){
+        var c=xy(т[1],т[2]); var кл=т[3];
+        if(кл!=="тихий"){
+          if(кл!=="план"){ var ор=э("circle",{cx:c[0],cy:c[1],r:16,"class":"ореол "+кл}); ор.style.transformOrigin=c[0]+"px "+c[1]+"px"; s.appendChild(ор); }
+          s.appendChild(э("circle",{cx:c[0],cy:c[1],r:кл==="мега"?9:7,"class":"точка "+кл}));
+        }
+        var я=э("text",{x:c[0]+11,y:c[1]+4,"class":"ярлык "+(кл==="тихий"?"тихий":"")}); я.textContent=т[0]; s.appendChild(я);
+      });
+      бокс.insertBefore(s, бокс.firstChild);
+    });
+  });
+})();
+</script>
 <div id="видео_слой"><video playsinline></video><button type="button" id="видео_закрыть">Закрыть ✕</button></div>
 <script>
 (function(){
@@ -285,9 +489,20 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 </script>
 <script>
 (function(){
-  /* второй экран без ведущего: кадры слайда раскрываются сами по кругу */
-  var ш=0; setInterval(function(){ ш++; var с=document.querySelector(".слайд"); var всего=(с.querySelectorAll("[data-к]").length? Math.max.apply(null,[].map.call(с.querySelectorAll("[data-к]"),function(э){return +э.dataset.к})):0);
-    if(ш>всего+2){ ш=0; } с.querySelectorAll("[data-к]").forEach(function(э){ э.classList.toggle("включён", +э.dataset.к<=ш); }); }, 4000);
+  /* Малый экран без ведущего: кадры слайда раскрываются сами, после последнего
+     кадра — следующий слайд, по кругу. Любое нажатие/клик сбрасывает отсчёт. */
+  var г = window.__геологи, ш = 0, пауза = 0;
+  function тик(){
+    if(пауза > 0){ пауза--; return; }
+    var с = document.querySelector(".слайд.виден"), кадры = [].slice.call(с.querySelectorAll("[data-к]"));
+    var всего = кадры.length ? Math.max.apply(null, кадры.map(function(э){ return +э.dataset.к; })) : 0;
+    ш++;
+    if(ш > всего + 1){ ш = 0; var i = г.текущий(); г.показать((i + 1) % document.querySelectorAll(".слайд").length, false); return; }
+    кадры.forEach(function(э){ э.classList.toggle("включён", +э.dataset.к <= ш); });
+  }
+  setInterval(тик, 4500);
+  document.addEventListener("keydown", function(){ пауза = 8; });
+  document.addEventListener("click", function(){ пауза = 8; });
 })();
 </script>
 </body>
