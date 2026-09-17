@@ -64,9 +64,9 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   .слайд{transition:opacity .01s linear, visibility 0s .01s;transform:none}
   .слайд.виден{transition:opacity .01s linear}
 }
-.бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
-h2.заголовок{font-size:44px;font-weight:700;line-height:1.12;margin-top:12px;max-width:1500px}
-.идея{margin-top:12px;font-size:18px;line-height:1.5;color:var(--текст2);max-width:1500px}
+.бровь{font-size:19px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
+h2.заголовок{font-size:47.5px;font-weight:700;line-height:1.12;margin-top:12px;max-width:1500px}
+.идея{margin-top:12px;font-size:23px;line-height:1.5;color:var(--текст2);max-width:1500px}
 .полотно{position:relative;margin-top:26px;flex:1}
 
 [data-к]{opacity:0;transform:translateY(10px);transition:opacity .45s ease, transform .45s cubic-bezier(.2,.7,.3,1)}
@@ -77,15 +77,15 @@ svg [data-к]{transition:opacity .45s ease}
 /* ===== общие детали ===== */
 .блок{position:absolute;border:1px solid var(--грань);border-radius:20px;padding:22px 26px 24px;
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.68))}
-.блок .имя{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш);line-height:1.35}
-.блок .заг{margin-top:8px;font-size:19px;font-weight:700;line-height:1.25;display:flex;align-items:center;gap:10px}
-.ии{font-family:'Unbounded',sans-serif;font-size:10px;letter-spacing:.14em;padding:4px 8px;border-radius:999px;
+.блок .имя{font-size:17px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш);line-height:1.35}
+.блок .заг{margin-top:8px;font-size:24.5px;font-weight:700;line-height:1.25;display:flex;align-items:center;gap:10px}
+.ии{font-family:'Unbounded',sans-serif;font-size:13.5px;letter-spacing:.14em;padding:4px 8px;border-radius:999px;
   border:1px solid var(--кмг);color:var(--кмг)}
 .поток{fill:none;stroke:var(--циан);stroke-width:2;stroke-dasharray:1;stroke-dashoffset:1;transition:stroke-dashoffset .9s ease}
 .поток.назад{stroke:var(--зелёный)}
 .поток.включён{stroke-dashoffset:0}
 svg .поток[data-к]{transform:none}
-.поток_подпись{font-family:'Golos Text',sans-serif;font-size:14px;fill:var(--текст2)}
+.поток_подпись{font-family:'Golos Text',sans-serif;font-size:19px;fill:var(--текст2)}
 .поток_подпись.мята{fill:var(--мята)}
 
 /* ===== слайд 1: архив → OCR → база знаний в контуре → вопрос → ответ ===== */
@@ -103,77 +103,82 @@ svg .поток[data-к]{transform:none}
   background:radial-gradient(circle at 30% 50%, rgba(62,230,184,.5), transparent 40%),radial-gradient(circle at 70% 40%, rgba(2,174,240,.5), transparent 45%)}
 .лист .табл{margin-top:10px;height:36px;border-radius:4px;
   background:repeating-linear-gradient(0deg, rgba(2,174,240,.35) 0 1px, transparent 1px 9px),repeating-linear-gradient(90deg, rgba(2,174,240,.35) 0 1px, transparent 1px 30px)}
-.архив .подп{margin-top:14px;font-size:15px;color:var(--текст2);line-height:1.45}
-.архив .подп b{display:block;font-size:30px;color:var(--кмг);font-family:'Unbounded',sans-serif;line-height:1.1;margin-bottom:6px}
+.архив .подп{margin-top:14px;font-size:19px;color:var(--текст2);line-height:1.45}
+.архив .подп b{display:block;font-size:35.5px;color:var(--кмг);font-family:'Unbounded',sans-serif;line-height:1.1;margin-bottom:6px}
 
 .окр{position:absolute;left:380px;top:120px;width:170px;text-align:center}
-.книги{position:absolute;left:600px;top:590px;width:560px;font-size:15px;color:var(--текст2);line-height:1.45}
-.книги b{display:block;font-size:30px;color:var(--кмг);font-family:'Unbounded',sans-serif;line-height:1.1;margin-bottom:6px}
+.книги{position:absolute;left:600px;top:590px;width:560px;font-size:19px;color:var(--текст2);line-height:1.45}
+.книги b{display:block;font-size:35.5px;color:var(--кмг);font-family:'Unbounded',sans-serif;line-height:1.1;margin-bottom:6px}
 .окр svg{width:110px;height:110px;display:block;margin:0 auto}
-.окр b{display:block;margin-top:10px;font-size:16px}
-.окр span{display:block;margin-top:4px;font-size:13px;color:var(--приглуш);line-height:1.35}
+.окр b{display:block;margin-top:10px;font-size:20.5px}
+.окр span{display:block;margin-top:4px;font-size:17.5px;color:var(--приглуш);line-height:1.35}
 
 .контур{position:absolute;left:600px;top:20px;width:560px;height:540px;border-radius:26px;
   border:1.5px dashed rgba(62,213,152,.55);padding:26px 28px}
 .контур .замок{position:absolute;right:22px;top:18px;display:flex;align-items:center;gap:8px;
-  font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--мята)}
+  font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--мята)}
 .контур .замок svg{width:18px;height:18px}
-.контур .имя{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
-.контур .заг{margin-top:8px;font-size:19px;font-weight:700;display:flex;align-items:center;gap:10px}
+.контур .имя{font-size:17px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
+.контур .заг{margin-top:8px;font-size:24.5px;font-weight:700;display:flex;align-items:center;gap:10px}
 .граф{margin-top:16px;width:100%;height:290px;display:block}
 .граф circle{fill:rgba(2,174,240,.22);stroke:var(--кмг);stroke-width:1.5}
 .граф circle.ц{fill:rgba(62,213,152,.25);stroke:var(--мята)}
 .граф line{stroke:rgba(79,227,255,.55);stroke-width:1.2}
-.граф text{font-family:'Golos Text',sans-serif;font-size:12px;fill:var(--текст2)}
+.граф text{font-family:'Golos Text',sans-serif;font-size:16px;fill:var(--текст2)}
 .контур .низ{position:absolute;left:22px;right:22px;bottom:18px;margin:0;display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-start}
-.контур .низ span{font-size:12.5px;padding:5px 10px;border-radius:999px;border:1px solid var(--грань);color:var(--текст2)}
+.контур .низ span{font-size:14px;padding:5px 10px;border-radius:999px;border:1px solid var(--грань);color:var(--текст2)}
 
-.умеет{position:absolute;left:1220px;top:20px;width:504px;border-radius:18px;padding:18px 22px;
+.умеет{position:absolute;left:1220px;top:0;width:504px;border-radius:18px;padding:18px 22px;
   border:1px solid rgba(2,174,240,.5);background:rgba(2,174,240,.09)}
-.умеет .кто{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
+.умеет .кто{font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
 .умеет ul{list-style:none;margin:10px 0 0;padding:0}
-.умеет li{position:relative;padding-left:24px;margin-top:10px;font-size:17px;line-height:1.4;color:var(--текст2)}
+.умеет li{position:relative;padding-left:24px;margin-top:10px;font-size:22px;line-height:1.4;color:var(--текст2)}
 .умеет li b{color:var(--текст);font-weight:700}
 .умеет li::before{content:"";position:absolute;left:0;top:10px;width:9px;height:9px;border-radius:50%;background:var(--кмг);box-shadow:0 0 10px rgba(2,174,240,.7)}
-.доверие{position:absolute;left:1220px;top:330px;width:504px;display:flex;flex-direction:column;gap:10px}
-.доверие span{padding:12px 16px;border-radius:14px;border:1px solid rgba(62,213,152,.5);background:rgba(62,213,152,.09);font-size:15px;line-height:1.4;color:var(--текст)}
+.доверие{position:absolute;left:1220px;top:420px;width:504px;display:flex;flex-direction:column;gap:10px}
+.доверие span{padding:12px 16px;border-radius:14px;border:1px solid rgba(62,213,152,.5);background:rgba(62,213,152,.09);font-size:19px;line-height:1.4;color:var(--текст)}
+.гпу{position:absolute;left:0;top:450px;width:360px;font-size:18px;color:var(--текст2);line-height:1.45}
+.гпу b{display:block;font-size:34px;color:var(--мята);font-family:'Unbounded',sans-serif;line-height:1.1;margin-bottom:6px}
 .итог_1{position:absolute;left:0;top:440px;width:330px;padding:16px 20px;border-radius:16px;border:1px solid var(--грань);background:linear-gradient(180deg,rgba(2,174,240,.10),rgba(62,230,184,.06));
-  font-size:16.5px;line-height:1.45;color:var(--текст2)}
+  font-size:21px;line-height:1.45;color:var(--текст2)}
 .итог_1 b{color:var(--текст);font-weight:700}
 /* ===== слайд 2: зачем ===== */
 .цифры{margin-top:44px;display:grid;grid-template-columns:repeat(4,1fr);gap:30px}
 .цифра{border:1px solid var(--грань);border-radius:22px;padding:34px 32px 30px;min-height:250px;
   background:linear-gradient(180deg, rgba(12,22,38,.85), rgba(5,8,16,.6));display:flex;flex-direction:column}
-.цифра .шапка{font-size:12.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
+.цифра .шапка{font-size:17px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
 .цифра .крупно{margin-top:auto;height:128px;display:flex;align-items:flex-end;
   font-size:64px;font-weight:700;line-height:1;color:var(--кмг);font-family:'Unbounded',sans-serif}
-.цифра .крупно.стрелой{font-size:44px;line-height:1.1}
-.цифра .пояс{margin-top:14px;min-height:72px;font-size:17px;color:var(--текст2);line-height:1.4}
+.цифра .крупно.стрелой{font-size:47.5px;line-height:1.1}
+.цифра .пояс{margin-top:14px;min-height:72px;font-size:22px;color:var(--текст2);line-height:1.4}
 .качества{margin-top:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:30px}
 .качество{border-top:2px solid rgba(62,213,152,.5);padding-top:18px}
-.качество b{display:block;font-size:24px;color:var(--мята)}
-.качество span{display:block;margin-top:8px;font-size:17px;line-height:1.5;color:var(--текст2)}
+.качество b{display:block;font-size:28.5px;color:var(--мята)}
+.качество span{display:block;margin-top:8px;font-size:22px;line-height:1.5;color:var(--текст2)}
 /* скрин системы с описанием справа; рамки — подсветка по кадрам (как в закупках) */
 .полотно.экран{display:flex;gap:40px;align-items:flex-start}
 .экран .скрин{position:relative;flex:0 0 auto;border:1.5px solid rgba(2,174,240,.45);border-radius:14px;overflow:hidden;
   background:#0C1626;box-shadow:0 0 40px rgba(2,174,240,.18)}
 .экран .скрин img{display:block;max-height:740px;width:auto;max-width:1240px}
 .скрин .рамка{position:absolute;border:2.5px solid var(--мята);border-radius:6px;box-shadow:0 0 0 4px rgba(62,230,184,.18),0 0 24px rgba(62,230,184,.5)}
-.скрин .подпись_рамки{position:absolute;font-size:14px;font-weight:700;color:var(--мята);padding:5px 11px;border-radius:999px;
+.скрин .подпись_рамки{position:absolute;font-size:19px;font-weight:700;color:var(--мята);padding:5px 11px;border-radius:999px;
   background:rgba(5,8,16,.88);border:1px solid rgba(62,230,184,.6);white-space:nowrap}
 .что_ии{flex:1 1 auto;min-width:380px;padding-top:6px}
-.что_ии .имя{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
-.что_ии h3{margin-top:12px;font-size:28px;line-height:1.25;font-weight:700}
+.что_ии .имя{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
+.что_ии h3{margin-top:12px;font-size:33px;line-height:1.25;font-weight:700}
 .что_ии ul{margin:22px 0 0;padding:0;list-style:none}
-.что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:19px;line-height:1.4;color:var(--текст2)}
+.что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:24.5px;line-height:1.4;color:var(--текст2)}
 .что_ии li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:10px;border-radius:50%;background:var(--мята);box-shadow:0 0 10px rgba(62,230,184,.7)}
-.итог_стр{margin-top:44px;font-size:22px;line-height:1.45;color:var(--текст);max-width:1600px}
+.итог_стр{margin-top:44px;font-size:26px;line-height:1.45;color:var(--текст);max-width:1600px}
 /* 16.09 (геологи): в конце презентации — переход в живую систему; открывается в новой вкладке, чтобы показ не терять */
 .в_систему{margin-top:34px;margin-bottom:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:12px;padding:14px 26px;border-radius:14px;border:1px solid rgba(2,174,240,.6);
-  background:rgba(2,174,240,.12);color:#fff;font-family:'Unbounded',sans-serif;font-size:15px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+  background:rgba(2,174,240,.12);color:#fff;font-family:'Unbounded',sans-serif;font-size:19px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
 .крупно small{font-size:.42em;font-weight:600;letter-spacing:.02em;color:var(--текст2);margin-right:2px}
 .в_систему:hover{background:rgba(2,174,240,.24)}
-.в_систему small{font-family:system-ui,sans-serif;font-size:12px;letter-spacing:.02em;text-transform:none;color:var(--текст2)}
+#с2 .в_систему{position:absolute;right:98px;top:84px;margin:0}
+#с2 .качества{margin-top:30px}
+#с2 .цифра .пояс{min-height:0}
+.в_систему small{font-family:system-ui,sans-serif;font-size:16px;letter-spacing:.02em;text-transform:none;color:var(--текст2)}
 .итог_стр b{color:var(--кмг);font-weight:600}
 
 .низ{position:absolute;left:98px;right:98px;bottom:44px;display:flex;align-items:center;justify-content:space-between;gap:24px;pointer-events:none}
@@ -182,7 +187,7 @@ svg .поток[data-к]{transform:none}
 .точки{display:flex;gap:11px}
 .точки button{width:9px;height:9px;border-radius:50%;background:var(--грань);transition:background .25s ease, transform .25s ease}
 .точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);box-shadow:0 0 12px rgba(2,174,240,.6)}
-.счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
+.счётчик{font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.14em;color:var(--приглуш)}
 
 @media print{
   @page{size:1920px 1080px;margin:0}
@@ -207,80 +212,72 @@ svg .поток[data-к]{transform:none}
 .кейс1 .скан.включён{opacity:1;transform:none}
 .кейс1 .скан:nth-child(2){transition-delay:.12s}.кейс1 .скан:nth-child(3){transition-delay:.24s}
 .кейс1 .скан img{width:100%;height:100%;object-fit:cover;object-position:top;display:block;filter:brightness(.9) sepia(.15)}
-.кейс1 .скан figcaption{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:10px;background:rgba(5,8,16,.86);border:1px solid var(--грань);font-size:12.5px;color:var(--текст2)}
-.кейс1 .скан figcaption i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:11px;color:var(--кмг)}
+.кейс1 .скан figcaption{position:absolute;left:12px;right:12px;bottom:12px;display:flex;align-items:center;gap:8px;padding:6px 10px;border-radius:10px;background:rgba(5,8,16,.86);border:1px solid var(--грань);font-size:17px;color:var(--текст2)}
+.кейс1 .скан figcaption i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:15px;color:var(--кмг)}
 .кейс1 .луч{position:absolute;left:0;right:0;top:0;height:3px;background:linear-gradient(90deg,transparent,var(--мята),transparent);box-shadow:0 0 18px var(--мята);opacity:0;pointer-events:none}
 .кейс1 .луч.включён{opacity:1;animation:скан_луч 2.4s ease-in-out infinite}
 @keyframes скан_луч{0%{top:4%}50%{top:92%}100%{top:4%}}
-.кейс1 .стрелка_вниз{grid-column:1;display:flex;align-items:center;gap:14px;color:var(--мята);font-size:13px;letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .4s}
+.кейс1 .стрелка_вниз{grid-column:1;display:flex;align-items:center;gap:14px;color:var(--мята);font-size:17.5px;letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .4s}
 .кейс1 .стрелка_вниз.включён{opacity:1}
 .кейс1 .стрелка_вниз::before,.кейс1 .стрелка_вниз::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(62,230,184,.7),transparent)}
 .кейс1 .основа{grid-column:1;border-radius:18px;padding:16px 20px;border:1px solid rgba(62,213,152,.5);background:rgba(62,213,152,.08);opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
 .кейс1 .основа.включён{opacity:1;transform:none}
-.кейс1 .основа .кто{font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--мята)}
+.кейс1 .основа .кто{font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--мята)}
 .кейс1 .поля{margin-top:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
-.кейс1 .поля div{font-size:14.5px;line-height:1.35;color:var(--текст)}
-.кейс1 .поля small{display:block;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--приглуш);margin-bottom:4px}
+.кейс1 .поля div{font-size:18.5px;line-height:1.35;color:var(--текст)}
+.кейс1 .поля small{display:block;font-size:15.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--приглуш);margin-bottom:4px}
 .кейс1 .что_ии{grid-column:2;grid-row:1/4;min-width:0}
-.кейс1 .что_ии li{font-size:17px;margin-top:12px}
+.кейс1 .что_ии li{font-size:22px;margin-top:12px}
 /* кейс 2: карта крупно слева (три карты по кликам стопкой), шаги справа */
-.кейс2{display:grid;grid-template-columns:1fr 560px;gap:34px;height:690px;min-height:0}
+.кейс2{display:grid;grid-template-columns:1fr 600px;gap:34px;height:660px;min-height:0}
 .кейс2 .карта{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#0C1626;min-height:0}
 .кейс2 .карта img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .6s ease}
 .кейс2 .карта img.включён{opacity:1}
 .кейс2 .карта img.включён:has(~ img.включён){opacity:0}
-.кейс2 .карта .титр{position:absolute;left:22px;bottom:20px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.84);border-left:4px solid var(--кмг);font-size:17px;font-weight:600;opacity:0;transition:opacity .6s}
-.кейс2 .карта .титр small{display:block;font-size:12.5px;font-weight:400;color:var(--приглуш);margin-top:3px}
+.кейс2 .карта .титр{position:absolute;left:22px;bottom:20px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.84);border-left:4px solid var(--кмг);font-size:22px;font-weight:600;opacity:0;transition:opacity .6s}
+.кейс2 .карта .титр small{display:block;font-size:17px;font-weight:400;color:var(--приглуш);margin-top:3px}
 .кейс2 .карта .титр.включён{opacity:1}
 .кейс2 .карта .титр.включён:has(~ .титр.включён){opacity:0}
-.кейс2 .карта .источник{position:absolute;right:20px;top:16px;font-size:12px;color:var(--приглуш);padding:6px 10px;border-radius:10px;background:rgba(5,8,16,.7)}
+.кейс2 .карта .источник{position:absolute;right:20px;top:16px;font-size:16px;color:var(--приглуш);padding:6px 10px;border-radius:10px;background:rgba(5,8,16,.7)}
 .кейс2 .шаги{display:flex;flex-direction:column;gap:14px;min-width:0}
-.кейс2 .шаг{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:14px 18px;border-radius:16px;border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
+.кейс2 .шаг{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:12px 16px;border-radius:16px;border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
   opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
 .кейс2 .шаг.включён{opacity:1;transform:none}
-.кейс2 .шаг .номер{font-family:'Unbounded',sans-serif;font-size:24px;font-weight:700;color:var(--кмг);line-height:1}
-.кейс2 .шаг b{display:block;font-size:17px;margin-bottom:6px}
-.кейс2 .шаг p{margin:0;font-size:14.5px;line-height:1.42;color:var(--текст2)}
-.кейс2 .вывод{margin-top:auto;padding:14px 18px;border-radius:16px;border:1px solid rgba(62,213,152,.5);background:rgba(62,213,152,.09);font-size:15px;line-height:1.4;opacity:0;transition:opacity .5s}
+.кейс2 .шаг .номер{font-family:'Unbounded',sans-serif;font-size:28.5px;font-weight:700;color:var(--кмг);line-height:1}
+.кейс2 .шаг b{display:block;font-size:22px;margin-bottom:6px}
+.кейс2 .шаг p{margin:0;font-size:17px;line-height:1.42;color:var(--текст2)}
+.кейс2 .вывод{margin-top:auto;padding:14px 18px;border-radius:16px;border:1px solid rgba(62,213,152,.5);background:rgba(62,213,152,.09);font-size:19px;line-height:1.4;opacity:0;transition:opacity .5s}
 .кейс2 .вывод.включён{opacity:1}
 /* Data Room: иллюстрация слева, две карточки справа */
 .дата_рум{display:grid;grid-template-columns:1fr 600px;gap:34px;height:650px;min-height:0}
 .дата_рум .иллюстрация{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#050810;min-height:0;opacity:0;transition:opacity .6s}
 .дата_рум .иллюстрация.включён{opacity:1}
 .дата_рум .иллюстрация img{width:100%;height:100%;object-fit:cover;display:block}
-.дата_рум .иллюстрация .титр{position:absolute;left:22px;bottom:20px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.84);border-left:4px solid var(--мята);font-size:16px;font-weight:600}
-.дата_рум .иллюстрация .титр small{display:block;font-size:12px;font-weight:400;color:var(--приглуш);margin-top:3px}
+.дата_рум .иллюстрация .титр{position:absolute;left:22px;bottom:20px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.84);border-left:4px solid var(--мята);font-size:20.5px;font-weight:600}
+.дата_рум .иллюстрация .титр small{display:block;font-size:16px;font-weight:400;color:var(--приглуш);margin-top:3px}
 .дата_рум .карточки{display:flex;flex-direction:column;gap:18px;min-width:0}
 .дата_рум .карточка_др{flex:1;border:1px solid var(--грань);border-radius:22px;padding:22px 26px;background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));
   opacity:0;transform:translateY(10px);transition:opacity .45s ease,transform .45s ease}
 .дата_рум .карточка_др.включён{opacity:1;transform:none}
-.дата_рум h3{font-family:'Unbounded',sans-serif;font-size:20px;font-weight:700;line-height:1.25}
-.дата_рум h3 small{display:block;margin-top:5px;font-family:'Golos Text',sans-serif;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш);font-weight:400}
+.дата_рум h3{font-family:'Unbounded',sans-serif;font-size:25.5px;font-weight:700;line-height:1.25}
+.дата_рум h3 small{display:block;margin-top:5px;font-family:'Golos Text',sans-serif;font-size:17px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш);font-weight:400}
 .дата_рум ul{list-style:none;margin:12px 0 0;padding:0}
-.дата_рум li{position:relative;padding-left:22px;margin-top:8px;font-size:15px;line-height:1.4;color:var(--текст2)}
+.дата_рум li{position:relative;padding-left:22px;margin-top:8px;font-size:19px;line-height:1.4;color:var(--текст2)}
 .дата_рум li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--кмг);box-shadow:0 0 10px rgba(2,174,240,.7)}
-.дата_рум .крупно_др{margin-top:14px;font-family:'Unbounded',sans-serif;font-size:30px;color:var(--мята);font-weight:700}
-.дата_рум .крупно_др small{display:block;margin-top:2px;font-family:'Golos Text',sans-serif;font-size:13px;color:var(--текст2);font-weight:400}
-/* ML на сейсмике */
-.мл{display:grid;grid-template-columns:1fr 460px;gap:34px;height:680px;min-height:0}
-.мл .видео{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#000;min-height:0}
-.мл .видео video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.мл .видео .титр{position:absolute;left:24px;bottom:22px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.82);border-left:4px solid var(--кмг);font-size:18px;font-weight:600}
-.мл .видео .титр small{display:block;font-size:12.5px;font-weight:400;color:var(--приглуш);margin-top:3px}
-.мл .видео .источник{position:absolute;right:22px;bottom:22px;font-size:12px;color:var(--приглуш)}
-.мл .видео .метка{position:absolute;right:22px;top:18px;padding:6px 12px;border-radius:999px;border:1px solid rgba(240,174,74,.6);color:var(--янтарь);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;background:rgba(5,8,16,.8)}
+.дата_рум .крупно_др{margin-top:14px;font-family:'Unbounded',sans-serif;font-size:35.5px;color:var(--мята);font-weight:700}
+.дата_рум .крупно_др small{display:block;margin-top:2px;font-family:'Golos Text',sans-serif;font-size:17.5px;color:var(--текст2);font-weight:400}
 /* финал: главный эффект — одна широкая карточка, ниже три цифры */
 .эффект_главный{margin-top:30px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:6px 40px;align-items:center;padding:24px 32px;border-radius:24px;
   border:1px solid rgba(62,230,184,.55);background:linear-gradient(90deg,rgba(62,230,184,.12),rgba(2,174,240,.06));box-shadow:0 0 40px rgba(62,230,184,.10)}
-.эффект_главный .ярлык{grid-column:1/3;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--мята)}
+.эффект_главный .ярлык{grid-column:1/3;font-size:17.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--мята)}
 .эффект_главный .число{font-family:'Unbounded',sans-serif;font-size:58px;font-weight:700;line-height:1;color:var(--мята);text-shadow:0 0 30px rgba(62,230,184,.45)}
-.эффект_главный .число small{display:block;margin-top:8px;font-family:'Golos Text',sans-serif;font-size:15px;font-weight:400;color:var(--текст2)}
-.эффект_главный .было_стало{display:flex;align-items:baseline;gap:14px;font-family:'Unbounded',sans-serif;font-size:30px;font-weight:700;color:var(--текст)}
+.эффект_главный .число small{display:block;margin-top:8px;font-family:'Golos Text',sans-serif;font-size:19px;font-weight:400;color:var(--текст2)}
+.эффект_главный .было_стало{display:flex;align-items:baseline;gap:14px;font-family:'Unbounded',sans-serif;font-size:35.5px;font-weight:700;color:var(--текст)}
 .эффект_главный .было_стало i{font-style:normal;color:var(--кмг)}
-.эффект_главный .было_стало em{font-style:normal;font-family:'Golos Text',sans-serif;font-size:15px;font-weight:400;color:var(--текст2);margin-left:6px}
-.эффект_главный p{grid-column:2;margin:0;font-size:16px;line-height:1.45;color:var(--текст2)}
+.эффект_главный .было_стало em{font-style:normal;font-family:'Golos Text',sans-serif;font-size:19px;font-weight:400;color:var(--текст2);margin-left:6px}
+.эффект_главный p{grid-column:2;margin:0;font-size:20.5px;line-height:1.45;color:var(--текст2)}
 .цифры.три{grid-template-columns:repeat(3,1fr);margin-top:24px;align-items:start}
-.цифры.три .крупно{font-size:44px}
+.цифры.три .крупно{font-size:47.5px}
 </style>
 </head>
 <body>
@@ -298,8 +295,8 @@ svg .поток[data-к]{transform:none}
   <!-- 17.09 (Адиль): подводка — дословно по «Сценарию демонстрации в.5 (Финал)»: объём хранилища,
        задача «не найти, а использовать для решений», кто разработал, где работает -->
   <p class="идея">Хранилище КМГ — 7,8 ТБ и 2 млн файлов: задача уже не найти информацию, а быстро использовать её
-    для геологических решений. Ассистент разработан геологами и IT-командой KMG Digital, работает в закрытом контуре
-    на GPU-мощностях «Казахтелекома».</p>
+    для геологических решений. Разработан геологами и IT-командой KMG Digital — отечественный продукт: данные,
+    геологические модели и ИИ в одном инструменте поддержки решений.</p>
 
   <div class="полотно">
     <svg class="потоки" viewBox="0 0 1724 640" style="position:absolute;left:0;top:0;width:1724px;height:640px;pointer-events:none" aria-hidden="true">
@@ -378,7 +375,8 @@ svg .поток[data-к]{transform:none}
       <span>каждый вывод — со ссылкой на исходный документ и конкретную страницу: результат можно проверить</span>
       <span>ИИ помогает в анализе, окончательное решение всегда за специалистом</span>
     </div>
-    <div class="итог_1" data-к="5"><b>Данные</b> + <b>геологические модели</b> + <b>ИИ</b> — единый инструмент поддержки решений геолога</div>
+    <!-- геологи 17.09 вечер: «GPU Казахтелекома — крупно, как 250 книг; никакого дипсика» -->
+    <div class="гпу" data-к="3"><b>GPU «Казахтелекома»</b>закрытый контур: локальная open-source модель, ни один документ не покидает периметр</div>
   </div>
 </section>
 
@@ -487,31 +485,8 @@ svg .поток[data-к]{transform:none}
   </div>
 </section>
 
-<!-- ================= машинное обучение на сейсмике ================= -->
-<section class="слайд" id="с3г" aria-label="Машинное обучение на сейсморазведочных данных">
-  <div class="бровь">Следующий уровень · в работе</div>
-  <h2 class="заголовок дисплей">Машинное обучение на сейсморазведочных данных</h2>
-  <div class="полотно">
-    <div class="мл">
-      <div class="видео">
-        <!-- ролик геологов из Petrel: первые 90 с записи 3D-автотрекинга (они: «первые полторы минуты полезные»), ускорен в 1,5 раза -->
-        <video src="медиа/геология/petrel/автотрекинг.mp4" poster="медиа/геология/petrel/автотрекинг.jpg" muted playsinline loop preload="auto"></video>
-        <div class="метка">в работе</div>
-        <div class="титр">Автоматическое прослеживание горизонта по сейсмическому кубу<small>3D-автотрекинг · Petrel · ускорено ×1,5</small></div>
-        <div class="источник">Департамент геологоразведки КМГ</div>
-      </div>
-      <aside class="что_ии" data-к="1">
-        <div class="имя">Что меняется</div>
-        <h3>От ручной разметки разрезов — к алгоритмам</h3>
-        <ul>
-          <li>Сегодня геолог вручную прослеживает на сейсмических разрезах пласты и разломы — это занимает недели</li>
-          <li>Тестируем алгоритмы, которые автоматизируют эту разметку и существенно сокращают время построения модели</li>
-          <li>Цифровизация охватывает уже не только работу с накопленными знаниями, но и обработку новых геологоразведочных данных</li>
-        </ul>
-      </aside>
-    </div>
-  </div>
-</section>
+<!-- 17.09 вечер (геологи): слайд «Машинное обучение на сейсмике» снят — ML показывается на слайде
+     сейсморазведки в бассейны.html (ролик автотрекинга остался там же по смыслу) -->
 
 <section class="слайд" id="с2" aria-label="Что это даёт на практике">
   <div class="бровь">Геологоразведка и добыча · ИИ</div>
