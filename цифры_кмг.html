@@ -267,6 +267,9 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
   /* кириллический параметр приходит percent-encoded — сначала раскодировать */
   var м = /[?&]с=(\d+)/.exec(decodeURIComponent(location.search));
   if(м) показать(+м[1] - 1, true);
+  /* &к=N — открыть слайд на N-м кадре (снимки отдельных кадров chrome headless); без «с» — первый слайд */
+  var мк = /[?&]к=(\d+)/.exec(decodeURIComponent(location.search));
+  if(мк) показатьКадры(слайды[текущий], +мк[1]);
   window.__геологи = { показать:показать, текущий:function(){ return текущий; } };
 })();
 </script>
