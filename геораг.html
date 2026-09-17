@@ -137,8 +137,8 @@ svg .поток[data-к]{transform:none}
 .умеет li::before{content:"";position:absolute;left:0;top:10px;width:9px;height:9px;border-radius:50%;background:var(--кмг);box-shadow:0 0 10px rgba(2,174,240,.7)}
 .доверие{position:absolute;left:1220px;top:420px;width:504px;display:flex;flex-direction:column;gap:10px}
 .доверие span{padding:12px 16px;border-radius:14px;border:1px solid rgba(62,213,152,.5);background:rgba(62,213,152,.09);font-size:19px;line-height:1.4;color:var(--текст)}
-.гпу{position:absolute;left:0;top:450px;width:360px;font-size:18px;color:var(--текст2);line-height:1.45}
-.гпу b{display:block;font-size:34px;color:var(--мята);font-family:'Unbounded',sans-serif;line-height:1.1;margin-bottom:6px}
+/* 18.09 (Адиль, ночь): GPU «Казахтелекома» — выделенным чипом в карточке базы знаний, не отдельным блоком */
+.контур .низ span.гпу_чип{color:var(--мята);border-color:rgba(62,230,184,.7);background:rgba(62,230,184,.10);font-weight:700;font-size:14.5px;box-shadow:0 0 14px rgba(62,230,184,.25)}
 .итог_1{position:absolute;left:0;top:440px;width:330px;padding:16px 20px;border-radius:16px;border:1px solid var(--грань);background:linear-gradient(180deg,rgba(2,174,240,.10),rgba(62,230,184,.06));
   font-size:21px;line-height:1.45;color:var(--текст2)}
 .итог_1 b{color:var(--текст);font-weight:700}
@@ -238,7 +238,6 @@ svg .поток[data-к]{transform:none}
 .кейс2 .карта .титр small{display:block;font-size:17px;font-weight:400;color:var(--приглуш);margin-top:3px}
 .кейс2 .карта .титр.включён{opacity:1}
 .кейс2 .карта .титр.включён:has(~ .титр.включён){opacity:0}
-.кейс2 .карта .источник{position:absolute;right:20px;top:16px;font-size:16px;color:var(--приглуш);padding:6px 10px;border-radius:10px;background:rgba(5,8,16,.7)}
 .кейс2 .шаги{display:flex;flex-direction:column;gap:14px;min-width:0}
 .кейс2 .шаг{display:grid;grid-template-columns:44px 1fr;gap:14px;padding:12px 16px;border-radius:16px;border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
   opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
@@ -266,6 +265,13 @@ svg .поток[data-к]{transform:none}
 .дата_рум li::before{content:"";position:absolute;left:0;top:9px;width:8px;height:8px;border-radius:50%;background:var(--кмг);box-shadow:0 0 10px rgba(2,174,240,.7)}
 .дата_рум .крупно_др{margin-top:14px;font-family:'Unbounded',sans-serif;font-size:35.5px;color:var(--мята);font-weight:700}
 .дата_рум .крупно_др small{display:block;margin-top:2px;font-family:'Golos Text',sans-serif;font-size:17.5px;color:var(--текст2);font-weight:400}
+/* ML на сейсмике */
+.мл{display:grid;grid-template-columns:1fr 520px;gap:34px;height:680px;min-height:0}
+.мл .видео{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#000;min-height:0}
+.мл .видео video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.мл .видео .титр{position:absolute;left:24px;bottom:22px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.82);border-left:4px solid var(--кмг);font-size:21px;font-weight:600}
+.мл .видео .титр small{display:block;font-size:15px;font-weight:400;color:var(--приглуш);margin-top:3px}
+.мл .видео .метка{position:absolute;right:22px;top:18px;padding:6px 12px;border-radius:999px;border:1px solid rgba(240,174,74,.6);color:var(--янтарь);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;background:rgba(5,8,16,.8)}
 /* финал: главный эффект — одна широкая карточка, ниже три цифры */
 .эффект_главный{margin-top:30px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:6px 40px;align-items:center;padding:24px 32px;border-radius:24px;
   border:1px solid rgba(62,230,184,.55);background:linear-gradient(90deg,rgba(62,230,184,.12),rgba(2,174,240,.06));box-shadow:0 0 40px rgba(62,230,184,.10)}
@@ -356,7 +362,7 @@ svg .поток[data-к]{transform:none}
         <circle cx="250" cy="260" r="16"/><text x="250" y="292" text-anchor="middle">риск POS</text>
       </svg>
       <!-- 09.09, геологи: не «собственная» и не «обучена» — локально развёрнутая open-source модель, подвязанная к отчётам; «wiki» гостям не объяснить — «база знаний». -->
-      <div class="низ"><span>локальная open-source модель</span><span>GPU «Казахтелекома», закрытый контур</span><span>подвязана к отчётам</span><span>более 250 книг в базе знаний</span></div>
+      <div class="низ"><span>локальная open-source модель</span><span class="гпу_чип">GPU «Казахтелекома» · казахстанские мощности</span><span>подвязана к отчётам</span><span>более 250 книг в базе знаний</span></div>
     </div>
     <!-- 16.09 (Адиль): под базой знаний — крупно «более 250 книг», как «более 7 ТБ» слева -->
     <div class="книги" data-к="3"><b>более 250 книг</b>по геологии и методические материалы КМГ в базе знаний</div>
@@ -376,7 +382,6 @@ svg .поток[data-к]{transform:none}
       <span>ИИ помогает в анализе, окончательное решение всегда за специалистом</span>
     </div>
     <!-- геологи 17.09 вечер: «GPU Казахтелекома — крупно, как 250 книг; никакого дипсика» -->
-    <div class="гпу" data-к="3"><b>GPU «Казахтелекома»</b>закрытый контур: локальная open-source модель, ни один документ не покидает периметр</div>
   </div>
 </section>
 
@@ -431,7 +436,6 @@ svg .поток[data-к]{transform:none}
         <div class="титр" data-к="1"><span>Сейсмическая изученность</span><small>исторические 2D-профили · 3D-съёмка 2024 · МОГТ 2D 2024</small></div>
         <div class="титр" data-к="2"><span>Структурная карта по пласту Б</span><small>контур ВНК по Р10 / Р50 / Р90 · продолжение структуры в море</small></div>
         <div class="титр" data-к="3"><span>План 3D-сейсморазведки</span><small>участок Каражанбас море · подтвердить перспективность</small></div>
-        <div class="источник">Департамент геологоразведки КМГ</div>
       </div>
       <div class="шаги">
         <div class="шаг" data-к="1">
@@ -487,6 +491,32 @@ svg .поток[data-к]{transform:none}
 
 <!-- 17.09 вечер (геологи): слайд «Машинное обучение на сейсмике» снят — ML показывается на слайде
      сейсморазведки в бассейны.html (ролик автотрекинга остался там же по смыслу) -->
+
+<!-- ================= машинное обучение на сейсмике (Адиль 18.09 ночь: здесь, между Data Room и эффектами) ================= -->
+<section class="слайд" id="с3г" aria-label="Машинное обучение на сейсморазведочных данных">
+  <div class="бровь">Следующий уровень · в работе</div>
+  <h2 class="заголовок дисплей">Машинное обучение на сейсморазведочных данных</h2>
+  <div class="полотно">
+    <div class="мл">
+      <div class="видео">
+        <!-- запись геологов: построение горизонта по кубу (49–95 с исходной записи), без панели Petrel;
+             ускорение ×1,5 ставит скрипт, подписи источника нет (Адиль: «снеси») -->
+        <video src="медиа/геология/petrel/сейсмика.mp4" poster="медиа/геология/petrel/сейсмика.jpg" muted playsinline loop preload="auto" data-темп="1.5"></video>
+        <div class="метка">в работе</div>
+        <div class="титр">Автоматическое прослеживание горизонта по сейсмическому кубу<small>алгоритм тянет отражающую границу по всему кубу данных</small></div>
+      </div>
+      <aside class="что_ии" data-к="1">
+        <div class="имя">Что меняется</div>
+        <h3>От ручной разметки разрезов — к алгоритмам</h3>
+        <ul>
+          <li>Сегодня геолог вручную прослеживает на сейсмических разрезах пласты и разломы — это занимает недели</li>
+          <li>Тестируем алгоритмы, которые автоматизируют эту разметку и существенно сокращают время построения модели</li>
+          <li>Цифровизация охватывает уже не только работу с накопленными знаниями, но и обработку новых геологоразведочных данных</li>
+        </ul>
+      </aside>
+    </div>
+  </div>
+</section>
 
 <section class="слайд" id="с2" aria-label="Что это даёт на практике">
   <div class="бровь">Геологоразведка и добыча · ИИ</div>
@@ -547,7 +577,7 @@ svg .поток[data-к]{transform:none}
     показатьКадры(с, целиком?кадрыСлайда(с):0);
     кнопки.forEach(function(к,j){ к.setAttribute("aria-current", j===i?"true":"false"); });
     счёт.textContent=("0"+(i+1)).slice(-2)+" / "+("0"+слайды.length).slice(-2);
-    слайды.forEach(function(сл,j){ [].forEach.call(сл.querySelectorAll("video"),function(в){ if(j===i){ в.currentTime=0; var п=в.play(); if(п&&п.catch) п.catch(function(){}); } else в.pause(); }); });
+    слайды.forEach(function(сл,j){ [].forEach.call(сл.querySelectorAll("video"),function(в){ if(j===i){ в.currentTime=0; в.playbackRate=+(в.getAttribute("data-темп")||1); var п=в.play(); if(п&&п.catch) п.catch(function(){}); } else в.pause(); }); });
   }
   кнопки[0].setAttribute("aria-current","true"); счёт.textContent="01 / "+("0"+слайды.length).slice(-2);
   function вперёд(){ var с=слайды[текущий], всего=кадрыСлайда(с), было=состояние[с.id]||0; if(было<всего){ показатьКадры(с,было+1); return; } показать(текущий+1,false); }
