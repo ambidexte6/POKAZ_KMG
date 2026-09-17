@@ -195,12 +195,12 @@ CSS = r'''
 #процесс{position:fixed;left:31%;right:2.5%;top:15%;bottom:4%;z-index:12;display:none;flex-direction:column;gap:20px;pointer-events:none;overflow:hidden}
 body.вглубь #процесс{display:flex}
 #процесс > *{pointer-events:auto}
-#процесс .бровь{font-size:12px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш);opacity:0;transition:opacity .4s ease}
+#процесс .бровь{font-size:17px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш);opacity:0;transition:opacity .4s ease}
 .заголовок_процесса{display:inline-flex;align-items:center;gap:14px;padding:0;font:inherit;letter-spacing:inherit;text-transform:inherit;color:var(--кмг)}
-.заголовок_процесса span{font-family:'Unbounded',system-ui,sans-serif;font-size:15px;letter-spacing:.06em;text-transform:none;color:var(--текст)}
-.заголовок_процесса i{font-style:normal;font-size:11px;color:var(--кмг);border:1px solid rgba(2,174,240,.45);border-radius:6px;padding:3px 9px;transition:background .2s}
+.заголовок_процесса span{font-family:'Unbounded',system-ui,sans-serif;font-size:19.5px;letter-spacing:.06em;text-transform:none;color:var(--текст)}
+.заголовок_процесса i{font-style:normal;font-size:16.5px;color:var(--кмг);border:1px solid rgba(2,174,240,.45);border-radius:6px;padding:3px 9px;transition:background .2s}
 .заголовок_процесса:hover i{background:rgba(2,174,240,.12)}
-.ссылка_заголовка{margin-left:14px;padding:4px 11px;font:inherit;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--кмг);
+.ссылка_заголовка{margin-left:14px;padding:4px 11px;font:inherit;font-size:16.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--кмг);
   border:1px solid rgba(2,174,240,.45);border-radius:6px;background:transparent;cursor:pointer;transition:background .2s}
 .ссылка_заголовка:hover{background:rgba(2,174,240,.12)}
 .ссылка_заголовка + .ссылка_заголовка{margin-left:8px}
@@ -222,9 +222,10 @@ body.вглубь #процесс{display:flex}
   opacity:0;transform:translateY(14px);transition:opacity .45s ease, transform .45s cubic-bezier(.2,.7,.3,1), border-color .25s, box-shadow .25s}
 #процесс.виден .шаг_процесса{opacity:1;transform:none}
 .шаг_процесса.охват{border-color:rgba(62,230,184,.75);box-shadow:0 0 0 3px rgba(62,230,184,.14),0 0 28px rgba(62,230,184,.28)}
-.шаг_процесса .номер{font-family:'Unbounded',system-ui,sans-serif;font-size:12px;letter-spacing:.2em;color:var(--кмг)}
-.шаг_процесса h3{font-family:'Unbounded',system-ui,sans-serif;font-size:clamp(14px,calc(1.05 * 19.2px),20px);font-weight:700;line-height:1.2;margin-top:10px;color:var(--текст)}
-.шаг_процесса .суть_шага{margin-top:8px;font-size:clamp(12px,calc(.8 * 19.2px),15px);line-height:1.45;color:var(--текст2)}
+.шаг_процесса .номер{font-family:'Unbounded',system-ui,sans-serif;font-size:17px;letter-spacing:.2em;color:var(--кмг)}
+/* 18.09: шрифты крупнее по всему показу; заголовок шага — до 23 px, иначе «внутрискважинные» не влезает в колонку; длинные слова переносятся */
+.шаг_процесса h3{font-family:'Unbounded',system-ui,sans-serif;font-size:clamp(17px,calc(1.1 * 19.2px),21px);font-weight:700;line-height:1.2;margin-top:10px;color:var(--текст);overflow-wrap:break-word}
+.шаг_процесса .суть_шага{margin-top:8px;font-size:clamp(17px,calc(1.12 * 19.2px),21px);line-height:1.45;color:var(--текст2)}
 /* 16.09 (Адиль): приглушённые значки читались как выделение одних чипов
    над другими — яркость у всех одна; чип без карточки отличается только тем,
    что не кликается */
@@ -233,20 +234,20 @@ body.вглубь #процесс{display:flex}
 .проект_чип.в_работе{border:1px dashed rgba(240,174,74,.55);background:rgba(240,174,74,.05)}
 .проект_чип.в_работе img{filter:drop-shadow(0 0 8px rgba(240,174,74,.35))}
 .проект_чип .метка_работы{margin-left:auto;flex:0 0 auto;padding:4px 8px;border-radius:999px;border:1px solid rgba(240,174,74,.6);
-  font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--янтарь);line-height:1}
+  font-size:15px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--янтарь);line-height:1}
 .проект_чип.переход > span:nth-child(2){text-decoration:underline dotted rgba(2,174,240,.7);text-underline-offset:3px}
 .шаг_процесса.кликабельный{cursor:pointer;transition:border-color .2s, box-shadow .2s, opacity .5s ease, transform .5s ease}
 .шаг_процесса.кликабельный:hover,.шаг_процесса.кликабельный:focus-visible{border-color:rgba(2,174,240,.7);box-shadow:0 0 0 3px rgba(2,174,240,.14),0 0 28px rgba(2,174,240,.25)}
-.подсказка_шага{margin-top:12px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--кмг)}
+.подсказка_шага{margin-top:12px;font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--кмг)}
 .пункты_шага{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-direction:column;gap:5px}
-.пункты_шага li{position:relative;padding-left:14px;font-size:clamp(11.5px,calc(.74 * 19.2px),14px);line-height:1.35;color:var(--текст2)}
+.пункты_шага li{position:relative;padding-left:14px;font-size:clamp(16px,calc(1.036 * 19.2px),19.5px);line-height:1.35;color:var(--текст2)}
 .пункты_шага li::before{content:"";position:absolute;left:0;top:.55em;width:5px;height:5px;border-radius:50%;background:var(--кмг);opacity:.7}
 .пункты_шага li.переход button{padding:0;font:inherit;color:var(--кмг_свет);text-align:left;border-bottom:1px dashed rgba(2,174,240,.5)}
 .пункты_шага li.переход button i{font-style:normal;color:var(--кмг)}
 .пункты_шага li.переход button:hover{color:#fff;border-bottom-color:var(--кмг)}
-.шаг_процесса .ведётся{margin-top:auto;padding-top:14px;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--приглуш)}
+.шаг_процесса .ведётся{margin-top:auto;padding-top:14px;font-size:16px;letter-spacing:.12em;text-transform:uppercase;color:var(--приглуш)}
 .шаг_процесса .ведётся.проработка{color:var(--янтарь)}
-.стрелка_шага{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--циан);font-size:22px;opacity:.7}
+.стрелка_шага{flex:0 0 26px;display:flex;align-items:center;justify-content:center;color:var(--циан);font-size:26px;opacity:.7}
 /* проект под шагом: значок + имя, кликается как узел веера */
 .проекты_шага{margin-top:14px;display:flex;flex-direction:column;gap:8px}
 .проект_чип{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;border:1px solid transparent;
@@ -254,28 +255,32 @@ body.вглубь #процесс{display:flex}
 .проект_чип:hover,.проект_чип:focus-visible{background:rgba(2,174,240,.14);border-color:rgba(2,174,240,.5);outline:none}
 .проект_чип img{width:38px;height:38px;flex:0 0 38px;object-fit:contain;filter:drop-shadow(0 0 8px rgba(2,174,240,.5))}
 .проект_чип .точка{width:14px;height:14px;flex:0 0 14px;margin:0 12px;border-radius:50%;background:var(--кмг)}
-.проект_чип span{font-size:clamp(12px,calc(.82 * 19.2px),15px);font-weight:600;line-height:1.25;color:var(--текст)}
+.проект_чип span{font-size:clamp(15px,calc(.95 * 19.2px),18px);font-weight:600;line-height:1.25;color:var(--текст);overflow-wrap:break-word}
 /* 14.09 (Жанат Зарубековна): значок AI крупнее, как было раньше */
-.проект_чип .печать_ии{position:static;width:32px;height:32px;flex:0 0 32px;font-size:11px;line-height:30px;transform:none;margin-left:auto}
+.проект_чип .печать_ии{position:static;width:32px;height:32px;flex:0 0 32px;font-size:16.5px;line-height:30px;transform:none;margin-left:auto}
 .шаг_процесса.плотно .проекты_шага{gap:5px;margin-top:10px}
-.шаг_процесса.плотно .проект_чип{padding:5px 8px;gap:8px}
+.шаг_процесса.плотно .проект_чип{padding:5px 6px;gap:6px;min-width:0}
+.шаг_процесса.плотно .проект_чип span{min-width:0}
 .шаг_процесса.плотно .проект_чип img{width:30px;height:30px;flex-basis:30px}
-.шаг_процесса.плотно .проект_чип span{font-size:clamp(11px,calc(.68 * 19.2px),13px);line-height:1.2}
-.шаг_процесса.плотно .проект_чип .печать_ии{width:26px;height:26px;flex-basis:26px;font-size:10px;line-height:24px}
+.шаг_процесса.плотно .проект_чип span{font-size:clamp(13.5px,calc(.85 * 19.2px),16px);line-height:1.2}
+.шаг_процесса.плотно h3{font-size:clamp(15px,calc(.95 * 19.2px),18px)}
+.шаг_процесса.плотно .суть_шага{font-size:clamp(14px,calc(.9 * 19.2px),17px);line-height:1.35}
+.шаг_процесса.плотно .пункты_шага li{font-size:clamp(13.5px,calc(.85 * 19.2px),16px)}
+.шаг_процесса.плотно .проект_чип .печать_ии{width:26px;height:26px;flex-basis:26px;font-size:15px;line-height:24px}
 /* полоса поддержки */
 .поддержка{border-top:1px solid var(--грань);padding-top:14px;display:flex;flex-direction:column;gap:10px;flex:0 0 auto;
   opacity:0;transform:translateY(10px);transition:opacity .45s ease .25s, transform .45s ease .25s}
 #процесс.виден .поддержка{opacity:1;transform:none}
 .поддержка .ряд{display:flex;gap:14px;flex-wrap:wrap}
 .группа_поддержки{flex:1 1 0;min-width:0;border:1px dashed rgba(124,141,166,.45);border-radius:16px;padding:12px 14px 12px}
-.поддержка .бровь.крупная{font-family:'Unbounded',system-ui,sans-serif;font-size:clamp(14px,calc(1.0 * 19.2px),19px);letter-spacing:.01em;text-transform:none;color:var(--текст)}
-.группа_поддержки.в_ряд .имя_группы{text-transform:none;letter-spacing:0;font-size:clamp(12px,calc(.78 * 19.2px),14.5px);color:var(--текст2)}
+.поддержка .бровь.крупная{font-family:'Unbounded',system-ui,sans-serif;font-size:clamp(19.5px,calc(1.4 * 19.2px),26.5px);letter-spacing:.01em;text-transform:none;color:var(--текст)}
+.группа_поддержки.в_ряд .имя_группы{text-transform:none;letter-spacing:0;font-size:clamp(17px,calc(1.092 * 19.2px),20.5px);color:var(--текст2)}
 .группа_поддержки.в_ряд .проекты_шага{flex-direction:row;flex-wrap:wrap;gap:10px}
 .группа_поддержки.в_ряд .проект_чип{flex:1 1 180px}
-.группа_поддержки .имя_группы{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--приглуш);margin-bottom:8px}
+.группа_поддержки .имя_группы{font-size:16px;letter-spacing:.16em;text-transform:uppercase;color:var(--приглуш);margin-bottom:8px}
 .группа_поддержки .проекты_шага{margin-top:0;flex-direction:row;flex-wrap:wrap}
 .группа_поддержки .проект_чип{flex:1 1 200px}
-#процесс .примечание{font-size:11.5px;color:var(--приглуш);letter-spacing:.02em}
+#процесс .примечание{font-size:16px;color:var(--приглуш);letter-spacing:.02em}
 /* в режиме v2 веер не рисуется */
 body.процессы .веер{display:none}
 '''
@@ -383,6 +388,9 @@ JS = r'''
            колонках обычные чипы не влезают по высоте; от семи чипов раскладка
            плотнее: меньше значок, отступы и шрифт */
         if(ш.проекты.length >= 7) к.classList.add("плотно");
+        /* 18.09: шрифты по показу крупнее — при пяти колонках (переработка) шесть-восемь чипов
+           уже не влезают по высоте даже без «плотно»: пятиколоночная схема вся идёт плотнее */
+        if(д.шаги.length >= 5) к.classList.add("плотно");
         ш.проекты.forEach(function(имя){ чипПроекта(имя, п); });
       }
       if(ш.переход){
