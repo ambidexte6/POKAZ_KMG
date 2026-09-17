@@ -1,0 +1,421 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>КМГ · Геологоразведка — бассейны и цифровые модели</title>
+<style>
+/* Показ бассейнов (геологи, обсуждение 17.09 и «Сценарий геологов.pptx»):
+   открывается со строки «5 цифровых бассейновых моделей» на экране передела.
+   Всё, что на экране, — материалы геологов: слои карты из их PDF (контур РК,
+   15 осадочных бассейнов пунктиром, три категории бассейнов, структурные
+   карты пяти моделей), их ролики из Petrel (карта, Прикаспий с проектами,
+   3D-модель бассейна, сейсмика), карта портфеля ГРР — та же картинка, только
+   перекрашенная под тёмный стиль. Ничего не сгенерировано (Адиль:
+   «достоверность важна — если не получается достоверно, лучше не делай»).
+   Первый слайд листается по кадрам (стрелка/клик): слой за слоем. */
+:root{
+  --кмг:#02AEF0; --кмг_свет:#90D6F7; --циан:#4FE3FF; --мята:#3EE6B8; --зелёный:#3ED598;
+  --фон0:#050810; --фон1:#0C1626; --янтарь:#F2B84B; --сирень:#B06EE6;
+  --грань:#1B2E48; --текст:#D7E2F2; --текст2:#AFC0D8; --приглуш:#7C8DA6;
+}
+@font-face{font-family:'Unbounded';font-weight:500 700;font-display:swap;
+  src:url('медиа/шрифты/унб_700_cyrillic.woff2') format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Unbounded';font-weight:500 700;font-display:swap;
+  src:url('медиа/шрифты/унб_700_latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+2000-206F}
+@font-face{font-family:'Golos Text';font-weight:400 600;font-display:swap;
+  src:url('медиа/шрифты/голос_400_cyrillic.woff2') format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:'Golos Text';font-weight:400 600;font-display:swap;
+  src:url('медиа/шрифты/голос_400_latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+2000-206F}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{background:#000;color:var(--текст);overflow:hidden;
+  font-family:'Golos Text',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.дисплей{font-family:'Unbounded',system-ui,sans-serif;letter-spacing:.01em}
+button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:2px solid var(--кмг);outline-offset:4px;border-radius:4px}
+
+#обёртка{position:fixed;inset:0;overflow:hidden;background:var(--фон0)}
+#обёртка::before{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(calc(1200px * var(--к,1)) calc(620px * var(--к,1)) at 50% -12%, rgba(2,174,240,.14), transparent 68%),
+    radial-gradient(calc(900px * var(--к,1)) calc(520px * var(--к,1)) at 92% 108%, rgba(62,213,152,.07), transparent 70%),
+    linear-gradient(180deg,#060B16 0%,var(--фон0) 55%,#04070E 100%)}
+#обёртка::after{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:linear-gradient(rgba(27,46,72,.30) 1px,transparent 1px),linear-gradient(90deg,rgba(27,46,72,.30) 1px,transparent 1px);
+  background-size:calc(96px * var(--к,1)) calc(96px * var(--к,1));background-position:center;
+  -webkit-mask-image:radial-gradient(calc(1400px * var(--к,1)) calc(900px * var(--к,1)) at 50% 45%,#000 30%,transparent 82%);
+          mask-image:radial-gradient(calc(1400px * var(--к,1)) calc(900px * var(--к,1)) at 50% 45%,#000 30%,transparent 82%)}
+#кадр{width:var(--кадр_ш,1920px);height:var(--кадр_в,1080px);position:absolute;left:50%;top:50%;
+  transform:translate(-50%,-50%) scale(var(--к,1));transform-origin:center center;overflow:hidden}
+.слайд{position:absolute;inset:0;padding:calc(76px + var(--поля_в,0px)) calc(98px + var(--поля_ш,0px)) calc(96px + var(--поля_в,0px));
+  display:flex;flex-direction:column;opacity:0;visibility:hidden;transform:translateY(16px);
+  transition:opacity .42s ease,transform .42s ease,visibility 0s .42s}
+.слайд.виден{opacity:1;visibility:visible;transform:none;transition:opacity .42s ease,transform .42s ease}
+.бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
+h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top:10px}
+.идея{margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--приглуш);max-width:1500px}
+.полотно{position:relative;margin-top:26px;flex:1;min-height:0}
+
+/* ===== 1. КМГ сегодня: вклад + инвестиции ===== */
+.две{display:grid;grid-template-columns:1fr 1.15fr;gap:34px;height:100%}
+.панель{border:1px solid var(--грань);border-radius:22px;padding:26px 30px;
+  background:linear-gradient(180deg,rgba(12,22,38,.88),rgba(5,8,16,.6));display:flex;flex-direction:column;min-height:0}
+.панель > .имя{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--кмг);line-height:1.35}
+.панель > h3{margin-top:8px;font-size:22px;font-weight:700;line-height:1.2}
+.доли{margin-top:22px;display:grid;grid-template-columns:1fr 1fr;gap:16px 28px;flex:1;align-content:space-evenly}
+.доля{border-left:3px solid rgba(2,174,240,.5);padding:2px 0 2px 18px}
+.доля b{display:block;font-family:'Unbounded',sans-serif;font-size:48px;line-height:1;color:var(--кмг);font-weight:700}
+.доля span{display:block;margin-top:8px;font-size:15px;line-height:1.35;color:var(--текст2);max-width:300px}
+.люди{margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-top:20px;border-top:1px solid rgba(124,141,166,.25)}
+.люди b{display:block;font-family:'Unbounded',sans-serif;font-size:30px;color:var(--текст);font-weight:700;line-height:1}
+.люди b i{font-style:normal;font-size:15px;color:var(--приглуш);font-family:'Golos Text',sans-serif;margin-left:6px}
+.люди span{display:block;margin-top:6px;font-size:13.5px;line-height:1.35;color:var(--приглуш)}
+.инв{display:grid;grid-template-columns:1.1fr 1fr;gap:26px;margin-top:20px;flex:1;min-height:0}
+.график{display:flex;flex-direction:column}
+.график .ось{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш)}
+.столбцы{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:end;margin-top:14px;padding-bottom:6px;border-bottom:1px solid rgba(124,141,166,.35)}
+.столбец{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+/* 17.09 (фото с правками): крупно — доля КМГ, мелко — всего по программе */
+.столбец b{font-family:'Unbounded',sans-serif;font-size:19px;color:var(--кмг_свет);font-weight:700;margin-bottom:8px;text-align:center}
+.столбец b small{display:block;font-family:'Golos Text',sans-serif;font-size:11.5px;font-weight:400;color:var(--приглуш);margin-top:3px}
+.столбец i{display:block;width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(2,174,240,.85),rgba(2,174,240,.25));
+  transform-origin:bottom;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.столбец:not(.включён) i{transform:scaleY(0)}
+.столбец span{margin-top:8px;font-size:13px;color:var(--приглуш)}
+.разрез{display:flex;flex-direction:column;gap:12px;justify-content:center}
+.разрез div{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;align-items:baseline;padding:8px 0;border-bottom:1px solid rgba(124,141,166,.18)}
+.разрез b{font-family:'Unbounded',sans-serif;font-size:24px;color:var(--кмг);font-weight:700;line-height:1}
+.разрез b i{font-style:normal;font-size:12px;font-family:'Golos Text',sans-serif;color:var(--приглуш);margin-left:4px}
+.разрез span{font-size:13.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--текст2)}
+.прим{margin-top:10px;font-size:12px;color:var(--приглуш)}
+
+/* ===== 2. геологоразведка: буллиты + карта ===== */
+.гео{display:grid;grid-template-columns:640px 1fr;gap:34px;height:100%;min-height:0}
+.пункты{list-style:none;display:flex;flex-direction:column;gap:14px;margin-top:6px}
+.пункты li{display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:start;padding:14px 18px;border-radius:16px;
+  border:1px solid var(--грань);background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));
+  opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.пункты li.включён{opacity:1;transform:none}
+.пункты b{font-family:'Unbounded',sans-serif;font-size:24px;line-height:1.1;color:var(--кмг);font-weight:700;white-space:nowrap;min-width:150px}
+.пункты b i{font-style:normal;font-size:12px;font-family:'Golos Text',sans-serif;color:var(--приглуш);display:block;margin-top:4px;white-space:normal}
+.пункты span{font-size:15px;line-height:1.42;color:var(--текст2);padding-top:3px}
+.пункты span em{font-style:normal;color:var(--текст);font-weight:600}
+.карта{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:var(--фон0);min-height:0}
+.карта img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.карта .легенда{position:absolute;left:22px;bottom:18px;display:flex;flex-direction:column;gap:7px;padding:12px 16px;border-radius:14px;
+  background:rgba(5,8,16,.78);border:1px solid var(--грань)}
+.карта .легенда div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--текст2)}
+.карта .легенда i{width:22px;height:14px;border-radius:4px;display:inline-block}
+.карта .легенда b{font-family:'Unbounded',sans-serif;font-size:13px;color:var(--текст);min-width:22px;text-align:right}
+.карта .подпись{position:absolute;right:22px;top:18px;padding:10px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
+
+/* ===== 3. бассейны ===== */
+.бас{display:grid;grid-template-columns:420px 1fr;gap:34px;height:100%;min-height:0}
+.цифры_бас{display:flex;flex-direction:column;gap:18px}
+.цифра_бас{border:1px solid var(--грань);border-radius:18px;padding:22px 24px;background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55))}
+.цифра_бас b{display:block;font-family:'Unbounded',sans-serif;font-size:56px;line-height:1;color:var(--кмг);font-weight:700}
+.цифра_бас span{display:block;margin-top:8px;font-size:14.5px;line-height:1.4;color:var(--текст2)}
+.вывод{margin-top:auto;padding:18px 20px;border-radius:16px;border:1px solid rgba(62,230,184,.35);background:rgba(62,230,184,.06);font-size:15px;line-height:1.5;color:var(--текст)}
+.вывод em{font-style:normal;color:var(--мята);font-weight:600}
+.карта.светлая{background:#fff;padding:14px}
+.карта.светлая img{object-fit:contain;border-radius:12px}
+.бассейн_список{position:absolute;left:36px;bottom:30px;display:flex;flex-wrap:wrap;gap:8px;max-width:700px}
+.бассейн_список span{font-size:12.5px;padding:6px 12px;border-radius:999px;background:rgba(5,8,16,.86);border:1px solid rgba(2,174,240,.45);color:var(--кмг_свет)}
+
+/* ===== низ ===== */
+.низ{position:absolute;left:calc(98px + var(--поля_ш,0px));right:calc(98px + var(--поля_ш,0px));bottom:calc(22px + var(--поля_в,0px));
+  display:flex;align-items:center;justify-content:space-between;gap:24px;pointer-events:none}
+.низ > *{pointer-events:auto}
+#лого{height:84px;filter:brightness(0) invert(1);opacity:.85}
+.точки{display:flex;gap:11px}
+.точки button{width:9px;height:9px;border-radius:50%;background:var(--грань);transition:background .25s ease,transform .25s ease}
+.точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);box-shadow:0 0 12px rgba(2,174,240,.6)}
+.счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
+.слайд,.низ{z-index:1}
+
+/* 16.09: строка-подзаголовок «Планы 2026–2030» внутри списка и кнопка ролика на карте */
+.пункты li.подзаг{margin-top:6px}
+.пункты li.подзаг b{color:var(--кмг)}
+.ролик_кнопка{position:absolute;right:22px;bottom:18px;padding:10px 16px;border-radius:12px;border:1px solid rgba(2,174,240,.6);
+  background:rgba(2,6,14,.7);color:#fff;font-family:'Unbounded',sans-serif;font-size:12.5px;letter-spacing:.06em;cursor:pointer}
+.ролик_кнопка:hover{background:rgba(2,174,240,.25)}
+#видео_слой{position:fixed;inset:0;z-index:50;background:#000;display:none;align-items:center;justify-content:center}
+#видео_слой.виден{display:flex}
+#видео_слой video{width:100%;height:100%;object-fit:contain}
+#видео_слой button{position:absolute;right:28px;top:22px;padding:10px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.4);background:rgba(0,0,0,.5);color:#fff;font-family:'Unbounded',sans-serif;font-size:12px;cursor:pointer}
+
+/* ===== бассейны: карта слоями ===== */
+.бас_сетка{display:grid;grid-template-columns:520px 1fr;gap:30px;height:100%;min-height:0}
+.бас_карта{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:radial-gradient(900px 600px at 55% 45%, rgba(2,174,240,.10), transparent 70%), var(--фон0);min-height:0}
+.бас_карта .полотно_слоёв{position:absolute;inset:0}
+.бас_карта img.слой,.бас_карта svg.слой{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .9s ease}
+.бас_карта .слой.включён{opacity:1}
+.бас_карта img.слой.пунктир{opacity:0}.бас_карта img.слой.пунктир.включён{opacity:.95}
+.бас_карта img.слой.мало.включён{opacity:.75}
+.бас_карта svg.слой path{fill:none;stroke-width:3;vector-effect:non-scaling-stroke;opacity:0;transition:opacity .9s ease}
+.бас_карта svg.слой path.включён{opacity:1}
+.бас_карта svg.слой path.пять{stroke:#FFD166;filter:drop-shadow(0 0 10px rgba(255,209,102,.8))}
+.бас_карта svg.слой path.мнб{stroke:var(--мята);filter:drop-shadow(0 0 8px rgba(62,230,184,.7))}
+.бас_карта svg.слой path.мало{stroke:rgba(175,192,216,.8);stroke-dasharray:8 6}
+.бас_карта svg.слой text{font-family:'Golos Text',sans-serif;font-weight:600;fill:var(--текст);paint-order:stroke;stroke:rgba(5,8,16,.92);stroke-width:5px;stroke-linejoin:round;
+  opacity:0;transition:opacity .9s ease;text-anchor:middle}
+.бас_карта svg.слой text.включён{opacity:1}
+.бас_карта svg.слой text.пять{fill:#FFD166;font-size:30px}.бас_карта svg.слой text.мнб{fill:var(--мята);font-size:26px}.бас_карта svg.слой text.мало{fill:var(--текст2);font-size:24px;font-weight:400}
+.бас_карта .подпись{position:absolute;right:22px;top:18px;padding:10px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);
+  font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
+.бас_карта .легенда{position:absolute;left:22px;bottom:18px;display:flex;flex-direction:column;gap:7px;padding:12px 16px;border-radius:14px;
+  background:rgba(5,8,16,.78);border:1px solid var(--грань);opacity:0;transition:opacity .6s}
+.бас_карта .легенда.включён{opacity:1}
+.бас_карта .легенда div{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--текст2)}
+.бас_карта .легенда i{width:26px;height:4px;border-radius:2px;display:inline-block}
+.бас_список{list-style:none;display:flex;flex-direction:column;gap:12px}
+.бас_список li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:14px 18px;border-radius:16px;border:1px solid var(--грань);
+  background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
+.бас_список li.включён{opacity:1;transform:none}
+.бас_список b{font-family:'Unbounded',sans-serif;font-size:24px;line-height:1.1;font-weight:700;white-space:nowrap;min-width:110px;color:var(--кмг)}
+.бас_список b i{font-style:normal;font-size:12px;font-family:'Golos Text',sans-serif;color:var(--приглуш);display:block;margin-top:4px;white-space:normal}
+.бас_список span{font-size:14.5px;line-height:1.42;color:var(--текст2);padding-top:3px}
+.бас_список span em{font-style:normal;color:var(--текст);font-weight:600}
+.бас_список li.пять b{color:#FFD166}.бас_список li.мнб b{color:var(--мята)}.бас_список li.мало b{color:var(--текст2)}
+/* ===== живые модели: видео из Petrel во весь кадр ===== */
+.живо{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#000;height:100%;min-height:0}
+.живо video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .8s ease}
+.живо video.играет{opacity:1}
+.живо .вуаль{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(5,8,16,.55) 0%,rgba(5,8,16,0) 22%,rgba(5,8,16,0) 70%,rgba(5,8,16,.7) 100%)}
+.живо .титр{position:absolute;left:28px;bottom:24px;max-width:70%;padding:12px 18px;border-radius:12px;background:rgba(5,8,16,.8);border-left:4px solid var(--кмг);
+  font-size:20px;font-weight:600;color:var(--текст)}
+.живо .титр small{display:block;margin-top:4px;font-size:13px;font-weight:400;color:var(--приглуш)}
+.живо .счёт{position:absolute;right:22px;top:18px;padding:8px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)}
+.живо .источник{position:absolute;right:22px;bottom:24px;font-size:12px;color:var(--приглуш)}
+.живая_сетка{display:grid;grid-template-columns:1fr 380px;gap:30px;height:100%;min-height:0}
+.портфель{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:var(--фон0);min-height:0;display:flex;align-items:center;justify-content:center}
+.портфель img{max-width:100%;max-height:100%;object-fit:contain}
+</style>
+</head>
+<body>
+<div id="обёртка">
+<div id="кадр">
+
+<section class="слайд виден" id="с1" aria-label="Осадочные бассейны Казахстана">
+  <div class="бровь">Геологоразведка · поиск и оценка участков</div>
+  <h2 class="заголовок дисплей">15 осадочных бассейнов — пять из них в цифре</h2>
+  <div class="полотно">
+    <div class="бас_сетка">
+      <ul class="бас_список">
+      <li data-к="1" class=""><b>15<i>бассейнов</i></b><span>осадочных бассейнов на территории Казахстана — контуры на карте пунктиром</span></li>
+      <li data-к="2" class="мало"><b>4<i>бассейна</i></b><span>малоперспективные: Тенизский, Балхашский, Алакольский, Зайсанский</span></li>
+      <li data-к="3" class="мнб"><b>4<i>бассейна</i></b><span>с доказанной нефтегазоносностью: Прииртышский, Северо-Торгайский, Аральский, Сырдарьинский</span></li>
+      <li data-к="4" class="пять"><b>5<i>моделей</i></b><span><em>цифровые бассейновые модели</em>: Прикаспийский, Устюрт-Бозашинский, Мангышлакский, Южно-Торгайский, Шу-Сарысуский — структурные карты и очаги генерации УВ</span></li>
+      <li data-к="5" class=""><b>748<i>млн т ЖУ</i></b><span>остаточные извлекаемые запасы (ABC1 на 01.01.2026) — основа в этих бассейнах</span></li>
+      </ul>
+      <div class="бас_карта">
+        <div class="полотно_слоёв">
+          <img class="слой включён" src="медиа/геология/бассейны/каспий.png" alt="">
+          <img class="слой включён" src="медиа/геология/бассейны/контур_рк.png" alt="">
+          <img class="слой пунктир" data-к="1" src="медиа/геология/бассейны/бассейны_15_пунктир.png" alt="">
+          <img class="слой мало" data-к="2" src="медиа/геология/бассейны/мало_0.png" alt=""><img class="слой мало" data-к="2" src="медиа/геология/бассейны/мало_1.png" alt=""><img class="слой мало" data-к="2" src="медиа/геология/бассейны/мало_2.png" alt=""><img class="слой мало" data-к="2" src="медиа/геология/бассейны/мало_3.png" alt="">
+          <img class="слой мнб" data-к="3" src="медиа/геология/бассейны/мнб_0.png" alt=""><img class="слой мнб" data-к="3" src="медиа/геология/бассейны/мнб_1.png" alt=""><img class="слой мнб" data-к="3" src="медиа/геология/бассейны/мнб_2.png" alt=""><img class="слой мнб" data-к="3" src="медиа/геология/бассейны/мнб_3.png" alt="">
+          <img class="слой пять" data-к="4" src="медиа/геология/бассейны/пять_0.png" alt=""><img class="слой пять" data-к="4" src="медиа/геология/бассейны/пять_1.png" alt=""><img class="слой пять" data-к="4" src="медиа/геология/бассейны/пять_2.png" alt="">
+          <svg class="слой включён" viewBox="0 0 1984 1201" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <path class="мало" data-к="2" d="M1363,320L1363,326L1369,326L1378,320L1386,318L1406,320L1429,328L1466,335L1479,342L1522,357L1536,373L1540,383L1550,389L1564,393L1575,393L1580,396L1608,398L1616,401L1628,401L1638,372L1651,348L1650,341L1616,336L1594,324L1586,324L1586,328L1583,331L1579,331L1581,342L1565,343L1548,328L1525,325L1512,317L1501,314L1492,307L1479,305L1476,297L1470,294L1449,295L1437,287L1420,287L1414,292L1403,296L1398,301L1379,309L1367,317L1366,320Z"/>
+        <path class="мало" data-к="2" d="M1291,443L1290,465L1295,471L1302,493L1320,512L1360,536L1376,540L1410,541L1434,534L1441,534L1442,532L1491,530L1515,538L1528,549L1538,550L1559,547L1579,551L1589,563L1616,563L1619,567L1620,579L1638,586L1656,588L1658,594L1664,597L1677,596L1685,588L1689,560L1697,548L1700,548L1707,555L1710,562L1716,562L1715,544L1701,534L1701,529L1704,522L1712,522L1711,506L1708,498L1709,488L1726,484L1727,472L1717,473L1709,480L1708,486L1702,486L1684,498L1672,503L1663,504L1652,510L1647,510L1644,513L1637,514L1615,524L1608,532L1596,539L1595,530L1592,530L1589,526L1591,521L1609,524L1626,514L1635,512L1635,506L1622,492L1604,468L1602,462L1591,458L1567,460L1564,457L1524,456L1500,480L1492,485L1488,485L1490,471L1493,469L1492,460L1494,453L1515,446L1515,439L1511,435L1514,432L1516,413L1513,410L1512,404L1501,403L1495,394L1487,394L1485,386L1478,380L1464,377L1457,369L1459,359L1434,347L1424,346L1422,350L1417,351L1417,354L1411,358L1400,353L1397,350L1397,346L1389,346L1379,350L1378,359L1373,365L1354,366L1355,376L1360,380L1349,383L1347,392L1331,399L1329,403L1318,401Z"/>
+        <path class="мало" data-к="2" d="M1679,649L1679,659L1688,662L1692,666L1691,685L1693,691L1685,698L1685,705L1697,703L1708,712L1717,713L1730,708L1733,704L1744,705L1749,692L1760,694L1766,699L1775,699L1787,686L1794,686L1797,689L1811,688L1822,702L1828,702L1827,679L1837,651L1837,644L1803,641L1796,639L1794,636L1785,636L1784,641L1775,643L1766,640L1766,631L1761,628L1761,623L1742,621L1733,615L1722,615L1698,635L1681,645Z"/>
+        <path class="мало" data-к="2" d="M1177,716L1170,716L1169,726L1172,735L1165,742L1162,738L1145,732L1148,722L1156,723L1156,716L1141,713L1065,716L1066,725L1072,728L1050,740L1047,747L1035,744L1031,739L1021,736L1015,729L1008,729L1001,736L1001,744L1005,749L1005,756L1003,754L995,754L999,773L984,788L980,796L980,805L984,805L988,812L996,813L996,806L1001,802L1008,813L1012,832L1020,841L1020,848L1028,849L1030,856L1049,869L1078,870L1078,864L1074,864L1066,854L1068,849L1081,848L1087,852L1104,856L1107,862L1115,863L1120,870L1132,869L1144,856L1144,850L1127,848L1123,851L1120,846L1120,835L1117,830L1126,820L1133,818L1133,812L1129,807L1133,803L1145,799L1154,816L1158,820L1168,822L1171,825L1167,831L1167,838L1173,838L1189,832L1192,835L1199,835L1199,828L1191,828L1189,825L1189,816L1192,811L1191,792L1193,778L1189,772L1189,762L1181,761L1178,758L1179,723Z"/>
+        <text class="мало" data-к="2" x="1530" y="351">Зайсанский</text>
+        <text class="мало" data-к="2" x="1477" y="483">Балхашский</text>
+        <text class="мало" data-к="2" x="1751" y="672">Алакольский</text>
+        <text class="мало" data-к="2" x="1090" y="795">Тенизский</text>
+        <path class="мнб" data-к="3" d="M1066,106L1060,106L1038,120L1039,133L1033,146L1020,150L1002,151L999,155L999,159L994,164L984,206L962,242L957,255L919,300L880,363L881,373L894,386L906,389L925,389L935,376L944,374L947,377L955,377L975,355L994,340L1009,319L1036,303L1048,293L1078,281L1098,266L1101,266L1114,253L1127,244L1127,228L1119,220L1119,214L1114,214L1100,197L1102,195L1107,199L1118,198L1118,192L1112,185L1112,172L1106,170L1104,164L1097,164L1089,159L1082,147L1071,138L1071,134L1062,135L1060,132L1063,129Z"/>
+        <path class="мнб" data-к="3" d="M815,322L747,315L692,395L661,425L629,447L629,453L634,466L645,486L647,501L651,509L661,579L677,580L679,571L696,563L698,554L702,554L708,559L714,559L718,536L721,535L724,526L727,524L733,532L736,542L753,552L764,552L775,545L788,545L788,539L790,538L790,514L793,506L794,491L796,490L797,475L799,474L803,427L818,378L815,355Z"/>
+        <path class="мнб" data-к="3" d="M719,614L716,616L716,622L737,650L737,657L745,676L746,689L751,697L749,709L751,728L753,729L756,744L760,747L766,758L769,798L772,814L774,815L775,831L772,843L772,862L774,865L776,891L784,903L786,916L794,934L795,942L797,945L808,946L812,956L801,964L803,990L808,1011L813,1016L827,1016L827,1010L831,1007L832,1011L843,1020L853,1018L857,1021L857,1024L865,1023L882,1028L907,1030L913,1033L921,1033L922,1031L931,1033L938,1028L940,1042L948,1044L949,1048L955,1048L958,1045L962,1048L974,1046L984,1051L991,1051L985,1011L974,1008L966,1009L959,1003L952,989L952,981L948,971L949,942L940,923L940,913L947,902L946,893L949,870L934,845L925,814L925,806L921,797L919,782L921,726L919,725L920,710L918,708L914,666L906,661L900,661L885,684L868,701L832,713L817,727L818,695L813,682L813,653L810,646L812,599L804,599L796,608L779,615L773,615L770,621L769,613L757,610L745,611L743,613Z"/>
+        <path class="мнб" data-к="3" d="M1550,822L1528,822L1499,818L1451,823L1439,827L1420,842L1418,851L1415,854L1399,854L1398,858L1388,860L1385,863L1382,872L1366,874L1366,878L1362,882L1354,881L1346,884L1339,879L1333,879L1327,889L1306,889L1303,897L1294,897L1289,904L1281,904L1274,917L1273,930L1265,936L1267,953L1262,964L1262,970L1269,979L1277,981L1279,984L1287,984L1288,979L1291,982L1301,982L1303,996L1308,997L1315,1005L1324,1006L1344,1023L1352,1034L1365,1040L1366,1045L1376,1045L1383,1050L1389,1050L1388,1038L1386,1036L1372,1035L1372,1028L1386,1014L1410,1000L1443,976L1452,965L1452,958L1449,954L1451,944L1457,941L1470,942L1549,830Z"/>
+        <text class="мнб" data-к="3" x="1011" y="262">Прииртышский</text>
+        <text class="мнб" data-к="3" x="732" y="454">Северо-Торгайский</text>
+        <text class="мнб" data-к="3" x="852" y="845">Аральский</text>
+        <text class="мнб" data-к="3" x="1397" y="929">Сырдарьинский</text>
+        <path class="пять" data-к="4" d="M1277,258L1253,259L1249,262L1239,260L1233,264L1223,266L1220,263L1209,263L1215,257L1215,249L1192,249L1191,252L1182,258L1176,259L1162,267L1156,275L1155,281L1128,308L1126,313L1121,314L1117,319L1111,321L1110,324L1105,325L1100,331L1095,332L1094,335L1077,345L1047,352L1035,365L1024,373L1022,379L1018,381L1014,389L1004,398L999,410L995,413L995,418L992,420L990,435L988,436L988,455L993,467L995,488L990,492L990,507L987,516L987,527L990,536L988,538L987,562L988,565L1002,570L1012,589L1024,593L1035,602L1046,605L1058,615L1066,615L1076,606L1082,605L1088,600L1096,569L1098,541L1104,529L1104,516L1115,507L1115,501L1123,487L1141,473L1159,465L1164,465L1173,471L1180,471L1178,461L1163,450L1163,446L1154,437L1163,421L1168,417L1171,409L1180,400L1194,406L1200,406L1200,400L1203,397L1232,402L1241,391L1252,385L1256,380L1259,380L1271,364L1275,356L1275,350L1271,350L1267,346L1269,338L1280,325L1280,321L1289,306L1300,295L1304,294L1304,287L1301,285L1300,279L1294,273L1285,269Z"/>
+        <path class="пять" data-к="4" d="M436,251L420,252L383,261L354,291L316,291L292,287L271,275L264,275L263,291L285,319L286,328L273,339L264,340L258,345L246,345L243,357L239,361L239,369L223,371L223,379L227,391L226,399L219,411L215,445L208,453L194,458L190,462L190,470L194,478L220,472L231,459L245,460L254,456L255,461L249,468L242,471L239,490L243,490L249,496L249,506L253,511L271,514L283,514L293,508L310,506L328,495L367,487L368,480L366,476L354,473L347,466L329,440L317,427L316,424L319,421L342,440L351,452L353,459L360,465L376,465L382,471L402,469L405,473L400,480L401,491L393,507L393,513L389,518L377,517L371,523L363,521L360,518L365,513L365,501L363,498L351,498L349,505L339,506L339,515L346,514L349,519L343,525L343,533L353,532L351,542L347,545L347,551L352,557L347,559L347,566L360,586L360,600L352,606L344,607L341,613L326,613L323,608L316,608L308,614L306,619L301,620L301,628L298,630L289,630L276,635L271,632L240,633L238,630L219,624L212,618L199,595L193,595L185,604L176,605L152,628L147,629L147,643L155,642L159,635L168,639L160,669L159,685L143,713L118,724L109,724L106,730L106,743L110,759L92,775L91,786L103,802L125,821L126,824L121,832L121,840L134,870L145,871L156,877L159,883L159,893L170,899L178,899L188,879L193,853L204,850L214,852L220,855L221,896L227,896L230,893L242,902L259,901L262,903L261,914L265,918L282,918L302,927L317,929L321,933L330,932L332,938L348,936L349,926L363,916L372,926L396,929L397,916L400,911L427,908L441,897L441,886L459,874L462,862L469,856L467,836L470,833L480,832L482,835L481,859L487,859L496,853L496,844L508,831L518,824L537,831L545,841L556,845L574,845L589,840L593,836L593,779L589,698L582,669L538,610L538,602L529,593L671,568L660,471L658,431L651,431L633,443L599,473L469,449Z"/>
+        <path class="пять" data-к="4" d="M964,378L958,378L928,405L921,416L888,449L852,476L844,490L844,513L841,520L825,533L811,538L809,549L811,555L811,578L814,587L811,650L813,651L814,683L819,699L817,721L826,720L831,713L868,701L869,698L882,688L901,660L916,663L922,640L937,621L940,620L940,615L956,599L962,516L967,503L969,483L973,479L968,443L970,432L968,386Z"/>
+        <text class="пять" data-к="4" x="1119" y="421">Шу-Сарысуский</text>
+        <text class="пять" data-к="4" x="379" y="592">Прикаспийский</text>
+        <text class="пять" data-к="4" x="379" y="632">Устюрт-Бозашинский</text>
+        <text class="пять" data-к="4" x="379" y="672">Мангышлакский</text>
+        <text class="пять" data-к="4" x="890" y="564">Южно-Торгайский</text>
+          </svg>
+        </div>
+        <div class="подпись">Карта — Департамент геологоразведки КМГ</div>
+        <div class="легенда" data-к="2">
+          <div><i style="background:#FFD166"></i>цифровые бассейновые модели</div>
+          <div><i style="background:var(--мята)"></i>доказанная нефтегазоносность</div>
+          <div><i style="background:rgba(175,192,216,.8)"></i>малоперспективные</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с2" aria-label="Цифровые бассейновые модели живьём">
+  <div class="бровь">Геологоразведка · цифровые бассейновые модели</div>
+  <h2 class="заголовок дисплей">Бассейновое моделирование: живая цифровая модель недр</h2>
+  <div class="полотно">
+    <div class="живая_сетка">
+      <div class="живо" id="живо">
+        <video src="медиа/геология/petrel/карта_бассейнов.mp4" poster="медиа/геология/petrel/карта_бассейнов.jpg" muted playsinline preload="auto"
+          data-титр="Пять бассейнов в одной цифровой среде" data-под="Структурные карты по поверхностям, профили сейсморазведки"></video>
+        <video src="медиа/геология/petrel/прикаспий_проекты.mp4" poster="медиа/геология/petrel/прикаспий_проекты.jpg" muted playsinline preload="auto"
+          data-титр="Прикаспийский бассейн: проекты программы ГРР поверх модели" data-под="Берёзовский, Мугоджары, Каратон — видно, почему каждый проект стоит именно здесь"></video>
+        <video src="медиа/геология/petrel/модель_3d.mp4" poster="медиа/геология/petrel/модель_3d.jpg" muted playsinline preload="auto"
+          data-титр="3D-модель бассейна: где нефть образовалась, куда мигрировала и где скопилась" data-под="Очаги генерации УВ, литология, разрез"></video>
+        <div class="вуаль"></div>
+        <div class="титр" id="титр"><span></span><small></small></div>
+        <div class="счёт" id="счёт_видео">1 / 3</div>
+        <div class="источник">Petrel · Департамент геологоразведки КМГ</div>
+      </div>
+      <ul class="бас_список">
+      <li data-к="1" class="пять"><b>5<i>моделей</i></b><span>цифровых бассейновых моделей — <em>34 %</em> территории страны</span></li>
+      <li data-к="2" class=""><b>10<i>лет</i></b><span>цифровизация геологии начата не сегодня — основной результат: живая модель вместо бумажных карт</span></li>
+      <li data-к="3" class=""><b>23<i>проекта</i></b><span>программы ГРР до 2030 года лежат слоем поверх модели</span></li>
+      <li data-к="4" class=""><b>4,7<i>млрд т у.т.</i></b><span>потенциальная геологическая ресурсная база проектов</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с3" aria-label="Сейсморазведка и интерпретация">
+  <div class="бровь">Геологоразведка · обработка и интерпретация 2D/3D</div>
+  <h2 class="заголовок дисплей">Сейсморазведка — «УЗИ недр»: от куба данных до модели ловушки</h2>
+  <div class="полотно">
+    <div class="живая_сетка">
+      <div class="живо" id="сейсмика">
+        <video src="медиа/геология/petrel/сейсмика.mp4" poster="медиа/геология/petrel/сейсмика.jpg" muted playsinline preload="auto" loop class="играет"></video>
+        <div class="вуаль"></div>
+        <div class="титр" id="титр_сейсмика"><span>Сейсмический куб</span><small>разрезы через толщу пород</small></div>
+        <div class="источник">Petrel · Департамент геологоразведки КМГ</div>
+      </div>
+      <ul class="бас_список">
+      <li data-к="1" class=""><b>1</b><span><em>Сейсмический куб</em> — акустический «снимок» недр по площади</span></li>
+      <li data-к="2" class=""><b>2</b><span><em>Разрезы</em> — геолог читает слои и разломы</span></li>
+      <li data-к="3" class="пять"><b>3</b><span><em>Интерпретация горизонтов</em> — здесь помогут ML и нейросети (в работе)</span></li>
+      <li data-к="4" class=""><b>4</b><span><em>Структура-ловушка</em> — где нефть могла скопиться</span></li>
+      <li data-к="5" class="мнб"><b>5</b><span><em>Геологическая модель</em> — основа для точки бурения и оценки запасов</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="слайд" id="с4" aria-label="Портфель проектов ГРР">
+  <div class="бровь">Геологоразведка · программа ГРР до 2030 года</div>
+  <h2 class="заголовок дисплей">Портфель разведочных проектов на карте бассейнов</h2>
+  <div class="полотно">
+    <div class="бас_сетка">
+      <ul class="бас_список">
+      <li data-к="1" class=""><b>23<i>проекта</i></b><span>на разных стадиях подготовки · <em>26</em> поисковых скважин, проходка 89 тыс. м</span></li>
+      <li data-к="2" class=""><b>6<i>проектов</i></b><span>страновой значимости · <em>13</em> — социальной значимости</span></li>
+      <li data-к="3" class=""><b>2D · 3D</b><span>сейсморазведка <em>6 250 км</em> и <em>2 540 км²</em> · региональная 2D по Прикаспию — 60 тыс. км</span></li>
+      <li data-к="4" class="пять"><b>4,7<i>млрд т у.т.</i></b><span>потенциальная геологическая ресурсная база программы</span></li>
+      </ul>
+      <div class="портфель" data-к="1">
+        <img src="медиа/геология/карта_портфеля_тёмная.png" alt="Карта портфеля разведочных проектов">
+        <div class="подпись" style="position:absolute;right:22px;top:18px;padding:10px 14px;border-radius:12px;background:rgba(5,8,16,.78);border:1px solid var(--грань);font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--кмг)">Карта портфеля — Департамент геологоразведки КМГ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="низ">
+  <img id="лого" src="медиа/лого_кмг.png" alt="КазМунайГаз">
+  <div class="точки" id="точки" role="tablist" aria-label="Слайды"></div>
+  <div class="счётчик" id="счётчик"></div>
+</div>
+</div>
+</div>
+<script>
+(function(){
+  "use strict";
+  /* кадр 1920×1080 вписывается в окно; расчётная высота 1000 — как в закупках,
+     чтобы в окне с панелью браузера не было пустых полей */
+  function вписать(){
+    var к = Math.min(window.innerWidth / 1920, window.innerHeight / 1000);
+    var ш = window.innerWidth / к, в = window.innerHeight / к, кэ = document.documentElement.style;
+    кэ.setProperty("--к", к); кэ.setProperty("--кадр_ш", ш + "px"); кэ.setProperty("--кадр_в", в + "px");
+    кэ.setProperty("--поля_ш", Math.max(0, (ш - 1920) / 2) + "px"); кэ.setProperty("--поля_в", Math.max(0, (в - 1080) / 2) + "px");
+  }
+  window.addEventListener("resize", вписать); вписать();
+
+  var слайды = [].slice.call(document.querySelectorAll(".слайд")), текущий = 0, состояние = {};
+  var точки = document.getElementById("точки"), счёт = document.getElementById("счётчик");
+  function кадрыСлайда(с){ var м = 0; [].forEach.call(с.querySelectorAll("[data-к]"), function(э){ м = Math.max(м, +э.getAttribute("data-к")); }); return м; }
+  function показатьКадры(с, до){
+    [].forEach.call(с.querySelectorAll("[data-к]"), function(э){ э.classList.toggle("включён", +э.getAttribute("data-к") <= до); });
+    состояние[с.id] = до;
+  }
+  слайды.forEach(function(с, i){
+    var т = document.createElement("button"); т.type = "button"; т.setAttribute("aria-label", "Слайд " + (i + 1));
+    т.addEventListener("click", function(){ показать(i, true); }); точки.appendChild(т);
+    показатьКадры(с, i === 0 ? кадрыСлайда(с) : 0);
+  });
+  var кнопки = [].slice.call(точки.children);
+  function показать(i, целиком){
+    if(i < 0 || i >= слайды.length || i === текущий) return;
+    слайды[текущий].classList.remove("виден"); текущий = i;
+    var с = слайды[i]; с.classList.add("виден"); показатьКадры(с, целиком ? кадрыСлайда(с) : 0);
+    кнопки.forEach(function(к, j){ к.setAttribute("aria-current", j === i ? "true" : "false"); });
+    счёт.textContent = ("0" + (i + 1)).slice(-2) + " / " + ("0" + слайды.length).slice(-2);
+  }
+  кнопки[0].setAttribute("aria-current", "true"); счёт.textContent = "01 / " + ("0" + слайды.length).slice(-2);
+  function вперёд(){ var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0; if(было < всего){ показатьКадры(с, было + 1); return; } показать(текущий + 1, false); }
+  function назад(){ var с = слайды[текущий], было = состояние[с.id] || 0; if(было > 0){ показатьКадры(с, было - 1); return; } показать(текущий - 1, true); }
+  document.addEventListener("keydown", function(с){
+    var к = с.key;
+    if(к === "ArrowRight" || к === "PageDown" || к === " " || к === "Enter"){ с.preventDefault(); вперёд(); }
+    else if(к === "ArrowLeft" || к === "PageUp" || к === "Backspace"){ с.preventDefault(); назад(); }
+    else if(к === "Home"){ с.preventDefault(); показать(0, true); }
+    else if(к === "End"){ с.preventDefault(); показать(слайды.length - 1, true); }
+    else if(к === "f" || к === "F" || к === "а" || к === "А"){ if(document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); }
+  });
+  document.addEventListener("click", function(с){ if(с.target.closest(".точки")) return; if(с.shiftKey) назад(); else вперёд(); });
+  /* ?с=N — открыть сразу нужный слайд (клик-переходы из схемы процесса в показе) */
+  /* кириллический параметр приходит percent-encoded — сначала раскодировать */
+  var м = /[?&]с=(\d+)/.exec(decodeURIComponent(location.search));
+  if(м) показать(+м[1] - 1, true);
+  window.__бассейны = { показать:показать, текущий:function(){ return текущий; } };
+})();
+</script>
+<script>
+(function(){
+  /* Ролики Petrel по очереди: закончился один — следующий, по кругу
+     (геологи 17.09: «чтобы на фоне всё это было как гифка, зациклено, по очереди»).
+     Пускаются, когда слайд виден; на уходе — пауза, чтобы не жечь кадры. */
+  var бокс = document.getElementById("живо"), видео = [].slice.call(бокс.querySelectorAll("video")), i = 0;
+  var титр = document.getElementById("титр"), счёт = document.getElementById("счёт_видео");
+  function пустить(n){
+    видео.forEach(function(в, k){ в.classList.toggle("играет", k === n); if(k !== n){ в.pause(); } });
+    var в = видео[n]; в.currentTime = 0; в.play().catch(function(){});
+    титр.querySelector("span").textContent = в.dataset.титр; титр.querySelector("small").textContent = в.dataset.под;
+    счёт.textContent = (n + 1) + " / " + видео.length;
+  }
+  видео.forEach(function(в, k){ в.addEventListener("ended", function(){ i = (k + 1) % видео.length; пустить(i); }); });
+  var секция = document.getElementById("с2"), сейсм = document.getElementById("сейсмика").querySelector("video"), с3 = document.getElementById("с3");
+  var наблюдатель = new MutationObserver(function(){
+    if(секция.classList.contains("виден")){ if(видео[i].paused) пустить(i); } else видео.forEach(function(в){ в.pause(); });
+    if(с3.classList.contains("виден")){ сейсм.play().catch(function(){}); } else сейсм.pause();
+  });
+  наблюдатель.observe(секция, { attributes:true, attributeFilter:["class"] });
+  наблюдатель.observe(с3, { attributes:true, attributeFilter:["class"] });
+  if(секция.classList.contains("виден")) пустить(0);
+  if(с3.classList.contains("виден")) сейсм.play().catch(function(){});
+  /* титры сейсмики — по отрезкам ролика (5 фрагментов по ~10 с) */
+  var ТИТРЫ = [[0,"Сейсмический куб","разрезы через толщу пород"],[9.5,"Разрезы","геолог читает слои и разломы"],[19,"Интерпретация горизонтов","здесь помогут ML и нейросети — в работе"],[28.5,"Структура-ловушка","где нефть могла скопиться"],[38,"Геологическая модель","основа для точки бурения и оценки запасов"]];
+  var тс = document.getElementById("титр_сейсмика");
+  setInterval(function(){ if(сейсм.paused) return; var t = сейсм.currentTime, к = ТИТРЫ[0]; ТИТРЫ.forEach(function(х){ if(t >= х[0]) к = х; });
+    if(тс.querySelector("span").textContent !== к[1]){ тс.querySelector("span").textContent = к[1]; тс.querySelector("small").textContent = к[2]; } }, 250);
+})();
+</script>
+
+</body>
+</html>
