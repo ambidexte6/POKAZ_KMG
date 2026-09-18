@@ -272,18 +272,23 @@ svg .поток[data-к]{transform:none}
 .мл .видео .титр{position:absolute;left:24px;bottom:22px;padding:10px 16px;border-radius:12px;background:rgba(5,8,16,.82);border-left:4px solid var(--кмг);font-size:21px;font-weight:600}
 .мл .видео .титр small{display:block;font-size:15px;font-weight:400;color:var(--приглуш);margin-top:3px}
 .мл .видео .метка{position:absolute;right:22px;top:18px;padding:6px 12px;border-radius:999px;border:1px solid rgba(240,174,74,.6);color:var(--янтарь);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;background:rgba(5,8,16,.8)}
-/* финал: главный эффект — одна широкая карточка, ниже три цифры */
-.эффект_главный{margin-top:30px;display:grid;grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:6px 40px;align-items:center;padding:24px 32px;border-radius:24px;
-  border:1px solid rgba(62,230,184,.55);background:linear-gradient(90deg,rgba(62,230,184,.12),rgba(2,174,240,.06));box-shadow:0 0 40px rgba(62,230,184,.10)}
-.эффект_главный .ярлык{grid-column:1/3;font-size:17.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--мята)}
-.эффект_главный .число{font-family:'Unbounded',sans-serif;font-size:58px;font-weight:700;line-height:1;color:var(--мята);text-shadow:0 0 30px rgba(62,230,184,.45)}
-.эффект_главный .число small{display:block;margin-top:8px;font-family:'Golos Text',sans-serif;font-size:19px;font-weight:400;color:var(--текст2)}
-.эффект_главный .было_стало{display:flex;align-items:baseline;gap:14px;font-family:'Unbounded',sans-serif;font-size:35.5px;font-weight:700;color:var(--текст)}
-.эффект_главный .было_стало i{font-style:normal;color:var(--кмг)}
-.эффект_главный .было_стало em{font-style:normal;font-family:'Golos Text',sans-serif;font-size:19px;font-weight:400;color:var(--текст2);margin-left:6px}
-.эффект_главный p{grid-column:2;margin:0;font-size:20.5px;line-height:1.45;color:var(--текст2)}
-.цифры.три{grid-template-columns:repeat(3,1fr);margin-top:24px;align-items:start}
-.цифры.три .крупно{font-size:47.5px}
+/* финал (18.09): четыре столбца и два блока */
+.цифры.четыре{grid-template-columns:repeat(4,1fr);margin-top:34px;align-items:start;gap:26px}
+.цифры.четыре .цифра{padding:28px 30px 30px}
+.цифры.четыре .шапка{font-size:15px}
+.цифры.четыре .крупно{font-size:64px;color:var(--мята);margin-top:22px}
+.цифры.четыре .крупно.стрелой{font-size:54px}
+.цифры.четыре .пояс{min-height:0;font-size:21px;line-height:1.4;margin-top:16px}
+.итоги_два{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:26px}
+.итог_блок{border:1px solid var(--грань);border-radius:20px;padding:24px 30px;background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55))}
+.итог_блок.вектор{border-color:rgba(2,174,240,.55);background:linear-gradient(180deg,rgba(2,174,240,.10),rgba(5,8,16,.55))}
+.итог_блок .шапка{font-size:15px;letter-spacing:.2em;text-transform:uppercase;color:var(--мята)}
+.итог_блок.вектор .шапка{color:var(--кмг)}
+.итог_блок ul{list-style:none;margin:10px 0 0;padding:0}
+.итог_блок li{position:relative;padding-left:26px;margin-top:12px;font-size:22px;line-height:1.4;color:var(--текст2)}
+.итог_блок li b{color:var(--текст);font-weight:700}
+.итог_блок li::before{content:"";position:absolute;left:0;top:12px;width:8px;height:8px;border-radius:50%;background:var(--мята);box-shadow:0 0 10px rgba(62,230,184,.7)}
+.итог_блок.вектор li::before{background:var(--кмг);box-shadow:0 0 10px rgba(2,174,240,.7)}
 </style>
 </head>
 <body>
@@ -521,29 +526,37 @@ svg .поток[data-к]{transform:none}
 <section class="слайд" id="с2" aria-label="Что это даёт на практике">
   <div class="бровь">Геологоразведка и добыча · ИИ</div>
   <h2 class="заголовок дисплей">Что это даёт на практике</h2>
-  <!-- 17.09 (Адиль): «финальный слайд с эффектами — используй ещё проценты, и фокус на главном эффекте».
-       Цифры — из сценария в.5 (Финал): 2–3 недели → 2–3 дня (≈ в 5–7 раз), 80–120 → 16–24 трудочаса,
-       10 → 20 проектов в год, 7,8 ТБ / 2 млн файлов. Проценты посчитаны из них же. -->
-  <div class="эффект_главный" data-к="1">
-    <div class="ярлык">Главный эффект — время геолога</div>
-    <div class="число">−80…−85 %<small>времени на первичное геологическое обоснование</small></div>
-    <div class="было_стало"><span>2–3 недели</span><i>→</i><span>2–3 дня</span><em>в 5–7 раз быстрее</em></div>
-    <p>ИИ берёт на себя рутинный поиск, сопоставление и первичный анализ; специалист — интерпретацию и геологическое решение.</p>
-  </div>
-  <div class="цифры три">
+  <!-- 18.09 (геологи, видео с экрана): четыре столбца-буллита и ниже два блока — «что имеем» и
+       «ближайший вектор развития». Формулировки — их, цифры — из сценария в.5 (Финал). -->
+  <div class="цифры четыре">
+    <div class="цифра" data-к="1"><div class="шапка">Скорость</div>
+      <div class="крупно">до 5×</div><div class="пояс">ускорение поиска и первичного анализа: 2–3 недели → 2–3 дня на геологическое обоснование</div></div>
     <div class="цифра" data-к="2"><div class="шапка">Трудозатраты</div>
-      <div class="крупно">−80 %</div><div class="пояс">80–120 → 16–24 трудочаса на этап (рабочая неделя — 40 часов)</div></div>
+      <div class="крупно стрелой">120 → 24 ч</div><div class="пояс">трудочасов на этап при рабочей неделе 40 часов — три недели работы укладываются в дни</div></div>
     <div class="цифра" data-к="3"><div class="шапка">Масштаб</div>
-      <div class="крупно">+100 %</div><div class="пояс">10 → 20 проектов в год той же командой — без роста штата</div></div>
+      <div class="крупно">+100 %</div><div class="пояс">20 проектов в год вместо 10 — той же командой, без роста штата</div></div>
     <div class="цифра" data-к="4"><div class="шапка">Данные в работе</div>
-      <div class="крупно">7,8 ТБ</div><div class="пояс">2 млн файлов корпоративного массива — тысячи документов анализируются за секунды</div></div>
+      <div class="крупно">7,8 ТБ</div><div class="пояс">2 млн корпоративных файлов — тысячи документов анализируются за секунды</div></div>
   </div>
-  <div class="качества">
-    <div class="качество" data-к="5"><b>Доверие ↑</b><span>Каждый вывод — со ссылкой на исходный документ и страницу; окончательное решение всегда за специалистом.</span></div>
-    <div class="качество" data-к="5"><b>Закрытый контур</b><span>GPU-мощности «Казахтелекома», локальная open-source модель — ни один документ не покидает периметр.</span></div>
-    <div class="качество" data-к="5"><b>Дальше</b><span>Data Room для партнёров, ML на сейсмике, испытание инструмента на реальных геологических данных.</span></div>
+  <div class="итоги_два">
+    <div class="итог_блок" data-к="5">
+      <div class="шапка">Что имеем</div>
+      <ul>
+        <li><b>Контроль качества и безопасность:</b> не «чёрный ящик» — каждый тезис даётся со ссылкой на конкретный документ и страницу</li>
+        <li><b>Ответственность и финальная подпись — всегда на геологе:</b> human in the loop, контроль за человеком</li>
+        <li><b>100 % информационная безопасность:</b> закрытый контур, GPU «Казахтелекома»</li>
+      </ul>
+    </div>
+    <div class="итог_блок вектор" data-к="6">
+      <div class="шапка">Ближайший вектор развития</div>
+      <ul>
+        <li>Интеграция модуля в <b>Data Room</b> для потенциальных партнёров и инвесторов</li>
+        <li>Подключение <b>ML-алгоритмов к сейсмике 2D/3D</b> для экспресс-выделения перспективных структур</li>
+        <li>Опробование системы на <b>текущих лицензионных участках</b></li>
+      </ul>
+    </div>
   </div>
-  <a class="в_систему" data-к="5" href="http://geoai.kmg.kz/" target="_blank" rel="noopener">Открыть KMG Geo AI → <small>geoai.kmg.kz · живая система</small></a>
+  <a class="в_систему" data-к="6" href="http://geoai.kmg.kz/" target="_blank" rel="noopener">Открыть KMG Geo AI → <small>geoai.kmg.kz · живая система</small></a>
 </section>
 
 <div class="низ">
