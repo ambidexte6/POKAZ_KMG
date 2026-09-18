@@ -459,9 +459,9 @@ svg .ось[data-к]{transform:none}
 
 /* ===== 0. семь шагов ===== */
 .семь{margin-top:auto;display:grid;grid-template-columns:repeat(7,1fr);gap:22px}
-.шаг7{border-top:2px solid rgba(2,174,240,.42);padding-top:16px}
+.шаг7{border-top:2px solid rgba(2,174,240,.42);padding-top:16px;display:flex;flex-direction:column}
 .шаг7 .н{font-family:'Unbounded',sans-serif;font-size:19px;color:var(--кмг);font-weight:700}
-/* 18.09 (Адиль, фото стенда): статусы должны стоять на одной линии — заголовок и система с фиксированной высотой под три строки крупного шрифта */
+/* заголовок с запасом под три строки — чтобы имена систем стояли на одной линии */
 .шаг7 h3{margin-top:12px;font-size:25.5px;font-weight:700;line-height:1.25;min-height:100px}
 .шаг7 .сис{margin-top:12px;font-size:19px;line-height:1.4;color:var(--приглуш)}
 .шаг7.обмен{border-top-color:rgba(62,213,152,.55)}
@@ -508,9 +508,12 @@ svg .ось[data-к]{transform:none}
 .шаг7.работа .ик{opacity:.7}
 /* внешняя система (бюджетирование, SK Store) — тёплый цвет, не палитра платформы */
 .шаг7 .сис b.внешняя{color:var(--внеш)}
-/* плашка статуса — на одной высоте у всех: строка системы фиксированной высоты */
+/* плашка статуса — на одной линии у всех семи. 18.09 (Адиль, фото стенда): min-height у строки системы
+   не спасал — «Модуль „Формирование потребностей“» уходит в три строки и сдвигал плашку ниже остальных.
+   Карточка — flex-колонка, плашка прижата к низу и одной высоты у всех, поэтому её верх совпадает
+   при любой длине текста выше (высота ряда сетки — по самой высокой карточке) */
 .шаг7 .сис{min-height:88px}
-.шаг7 .ст{margin-top:14px;font-size:17.5px;line-height:1.35}
+.шаг7 .ст{margin-top:auto;padding-top:14px;min-height:104px;font-size:17.5px;line-height:1.35}
 .шаг7 .ст b{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-weight:700}
 .шаг7 .ст b::before{content:"";width:8px;height:8px;border-radius:50%}
 .шаг7.готово .ст b{color:var(--мята);border:1px solid rgba(62,230,184,.6);background:rgba(62,230,184,.12)}
