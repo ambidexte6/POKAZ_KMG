@@ -461,7 +461,8 @@ svg .ось[data-к]{transform:none}
 .семь{margin-top:auto;display:grid;grid-template-columns:repeat(7,1fr);gap:22px}
 .шаг7{border-top:2px solid rgba(2,174,240,.42);padding-top:16px}
 .шаг7 .н{font-family:'Unbounded',sans-serif;font-size:19px;color:var(--кмг);font-weight:700}
-.шаг7 h3{margin-top:12px;font-size:25.5px;font-weight:700;line-height:1.25;min-height:76px}
+/* 18.09 (Адиль, фото стенда): статусы должны стоять на одной линии — заголовок и система с фиксированной высотой под три строки крупного шрифта */
+.шаг7 h3{margin-top:12px;font-size:25.5px;font-weight:700;line-height:1.25;min-height:100px}
 .шаг7 .сис{margin-top:12px;font-size:19px;line-height:1.4;color:var(--приглуш)}
 .шаг7.обмен{border-top-color:rgba(62,213,152,.55)}
 .шаг7.обмен .н{color:var(--мята)}
@@ -508,7 +509,7 @@ svg .ось[data-к]{transform:none}
 /* внешняя система (бюджетирование, SK Store) — тёплый цвет, не палитра платформы */
 .шаг7 .сис b.внешняя{color:var(--внеш)}
 /* плашка статуса — на одной высоте у всех: строка системы фиксированной высоты */
-.шаг7 .сис{min-height:62px}
+.шаг7 .сис{min-height:88px}
 .шаг7 .ст{margin-top:14px;font-size:17.5px;line-height:1.35}
 .шаг7 .ст b{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-weight:700}
 .шаг7 .ст b::before{content:"";width:8px;height:8px;border-radius:50%}
@@ -1116,8 +1117,9 @@ body.экраны #обёртка::after{display:none}
       <h3>Бюджет проверен, статус вернулся в потребность</h3>
       <ul>
         <li>Запрос в систему бюджетирования ушёл автоматически</li>
-        <!-- 16.09 вечер (закупщики): новый скрин DS Warehouse, сумма с него — 41 818 206 ₸ за 65 529 м -->
-        <li>Ответ по проводу СИП-3: в бюджете — Да, цена 638 ₸/м без НДС, потребность 65 529 м, сумма 41,8 млн ₸</li>
+        <!-- 16.09 вечер (закупщики): скрин DS Warehouse показывал 65 529 м / 41 818 206 ₸; 18.09 (Адиль, фото стенда):
+             строка на скрине переписана под пример слайда 4 — 500 м, 319 000 ₸ (правка в копии, исходник в ИСХОДНИКИ) -->
+        <li>Ответ по проводу СИП-3: в бюджете — Да, цена 638 ₸/м без НДС, потребность 500 м, сумма 319 000 ₸</li>
         <li>Статус позиции — «Бюджетирование завершено»</li>
         <li>Дальше передача к закупу инициируется автоматически — через интеграцию систем</li>
       </ul>
