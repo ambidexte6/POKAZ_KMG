@@ -571,6 +571,11 @@ svg .ось[data-к]{transform:none}
 .скрин .рамка{position:absolute;border:2.5px solid var(--мята);border-radius:6px;box-shadow:0 0 0 4px rgba(62,230,184,.18),0 0 24px rgba(62,230,184,.5)}
 .скрин .подпись_рамки{position:absolute;font-size:19px;font-weight:700;color:var(--мята);padding:6px 12px;border-radius:999px;
   background:rgba(5,8,16,.85);border:1px solid rgba(62,230,184,.6)}
+/* 18.09 (Адиль): столбцы, которые считает ИИ, — заливкой в цвете платформы поверх всей колонки таблицы;
+   строка и цена остаются мятной и янтарной рамками, чтобы три смысла не делили один цвет */
+.скрин .столбец{position:absolute;background:rgba(2,174,240,.16);border:2px solid rgba(2,174,240,.7);border-radius:6px;
+  box-shadow:0 0 16px rgba(2,174,240,.35)}
+.скрин .подпись_рамки.синяя{color:var(--кмг);border-color:rgba(2,174,240,.6)}
 /* один скрин на слайд, справа — что делает ИИ; картинка в исходном разрешении, не ужата */
 .полотно.экран{display:flex;gap:40px;align-items:flex-start}
 .экран .скрин{position:relative;flex:0 0 auto;max-width:1220px}
@@ -894,6 +899,11 @@ body.экраны #обёртка::after{display:none}
          500 м (исходный скрин с 65 528,53 — в ИСХОДНИКИ/закупки/скрины); строка
          выделена, отдельно показано, что цены и суммы ещё нет — как на слайде 9 -->
     <div class="скрин" data-к="1"><img src="медиа/скрины_закупки/шаг1_потребность.png" alt="">
+      <!-- 18.09 (Адиль): три столбца расчёта ИИ выделены цветом; координаты — по шапке таблицы скрина 1871×810 -->
+      <div class="столбец" style="left:32.7%;top:42.4%;width:7.3%;height:57.1%" data-к="2"></div>
+      <div class="столбец" style="left:40%;top:42.4%;width:4.2%;height:57.1%" data-к="2"></div>
+      <div class="столбец" style="left:44.2%;top:42.4%;width:5.9%;height:57.1%" data-к="2"></div>
+      <div class="подпись_рамки синяя" style="left:32.7%;top:30.6%" data-к="2">Считает ИИ: прогноз · остаток · потребность</div>
       <div class="рамка" style="left:10.8%;top:49.3%;width:88.4%;height:4.2%" data-к="2"></div>
       <div class="рамка" style="left:81%;top:49.3%;width:6.4%;height:4.2%;border-color:var(--янтарь);box-shadow:0 0 0 4px rgba(242,184,75,.18),0 0 24px rgba(242,184,75,.5)" data-к="3"></div>
       <div class="подпись_рамки" style="right:16px;top:56%;color:var(--янтарь)" data-к="3">Цены и суммы пока нет — их определит маркетинг</div>
