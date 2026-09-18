@@ -583,7 +583,17 @@ svg .ось[data-к]{transform:none}
 /* 18.09: скрины AI-Broker от закупщиков — WhatsApp, 424–788 px; в своём размере на 1920 не читаются, растянуты */
 #с4а .скрин img{width:1080px;height:auto}
 #с4б .скрин img{height:700px}
-#с4в .скрин img{height:760px}
+/* 18.09 (Адиль): «скрин сделать больше» — вертикальный скрин 461×830 на 1920 читался мельче оригинала.
+   Разрезан по пустой полосе на две половины (спецификации + соответствия | расхождения + итог), они рядом
+   по 660 px шириной, текст «что делает ИИ» — под ними в две колонки, компактнее общего стиля */
+#с4в .полотно{flex-direction:column;gap:14px}
+#с4в .скрины_два{display:flex;gap:24px;align-items:flex-start}
+#с4в .скрин img{width:660px;height:auto}
+#с4в .что_ии{padding-top:0;min-width:0}
+#с4в .что_ии h3{margin-top:6px;font-size:26px}
+#с4в .что_ии ul{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:4px 40px}
+#с4в .что_ии li{margin-top:4px;font-size:20px;line-height:1.35}
+#с4в .что_ии li::before{top:9px}
 .что_ии{flex:1 1 auto;min-width:380px;padding-top:6px}
 .что_ии .имя{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
 .что_ии h3{margin-top:12px;font-size:33px;line-height:1.25;font-weight:700}
@@ -1295,7 +1305,9 @@ body.экраны #обёртка::after{display:none}
 <section class="слайд" id="с4в" aria-label="Шаг 4 · AI-Broker · живая система">
   <div class="бровь">Шаг 4 · AI-Broker · живая система</div>
   <div class="полотно экран">
-    <div class="скрин" data-к="1"><img src="медиа/скрины_закупки/брокер_сделка.png" alt="">
+    <div class="скрины_два" data-к="1">
+      <div class="скрин"><img src="медиа/скрины_закупки/брокер_сделка_1.png" alt=""></div>
+      <div class="скрин"><img src="медиа/скрины_закупки/брокер_сделка_2.png" alt=""></div>
     </div>
     <aside class="что_ии" data-к="2">
       <div class="имя">Что делает ИИ</div>
