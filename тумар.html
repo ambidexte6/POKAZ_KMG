@@ -129,6 +129,8 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .счётчик{font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.14em;color:var(--приглуш)}
 .слайд,.низ{z-index:1}
 
+.в_систему_ряд{margin-top:22px;display:flex;flex-direction:column;gap:12px}
+.в_систему_ряд .в_систему{margin-top:0;white-space:nowrap;font-size:13.5px;justify-content:space-between}
 .в_систему{margin-top:22px;display:inline-flex;align-items:center;gap:12px;padding:12px 22px;border-radius:14px;border:1px solid rgba(2,174,240,.6);
   background:rgba(2,174,240,.12);color:#fff;font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
 .в_систему:hover{background:rgba(2,174,240,.24)}
@@ -241,7 +243,11 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
         <li>Свето-шумовой сигнал формируется при нарушениях и предупреждает сотрудников на местах</li>
         <li>Интерфейс на казахском и русском, доступ по ролям</li>
       </ul>
-      <a class="в_систему" href="http://tumar59.kmge.kz/" target="_blank" rel="noopener">Открыть систему → <small>tumar59.kmge.kz</small></a>
+      <!-- 18.09 (ТУМАР, WhatsApp): две площадки — 59 бригада Еркинбаева, 57 бригада Кулбергенова -->
+      <div class="в_систему_ряд">
+        <a class="в_систему" href="http://tumar59.kmge.kz/" target="_blank" rel="noopener">Бригада Еркинбаева → <small>tumar59.kmge.kz</small></a>
+        <a class="в_систему" href="http://tumar57.kmge.kz/" target="_blank" rel="noopener">Бригада Кулбергенова → <small>tumar57.kmge.kz</small></a>
+      </div>
     </aside>
   </div>
 </section>
