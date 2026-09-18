@@ -56,7 +56,8 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   -webkit-mask-image:radial-gradient(1400px 900px at 50% 45%, #000 30%, transparent 82%);
           mask-image:radial-gradient(1400px 900px at 50% 45%, #000 30%, transparent 82%)}
 
-.слайд{position:absolute;inset:0;padding:80px 98px 96px;display:flex;flex-direction:column;
+/* 18.09 (Адиль, фото стенда): низ полотна заходил в полосу логотипа (44 + 100 px) — отступ снизу до 150 px */
+.слайд{position:absolute;inset:0;padding:80px 98px 150px;display:flex;flex-direction:column;
   opacity:0;visibility:hidden;transform:translateY(16px);
   transition:opacity .42s ease, transform .42s ease, visibility 0s .42s}
 .слайд.виден{opacity:1;visibility:visible;transform:none;transition:opacity .42s ease, transform .42s ease}
