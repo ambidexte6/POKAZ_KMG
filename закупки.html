@@ -371,6 +371,9 @@ svg .сбор[data-к]{transform:none}
   background:rgba(2,174,240,.12)}
 
 /* ===== слайд 2: маркетинг цен и бюджет ===== */
+/* 18.09 (фото экрана): схема сверстана абсолютными координатами под прежний кегль, с крупным
+   шрифтом карточки полезли друг на друга и за низ; полотно ужато целиком */
+#с2 .полотно{zoom:.86;width:2000px}   /* холст шире кадра — ужат обратно в 1724 */
 .склад .ищет{margin-top:12px;font-size:19px;line-height:1.45;color:var(--текст2)}
 .склад .ищет strong,.карточка .кодчип strong{color:var(--кмг);font-weight:700}
 .карточка li.мятн{color:var(--мята)}
@@ -551,11 +554,12 @@ svg .ось[data-к]{transform:none}
 /* подпись-следствие под карточкой */
 /* список товаров пилота — две колонки, строка: номер · наименование · группа · код АСУ НСИ */
 .пилот{margin:0;padding:0;list-style:none;columns:2;column-gap:44px}
-.пилот li{display:flex;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--грань);break-inside:avoid;font-size:21px}
+/* 18.09 (фото экрана): после увеличения шрифтов 13 строк колонки уходили под логотип — плотнее */
+.пилот li{display:flex;align-items:baseline;gap:12px;padding:6px 0;border-bottom:1px solid var(--грань);break-inside:avoid;font-size:18px}
 .пилот li i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:16px;color:var(--кмг);flex:0 0 28px}
-.пилот li b{font-weight:600;color:var(--текст);flex:1 1 auto;line-height:1.3}
-.пилот li span{color:var(--приглуш);font-size:17.5px;flex:0 0 190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.пилот li em{font-style:normal;color:var(--мята);font-size:18.5px;flex:0 0 180px;text-align:right;white-space:nowrap}
+.пилот li b{font-weight:600;color:var(--текст);flex:1 1 auto;line-height:1.25}
+.пилот li span{color:var(--приглуш);font-size:15px;flex:0 0 170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.пилот li em{font-style:normal;color:var(--мята);font-size:16px;flex:0 0 165px;text-align:right;white-space:nowrap}
 /* скрины систем: рамка в палитре показа, картинка по ширине; четыре экрана — сеткой 2×2 */
 .скрин{position:absolute;max-height:100%;border:1.5px solid rgba(2,174,240,.45);border-radius:14px;overflow:hidden;background:#0C1626;
   box-shadow:0 0 40px rgba(2,174,240,.18)}
@@ -905,7 +909,7 @@ body.экраны #обёртка::after{display:none}
   <h2 class="заголовок дисплей">Проведение маркетингового анализа: список поставщиков формируется автоматически, цену определяет ИИ</h2>
 
   <div class="полотно">
-    <svg class="потоки" viewBox="0 0 1724 720" style="position:absolute;left:0;top:0;width:1724px;height:720px;pointer-events:none" aria-hidden="true">
+    <svg class="потоки" viewBox="0 0 2000 740" style="position:absolute;left:0;top:0;width:2000px;height:740px;pointer-events:none" aria-hidden="true">
       <defs>
         <marker id="стрелка_циан2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0 0L10 5L0 10z" fill="#4FE3FF"/></marker>
@@ -913,21 +917,21 @@ body.экраны #обёртка::after{display:none}
           <path d="M0 0L10 5L0 10z" fill="#3ED598"/></marker>
       </defs>
       <path class="поток" pathLength="1" marker-end="url(#стрелка_циан2)" d="M320 210 H392" data-к="2"/>
-      <line class="сбор" pathLength="1" x1="485" y1="270" x2="485" y2="460" data-к="3"/>
-      <line class="сбор" pathLength="1" x1="735" y1="270" x2="735" y2="460" data-к="3"/>
+      <line class="сбор" pathLength="1" x1="485" y1="270" x2="485" y2="560" data-к="3"/>
+      <line class="сбор" pathLength="1" x1="735" y1="270" x2="735" y2="560" data-к="3"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="196" style="transition-delay:0ms" data-к="4"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="296" style="transition-delay:120ms" data-к="4"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="396" style="transition-delay:240ms" data-к="4"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="496" style="transition-delay:360ms" data-к="4"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="196" x2="1180" y2="330" style="transition-delay:0ms" data-к="5"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="296" x2="1180" y2="330" style="transition-delay:140ms" data-к="5"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="396" x2="1180" y2="330" style="transition-delay:280ms" data-к="5"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="496" x2="1180" y2="330" style="transition-delay:420ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="196" x2="1208" y2="330" style="transition-delay:0ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="296" x2="1208" y2="330" style="transition-delay:140ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="396" x2="1208" y2="330" style="transition-delay:280ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="496" x2="1208" y2="330" style="transition-delay:420ms" data-к="5"/>
       <!-- 17.09 (закупщики): стрелка начиналась с y=400 — внутри карточки, поверх списка; теперь от её низа -->
-      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1300 486 V620 H200 V432" data-к="6" data-до="6"/>
-      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан2)" d="M1430 330 H1462" data-к="7"/>
-      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1596 470 V660 H150 V432" data-к="8"/>
-      <text class="поток_подпись назад" x="1180" y="680" text-anchor="middle" data-к="8">статус бюджета</text>
+      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1300 486 V690 H200 V432" data-к="6" data-до="6"/>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан2)" d="M1545 330 H1598" data-к="7"/>
+      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1760 480 V712 H150 V432" data-к="8"/>
+      <text class="поток_подпись назад" x="1000" y="706" text-anchor="middle" data-к="8">статус бюджета</text>
     </svg>
 
     <!-- потребность с кодом -->
@@ -954,11 +958,11 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- справочники -->
-    <div class="справочник" style="left:380px;top:460px;width:210px" data-к="3">
+    <div class="справочник" style="left:380px;top:560px;width:250px" data-к="3">
       <b>Реестр КТП</b>
       <ul><li class="совп">ТОО «Талдыкорганкабель»<span>КТП</span></li><li class="совп">ТОО «AluTech»<span>КТП</span></li></ul>
     </div>
-    <div class="справочник" style="left:600px;top:460px;width:290px" data-к="3">
+    <div class="справочник" style="left:645px;top:560px;width:360px" data-к="3">
       <b>Исторические поставщики</b>
       <ul><li class="совп">ТОО «Алматы КазКабель»<span>победитель 2025</span></li><li class="совп">ТОО «ЦентрСнабСтрой»<span>победитель 2024</span></li><li class="">цены прошлых лет<span>500–900 ₸/м без НДС</span></li></ul>
     </div>
@@ -984,7 +988,7 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- результат -->
-    <div class="карточка" style="left:1180px;top:200px;width:250px" data-к="6">
+    <div class="карточка" style="left:1210px;top:180px;width:330px" data-к="6">
       <b>Цена определена <span class="ии">AI</span></b>
       <div class="товар_имя">Провод СИП-3 1х35</div>
       <div class="средняя">средняя из 4 цен: 2 КТП + 2 поставщика, без НДС<strong>638 ₸/м</strong></div>
@@ -995,7 +999,7 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- бюджет -->
-    <div class="склад" style="left:1464px;top:150px;width:260px" data-к="7">
+    <div class="склад" style="left:1600px;top:150px;width:320px" data-к="7">
       <div class="имя">Шаг 3 · Система бюджетирования</div>
       <div class="заг">Проверка наличия утверждённого бюджета на закуп выявленной потребности</div>
       <svg class="шестерня" viewBox="0 0 40 40" data-к="7" data-до="7" aria-hidden="true"><g class="крут"><circle cx="20" cy="20" r="9"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(0 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(45 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(90 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(135 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(180 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(225 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(270 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(315 20 20)"/></g></svg>
