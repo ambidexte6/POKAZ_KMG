@@ -205,6 +205,11 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .живо .источник{position:absolute;right:22px;bottom:24px;font-size:16px;color:var(--приглуш)}
 .живая_сетка{display:grid;grid-template-columns:1fr 520px;gap:30px;height:100%;min-height:0}
 .живая_сетка.одна{grid-template-columns:1fr}
+.живая_сетка.девон{grid-template-columns:1fr 620px}
+.девон_карта{position:relative;border-radius:22px;overflow:hidden;border:1px solid var(--грань);background:#fff;min-height:0}
+.девон_карта img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain}
+.девон_карта .титр{position:absolute;left:18px;bottom:18px;right:18px;padding:10px 14px;border-radius:12px;background:rgba(5,8,16,.86);border-left:4px solid var(--мята);font-size:18px;font-weight:600;color:var(--текст)}
+.девон_карта .титр small{display:block;font-size:14px;font-weight:400;color:var(--приглуш);margin-top:3px}
 .мл_текст{min-width:0;padding-top:6px;display:flex;flex-direction:column}
 .мл_текст .к_геораг{margin-top:auto}
 .мл_текст .метка_мл{display:inline-block;padding:7px 14px;border-radius:999px;border:1px solid rgba(240,174,74,.6);color:var(--янтарь);font-size:14px;letter-spacing:.14em;text-transform:uppercase;font-weight:700}
@@ -238,7 +243,8 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .список_проектов .имя_группы{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш);margin-bottom:3px}
 .список_проектов span{display:flex;align-items:center;gap:8px;font-size:14.5px;line-height:1.25;color:var(--текст);padding:1px 0}
 .список_проектов span b{font-family:'Unbounded',sans-serif;font-size:11.5px;min-width:26px;height:21px;line-height:21px;text-align:center;border-radius:11px;flex:0 0 auto;color:#0A1220}
-.список_проектов .действ span b{background:#7DB8FF}.список_проектов .кмг span b{background:#D9A6FF}.список_проектов .партн span b{background:#FFE0B8}.список_проектов .гин span b{background:var(--мята)}
+.список_проектов .действ span b{background:#7DB8FF}.список_проектов .кмг span b{background:#D9A6FF}.список_проектов .партн span b{background:#FFE0B8}.список_проектов .гин span b{background:var(--мята)}.список_проектов .жыл span b{background:#BFDCFF}
+.бас_карта svg.участки g.номер.жыл circle{fill:#BFDCFF}
 .бас_сетка.программа .к_геораг{margin-top:4px}   /* сразу под списком (Адиль: «под карточками»), не у логотипа */
 /* бассейны под участками — приглушены и обесцвечены, чтобы участки читались первыми */
 .бас_карта.портфель img.слой,.бас_карта.портфель img.слой.включён{opacity:.16;filter:saturate(.35) brightness(.8)}
@@ -347,7 +353,9 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
   <div class="бровь">Геологоразведка · цифровые бассейновые модели</div>
   <h2 class="заголовок дисплей">Бассейновое моделирование: живая цифровая модель недр</h2>
   <div class="полотно">
-    <div class="живая_сетка одна">
+    <!-- 18.09 (геологи, WhatsApp): «карта миграции нужна — на одном слайде, чуть поменьше, рядом» —
+         структурная поверхность девона D3 из их pptx (белый скрин Petrel как есть) справа от модели -->
+    <div class="живая_сетка девон">
       <div class="живо" id="живо">
         <!-- Адиль 17.09: «главный ролик, который хотел увидеть ПП, — на 5-м слайде pptx» —
              3D-модель бассейна с очагом генерации УВ (media3). Геологи 17.09 вечер: только она,
@@ -356,6 +364,10 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
           data-титр="3D-модель бассейна и очаг генерации УВ" data-под="Где нефть образовалась, куда мигрировала и где скопилась — литология, разрез, очаги генерации"></video>
         <div class="вуаль"></div>
         <div class="титр" id="титр"><span>3D-модель бассейна и очаг генерации УВ</span><small>Где нефть образовалась, куда мигрировала и где скопилась — литология, разрез, очаги генерации</small></div>
+      </div>
+      <div class="девон_карта">
+        <img src="медиа/геология/кейсы/прикаспий_девон.jpg" alt="Структурная поверхность девона D3, Прикаспийский бассейн">
+        <div class="титр"><span>Структурная поверхность девона (D3)</span><small>карта миграции УВ: глубины от −4 000 до −14 000 м, контуры участков и месторождения</small></div>
       </div>
     </div>
   </div>
@@ -368,9 +380,9 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
     <div class="бас_сетка программа">
       <div class="левая">
         <ul class="бас_список">
-      <li class="действ включён"><b>23<i>проекта</i></b><span>на разных стадиях подготовки · <em>26</em> поисковых скважин, проходка 89 тыс. м</span></li>
-      <li class="партн включён"><b>2D · 3D</b><span>сейсморазведка <em>6 250 км</em> и <em>2 540 км²</em> · региональная 2D по Прикаспию — 60 тыс. км</span></li>
-      <li class="пять включён"><b>4,7<i>млрд т у.т.</i></b><span>потенциальная геологическая ресурсная база программы</span></li>
+      <li class="действ включён"><b>23<i>проекта</i></b><span><em>6</em> страновой значимости · <em>13</em> социальной · <em>2</em> малоизученные бассейны · <em>2</em> глубокие перспективы Прикаспия</span></li>
+      <li class="партн включён"><b>2026–30</b><span>сейсморазведка 2D <em>6 250 км</em>, 3D <em>2 542 км²</em>, региональная 2D — <em>60 тыс. км</em> · геохимия <em>22 тыс. точек</em> · бурение <em>26</em> скважин</span></li>
+      <li class="пять включён"><b>4,7<i>млрд т у.т.</i></b><span>геологический потенциал программы</span></li>
         </ul>
         <div class="список_проектов" data-к="1">
         <div class="колонка">
@@ -382,27 +394,32 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
           <span><b>5</b>Тайсойган</span>
           <span><b>6</b>Шыгыс</span>
         </div>
+        <div class="группа партн"><div class="имя_группы">Планируемые с привлечением партнёров</div>
+          <span><b>17</b>Большой Жамбыл</span>
+          <span><b>18</b>Озен Палеозой</span>
+          <span><b>19</b>Устюрт 1,2</span>
+        </div>
         <div class="группа гин"><div class="имя_группы">Региональные исследования (ГИН)</div>
-          <span><b>19</b>ГИН Торгай Северный</span>
-          <span><b>20</b>Прикаспий палеозой (ГИН)</span>
+          <span><b>20</b>ГИН Торгай Северный</span>
+          <span><b>21</b>Прикаспий палеозой (ГИН)</span>
         </div>
         </div>
         <div class="колонка">
         <div class="группа кмг"><div class="имя_группы">Планируемые к получению контракта за счёт КМГ</div>
           <span><b>7</b>Каспий Северный</span>
           <span><b>8</b>Жаркын</span>
-          <span><b>9</b>Тажигали ПЗ · Сазтобе ПЗ</span>
+          <span><b>9</b>Тажигали ПЗ</span>
           <span><b>10</b>Уаз-Кондыбай</span>
-          <span><b>11</b>Береке</span>
-          <span><b>12</b>Мугоджары Южный</span>
-          <span><b>13</b>Тургай ПЗ-2</span>
-          <span><b>14</b>Белес</span>
-          <span><b>15</b>Шу-Сарысу</span>
+          <span><b>11</b>Сазтобе ПЗ</span>
+          <span><b>12</b>Береке</span>
+          <span><b>13</b>Мугоджары Южный</span>
+          <span><b>14</b>Тургай ПЗ-2</span>
+          <span><b>15</b>Белес</span>
+          <span><b>16</b>Шу-Сарысу</span>
         </div>
-        <div class="группа партн"><div class="имя_группы">Планируемые с привлечением партнёров</div>
-          <span><b>16</b>Большой Жамбыл</span>
-          <span><b>17</b>Озен Палеозой</span>
-          <span><b>18</b>Устюрт 1,2</span>
+        <div class="группа жыл"><div class="имя_группы">Жылыойская платформа · глубокие перспективы Прикаспия</div>
+          <span><b>22</b>Жылыойская платформа</span>
+          <span><b>23</b>Жылыой</span>
         </div>
         </div>
         </div>
@@ -446,6 +463,7 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
         <path class="партнёры" data-к="1" d="M456.1,855.4L456.2,899.2L499.0,898.5L499.8,854.8Z"/>
         <path class="гин_зел" data-к="1" d="M830.0,316.5L808.8,316.6L807.7,327.8L799.6,327.5L791.1,336.7L786.4,367.5L791.2,367.9L791.7,372.9L810.8,372.0L809.7,387.3L783.7,387.2L778.8,413.3L773.8,415.9L763.9,479.0L760.6,482.1L757.0,553.6L757.7,544.1L765.9,540.6L771.1,533.1L767.1,530.3L770.0,503.6L798.6,501.7L797.7,517.4L793.3,519.1L794.8,526.3L809.2,510.9L834.0,499.5L839.1,500.0L840.1,489.7L860.0,479.7L875.7,480.1L882.1,454.3L888.2,389.8L884.5,387.3L828.4,385.7Z"/>
         <path class="гин_син" data-к="1" d="M91.2,476.0L87.5,507.5L94.2,513.0L96.5,531.2L85.2,539.3L75.1,569.5L101.1,579.3L103.3,597.9L100.7,603.7L108.5,617.0L145.9,613.7L151.3,618.2L155.8,629.4L166.4,640.5L172.3,658.4L179.8,669.4L181.6,687.6L167.1,689.5L167.4,692.4L183.9,703.7L195.1,706.9L202.7,715.8L221.3,706.6L224.3,693.4L232.5,690.6L251.2,668.6L267.2,664.5L268.6,661.1L287.7,659.8L288.7,668.5L298.0,667.9L307.0,675.7L319.4,679.6L398.1,678.9L399.1,696.0L403.7,700.4L475.3,696.8L475.1,684.7L454.9,685.0L453.6,680.0L433.0,679.6L432.4,657.5L477.6,658.0L478.6,671.7L557.7,671.8L560.6,666.0L575.6,662.5L588.5,649.1L591.2,613.0L600.0,589.5L599.2,540.4L595.0,539.5L595.3,477.5L580.8,435.6L581.5,404.5L560.1,404.0L552.7,394.3L522.4,396.1L519.2,405.6L510.0,405.6L508.7,415.6L502.2,421.8L477.7,424.0L469.0,421.6L456.6,411.7L456.5,407.1L448.6,405.1L447.2,400.6L438.8,398.6L438.4,402.0L418.2,402.4L418.3,408.2L414.0,411.2L406.3,431.0L384.2,432.9L370.1,430.1L368.0,423.1L363.7,422.8L362.8,402.9L369.3,400.5L372.7,387.9L381.5,387.2L385.2,379.5L390.1,379.4L389.8,371.9L381.5,365.9L343.3,367.4L334.8,350.7L315.7,353.7L312.5,365.5L290.2,366.8L287.1,354.0L270.1,354.2L266.9,358.6L255.3,359.4L255.9,367.3L249.5,370.6L244.5,379.8L233.1,381.5L221.2,392.0L204.5,393.4L204.3,410.1L191.9,413.7L182.4,424.6L171.6,425.6L178.6,468.1L172.2,473.3L149.1,475.5L135.3,449.7L121.9,435.6L110.7,444.4L112.6,460.1L103.6,471.2Z"/>
+        <path class="жылыой" data-к="1" d="M289.5,682.2L291.4,730.2L288.3,732.9L290.7,733.1L291.4,743.1L294.9,742.9L295.5,745.4L301.5,745.0L301.7,742.5L339.6,741.5L341.3,744.8L350.9,744.3L351.9,740.9L360.7,741.3L358.0,734.8L353.6,734.2L356.0,725.3L359.6,724.3L361.5,714.2L363.5,713.7L362.0,707.5L364.3,703.2L358.9,701.3L358.4,689.3L352.8,690.8L349.2,683.4L344.4,684.5L341.4,681.7L337.5,683.6L338.1,687.7L329.5,686.5L329.0,684.5L313.9,682.0L313.3,679.1L313.1,682.8L307.4,682.3L306.8,679.0L306.5,681.6Z"/>
         <g class="номер действ" data-к="1" transform="translate(374.8,891.0)"><circle r="13"/><text y="4.5">1</text></g>
         <g class="номер действ" data-к="1" transform="translate(410.1,733.1)"><circle r="13"/><text y="4.5">2</text></g>
         <g class="номер действ" data-к="1" transform="translate(402.5,789.5)"><circle r="13"/><text y="4.5">3</text></g>
@@ -456,16 +474,19 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
         <g class="номер кмг" data-к="1" transform="translate(339.5,844.3)"><circle r="13"/><text y="4.5">8</text></g>
         <g class="номер кмг" data-к="1" transform="translate(376.9,684.3)"><circle r="13"/><text y="4.5">9</text></g>
         <g class="номер кмг" data-к="1" transform="translate(393.2,609.4)"><circle r="13"/><text y="4.5">10</text></g>
-        <g class="номер кмг" data-к="1" transform="translate(469.3,655.5)"><circle r="13"/><text y="4.5">11</text></g>
-        <g class="номер кмг" data-к="1" transform="translate(548.6,475.4)"><circle r="13"/><text y="4.5">12</text></g>
-        <g class="номер кмг" data-к="1" transform="translate(904.9,730.3)"><circle r="13"/><text y="4.5">13</text></g>
-        <g class="номер кмг" data-к="1" transform="translate(927.9,704.8)"><circle r="13"/><text y="4.5">14</text></g>
-        <g class="номер кмг" data-к="1" transform="translate(1015.4,692.2)"><circle r="13"/><text y="4.5">15</text></g>
-        <g class="номер партн" data-к="1" transform="translate(241.0,738.3)"><circle r="13"/><text y="4.5">16</text></g>
-        <g class="номер партн" data-к="1" transform="translate(330.9,923.6)"><circle r="13"/><text y="4.5">17</text></g>
-        <g class="номер партн" data-к="1" transform="translate(472.2,862.0)"><circle r="13"/><text y="4.5">18</text></g>
-        <g class="номер гин" data-к="1" transform="translate(865.5,383.7)"><circle r="13"/><text y="4.5">19</text></g>
-        <g class="номер гин" data-к="1" transform="translate(311.6,420.5)"><circle r="13"/><text y="4.5">20</text></g>
+        <g class="номер кмг" data-к="1" transform="translate(410.9,732.3)"><circle r="13"/><text y="4.5">11</text></g>
+        <g class="номер кмг" data-к="1" transform="translate(469.3,655.5)"><circle r="13"/><text y="4.5">12</text></g>
+        <g class="номер кмг" data-к="1" transform="translate(548.6,475.4)"><circle r="13"/><text y="4.5">13</text></g>
+        <g class="номер кмг" data-к="1" transform="translate(904.9,730.3)"><circle r="13"/><text y="4.5">14</text></g>
+        <g class="номер кмг" data-к="1" transform="translate(927.9,704.8)"><circle r="13"/><text y="4.5">15</text></g>
+        <g class="номер кмг" data-к="1" transform="translate(1015.4,692.2)"><circle r="13"/><text y="4.5">16</text></g>
+        <g class="номер партн" data-к="1" transform="translate(241.0,738.3)"><circle r="13"/><text y="4.5">17</text></g>
+        <g class="номер партн" data-к="1" transform="translate(330.9,923.6)"><circle r="13"/><text y="4.5">18</text></g>
+        <g class="номер партн" data-к="1" transform="translate(472.2,862.0)"><circle r="13"/><text y="4.5">19</text></g>
+        <g class="номер гин" data-к="1" transform="translate(865.5,383.7)"><circle r="13"/><text y="4.5">20</text></g>
+        <g class="номер гин" data-к="1" transform="translate(311.6,420.5)"><circle r="13"/><text y="4.5">21</text></g>
+        <g class="номер жыл" data-к="1" transform="translate(284.1,742.7)"><circle r="13"/><text y="4.5">22</text></g>
+        <g class="номер жыл" data-к="1" transform="translate(334.1,734.7)"><circle r="13"/><text y="4.5">23</text></g>
           </svg>
         </div>
         <div class="подпись">Участки — карта портфеля ГРР, Департамент геологоразведки КМГ</div>
