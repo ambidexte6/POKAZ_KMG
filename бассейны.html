@@ -161,7 +161,8 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .бас_карта svg.база path.граница{fill:none;stroke:var(--кмг);stroke-width:2.2;vector-effect:non-scaling-stroke;opacity:1;filter:drop-shadow(0 0 9px rgba(2,174,240,.85))}
 .бас_карта img.слой.каспий{opacity:.55}
 /* автопоказ слайда 1: на такте «гаснет» слои и карточки уходят вместе, потом цикл начинается заново */
-#с1.гаснет .слой:not(.база),#с1.гаснет .бас_список li,#с1.гаснет .легенда,#с1.гаснет svg.слой path,#с1.гаснет svg.слой text{opacity:0!important;transition:opacity .8s ease!important}
+/* гаснет только карта: карточки и легенда выходят один раз и остаются (Адиль 18.09) */
+#с1.гаснет .слой:not(.база),#с1.гаснет svg.слой path,#с1.гаснет svg.слой text{opacity:0!important;transition:opacity .8s ease!important}
 .бас_карта img.слой,.бас_карта svg.слой,.бас_карта video.слой{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .9s ease}
 .бас_карта .слой.включён{opacity:1}
 .бас_карта img.слой.пунктир{opacity:0}.бас_карта img.слой.пунктир.включён{opacity:.95}
@@ -183,10 +184,10 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .бас_карта .легенда div{display:flex;align-items:center;gap:10px;font-size:17.5px;color:var(--текст2)}
 .бас_карта .легенда i{width:26px;height:4px;border-radius:2px;display:inline-block}
 .бас_список{list-style:none;display:flex;flex-direction:column;gap:12px}
-.бас_список li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;padding:14px 18px;border-radius:16px;border:1px solid var(--грань);
+.бас_список li{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:center;padding:14px 18px;border-radius:16px;border:1px solid var(--грань);
   background:linear-gradient(180deg,rgba(12,22,38,.85),rgba(5,8,16,.55));opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
 .бас_список li.включён{opacity:1;transform:none}
-.бас_список b{font-family:'Unbounded',sans-serif;font-size:28.5px;line-height:1.1;font-weight:700;white-space:nowrap;min-width:110px;color:var(--кмг)}
+.бас_список b{font-family:'Unbounded',sans-serif;font-size:28.5px;line-height:1.1;font-weight:700;white-space:nowrap;min-width:110px;color:var(--кмг);text-align:center}
 .бас_список b i{font-style:normal;font-size:16px;font-family:'Golos Text',sans-serif;color:var(--приглуш);display:block;margin-top:4px;white-space:normal}
 .бас_список span{font-size:18.5px;line-height:1.42;color:var(--текст2);padding-top:3px}
 .бас_список span em{font-style:normal;color:var(--текст);font-weight:600}
@@ -554,7 +555,9 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
   /* Слайд 1 — автопоказ (Адиль 18.09 ночь): с пустой карты слои наслаиваются по очереди, карточки
      слева выходят синхронно; после последнего слоя пауза, всё гаснет и идёт по кругу, как гифка.
      Клик по слайду — сразу дальше (кадров по клику у него нет). ?к=N ставит такт сразу (снимки). */
-  var с1 = document.getElementById("с1"), такты = [].slice.call(с1.querySelectorAll("[data-такт]")), ВСЕГО = 4;
+  var с1 = document.getElementById("с1"), всеТакты = [].slice.call(с1.querySelectorAll("[data-такт]")), ВСЕГО = 4;
+  /* карточки и легенда — один раз (первый круг), дальше по кругу идёт только карта (Адиль 18.09) */
+  var картаТакты = всеТакты.filter(function(э){ return !э.matches("li, .легенда"); }), такты = всеТакты, первыйКруг = true;
   var ШАГ = 2000, ПАУЗА = 6000, ГАШЕНИЕ = 900, таймер = null;
   function такт(n){ такты.forEach(function(э){ э.classList.toggle("включён", +э.getAttribute("data-такт") <= n); }); }
   function цикл(){
@@ -564,7 +567,7 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
     (function шаг(){
       n++; такт(n);
       if(n < ВСЕГО){ таймер = setTimeout(шаг, ШАГ); }
-      else { таймер = setTimeout(function(){ с1.classList.add("гаснет"); таймер = setTimeout(function(){ с1.classList.remove("гаснет"); цикл(); }, ГАШЕНИЕ); }, ПАУЗА); }
+      else { таймер = setTimeout(function(){ с1.classList.add("гаснет"); таймер = setTimeout(function(){ с1.classList.remove("гаснет"); первыйКруг = false; такты = картаТакты; цикл(); }, ГАШЕНИЕ); }, ПАУЗА); }
     })();
   }
   /* наблюдатель реагирует только на смену видимости: класс «гаснет» ставит сам цикл, и без этой
