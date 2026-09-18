@@ -138,7 +138,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #next:hover,#next:focus-visible,#pilot:hover,#pilot:focus-visible,#pilot.on,#demo2.on,#далее:hover,#далее:focus-visible,#demo2full:hover,#demo2full:focus-visible,
 #demo2:hover,#demo2:focus-visible{opacity:1;color:var(--cyan);border-color:var(--cyan);background:rgba(79,227,255,.08)}
 #next .arw,#demo2 .arw,#demo2full .arw,#pilot .arw,#далее .arw{font-size:19px;line-height:1}
-#demo2full{right:150px;top:20px}
+#demo2full{right:150px;top:120px}
 #далее{right:26px;bottom:22px;font-size:14px;padding:6px 11px;opacity:.35}
 /* карточка эффектов — та же вёрстка, что панель эффектов подводки (demo_with_map.html) */
 #эффекты{position:fixed;right:26px;top:50%;transform:translateY(-50%) translateX(40px);width:34vw;min-width:420px;max-width:660px;
@@ -341,16 +341,20 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   <div class="паспорт ярус"></div><div class="сделано ярус"></div></div>
 <div id="эффекты"><div class="hd"></div><div class="body"></div><div class="road"></div></div>
 <!-- слайд открыт внутри demo_with_map.html — кнопка вела бы саму в себя -->
-<script>/* Два входа (Адиль 18.09: «полный и короткий стали одним коротким» — разведены обратно):
+<script>/* копия в показе КМГ: только короткий вход — ключ ставится сам (старые ссылки без ?коротко=1 работают так же) */
+if (!/[?&]коротко=1/.test(decodeURIComponent(location.search))) location.replace(location.pathname + (location.search ? location.search + '&' : '?') + 'коротко=1');
+/* Два входа (Адиль 18.09: «полный и короткий стали одним коротким» — разведены обратно):
    полный (главный экран → макет → подводка с лентой) — макет собран, кнопка «demo ч.2» ведёт в
    demo_with_map.html; короткий (`?коротко=1`, с цепочки КМГ) — стопка раскрыта, карточки «пилотный
    актив» и «эффекты», маленькая «далее» на карту тиражирования. В рамке подводки (`?в_рамке=1`)
    кнопок нет — карточки ведёт сама подводка. */
 (function(){
   const п = new URLSearchParams(location.search), у = id => document.getElementById(id).remove();
+  /* 18.09 (Адиль): карточки «пилотный актив» и «эффекты» — в обоих входах; в полном к ним
+     добавляется «demo ч.2» в подводку с лентой, «далее» на тираж — только в коротком */
   if (п.get('в_рамке') === '1'){ у('demo2'); у('demo2full'); у('pilot'); у('далее'); }
   else if (п.get('коротко') === '1'){ у('demo2full'); }
-  else { у('demo2'); у('pilot'); у('далее'); document.getElementById('demo2full').href += location.search; }
+  else { у('далее'); document.getElementById('demo2full').href += location.search; }
 })();</script>
 <div id="chip"></div>
 <!-- подписи точек бурения: HTML поверх сцены, чтобы цифры оставались чёткими -->
