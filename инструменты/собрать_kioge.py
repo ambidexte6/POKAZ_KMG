@@ -367,9 +367,12 @@ b = т.index('</script>', a) + len('</script>')
     if(ш > всего + 1){ ш = 0; var i = г.текущий(); г.показать((i + 1) % document.querySelectorAll(".слайд").length, false); return; }
     кадры.forEach(function(э){ э.classList.toggle("включён", +э.dataset.к <= ш); });
   }
-  setInterval(тик, 4500);
-  document.addEventListener("keydown", function(){ пауза = 8; });
-  document.addEventListener("click", function(){ пауза = 8; });
+  /* 21.09 (Адиль): «чуть ускорить и чтобы крутилась без кликов, как видео» — такт 3,6 с вместо 4,5;
+     нажатие или клик только откладывают следующий такт на два, а не на восемь (36 с стояния на стенде
+     читались как «зависла»); ?авто=0 — выключить прокрутку для снимков */
+  if(!/[?&]авто=0/.test(decodeURIComponent(location.search))) setInterval(тик, 3600);
+  document.addEventListener("keydown", function(){ пауза = 2; });
+  document.addEventListener("click", function(){ пауза = 2; });
 })();
 </script>''' + т[b:]
 io.open(R + 'экран_kioge.html', 'w', encoding='utf-8').write(т)
