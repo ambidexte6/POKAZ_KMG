@@ -77,11 +77,18 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .график .ось{font-size:16px;letter-spacing:.14em;text-transform:uppercase;color:var(--приглуш)}
 .столбцы{flex:1;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;align-items:end;margin-top:14px;padding-bottom:6px;border-bottom:1px solid rgba(124,141,166,.35)}
 .столбец{display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
-/* 17.09 (фото с правками): крупно — доля КМГ, мелко — всего по программе */
+/* 17.09 (фото с правками): крупно — всего по программе, отдельно доля КМГ.
+   18.09 (Адиль): доля КМГ переехала внутрь столбика. Раньше жила <small>
+   внутри <b> сверху; тесно упиралась в число года, читалась как хвост суммы,
+   а не как отдельная величина. Теперь <em> внутри самого <i> (столбика) с
+   выравниванием сверху — фон столбика удерживает её как метку столбца. */
 .столбец b{font-family:'Unbounded',sans-serif;font-size:24.5px;color:var(--кмг_свет);font-weight:700;margin-bottom:8px;text-align:center}
-.столбец b small{display:block;font-family:'Golos Text',sans-serif;font-size:15.5px;font-weight:400;color:var(--приглуш);margin-top:3px}
-.столбец i{display:block;width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(2,174,240,.85),rgba(2,174,240,.25));
-  transform-origin:bottom;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.столбец i{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  width:100%;border-radius:8px 8px 0 0;background:linear-gradient(180deg,rgba(2,174,240,.85),rgba(2,174,240,.25));
+  padding:10px 6px 0;transform-origin:bottom;transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.столбец i em{font-style:normal;font-family:'Golos Text',sans-serif;font-size:14.5px;line-height:1.25;
+  text-align:center;color:#fff;text-shadow:0 1px 2px rgba(0,0,0,.35)}
+.столбец i em b{display:block;font-family:'Unbounded',sans-serif;font-size:18px;color:#fff;margin-top:2px}
 .столбец:not(.включён) i{transform:scaleY(0)}
 .столбец span{margin-top:8px;font-size:17.5px;color:var(--приглуш)}
 .разрез{display:flex;flex-direction:column;gap:12px;justify-content:center}
@@ -90,6 +97,16 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
 .разрез b i{font-style:normal;font-size:16px;font-family:'Golos Text',sans-serif;color:var(--приглуш);margin-left:4px}
 .разрез span{font-size:18px;letter-spacing:.06em;text-transform:uppercase;color:var(--текст2)}
 .прим{margin-top:10px;font-size:16px;color:var(--приглуш)}
+/* 18.09 (Адиль): выделенный блок про рыночную капитализацию — «самая дорогая
+   компания Казахстана». Стоит между шапкой панели и долями, чтобы читаться
+   первым. Мятный акцент — как у .вывод в бассейнах: показ говорит одним
+   визуальным языком, положительное выделение всегда мята. Единицу («млрд ₸»,
+   «трлн ₸» или «млрд $») пока не пишем — до показа перепроверить. */
+.выделено{margin-top:16px;padding:16px 22px;border-radius:16px;
+  border:1px solid rgba(62,230,184,.45);background:linear-gradient(180deg,rgba(62,230,184,.14),rgba(62,230,184,.04));
+  display:flex;align-items:baseline;gap:18px;flex-wrap:wrap}
+.выделено b{font-family:'Unbounded',sans-serif;font-size:34px;line-height:1;color:var(--мята);font-weight:700;white-space:nowrap}
+.выделено span{font-size:17px;line-height:1.35;color:var(--текст);flex:1;min-width:220px}
 
 /* ===== 2. геологоразведка: буллиты + карта ===== */
 .гео{display:grid;grid-template-columns:640px 1fr;gap:34px;height:100%;min-height:0}
@@ -166,6 +183,11 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
     <div class="две">
       <div class="панель">
         <div class="имя">Вклад КМГ в экономику Казахстана · итоги 2025 г.</div>
+        <!-- 18.09 (Адиль): рыночная капитализация — самая дорогая компания РК.
+             Единицу пока не пишем: у нацкомпании это обычно триллионы, а по
+             первичному сообщению значилось «47,4 млрд тенге» — до показа
+             перепроверить и дописать валюту (₸ / $ / трлн / млрд). -->
+        <div class="выделено"><b>47,4 млрд</b><span>Самая дорогая компания Казахстана по рыночной капитализации</span></div>
         <div class="доли">
           <div class="доля"><b>27%</b><span>доля в добыче нефти и конденсата</span></div>
           <div class="доля"><b>17%</b><span>доля в добыче природного и попутного газа</span></div>
@@ -186,10 +208,10 @@ h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top
             <!-- 18.09 (обсуждение малого экрана KIOGE): крупно — всего по программе, отдельно доля КМГ -->
             <div class="ось">млрд тенге по годам</div>
             <div class="столбцы">
-              <div class="столбец включён" data-к="1"><b>1 500<small>доля КМГ — 1 090</small></b><i style="height:25%"></i><span>2026</span></div>
-              <div class="столбец включён" data-к="1"><b>5 449<small>доля КМГ — 2 976</small></b><i style="height:92%"></i><span>2027</span></div>
-              <div class="столбец включён" data-к="1"><b>5 899<small>доля КМГ — 2 972</small></b><i style="height:100%"></i><span>2028</span></div>
-              <div class="столбец включён" data-к="1"><b>3 733<small>доля КМГ — 1 674</small></b><i style="height:63%"></i><span>2029</span></div>
+              <div class="столбец включён" data-к="1"><b>1 500</b><i style="height:25%"><em>доля КМГ<b>1 090</b></em></i><span>2026</span></div>
+              <div class="столбец включён" data-к="1"><b>5 449</b><i style="height:92%"><em>доля КМГ<b>2 976</b></em></i><span>2027</span></div>
+              <div class="столбец включён" data-к="1"><b>5 899</b><i style="height:100%"><em>доля КМГ<b>2 972</b></em></i><span>2028</span></div>
+              <div class="столбец включён" data-к="1"><b>3 733</b><i style="height:63%"><em>доля КМГ<b>1 674</b></em></i><span>2029</span></div>
             </div>
           </div>
           <div class="разрез">
