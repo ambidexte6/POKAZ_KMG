@@ -82,7 +82,7 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
   -webkit-mask-image:radial-gradient(1400px 900px at 50% 45%, #000 30%, transparent 82%);
           mask-image:radial-gradient(1400px 900px at 50% 45%, #000 30%, transparent 82%)}
 
-.слайд{position:absolute;inset:0;padding:calc(80px + var(--поля_в,0px)) calc(98px + var(--поля_ш,0px)) calc(96px + var(--поля_в,0px));display:flex;
+.слайд{position:absolute;inset:0;padding:calc(80px + var(--поля_в,0px)) calc(98px + var(--поля_ш,0px)) calc(122px + var(--поля_в,0px));display:flex;
   flex-direction:column;opacity:0;visibility:hidden;
   transform:translateY(16px);transition:opacity .42s ease, transform .42s ease, visibility 0s .42s}
 .слайд.виден{opacity:1;visibility:visible;transform:none;transition:opacity .42s ease, transform .42s ease}
@@ -120,41 +120,41 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 /* ===== проблемы и эффекты (11.09, таблица Есмамбетова + «Концептуальное
    видение по закупкам», цифры эффектов оттуда) ===== */
 .пэ_шапка{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:22px}
-.пэ_шапка div{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;border-bottom:1px solid rgba(124,141,166,.35)}
+.пэ_шапка div{font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;border-bottom:1px solid rgba(124,141,166,.35)}
 .пэ_шапка div:last-child{color:var(--мята);border-bottom-color:rgba(62,230,184,.45)}
 .пэ{display:grid;grid-template-columns:1fr 1fr;column-gap:28px;row-gap:0;margin-top:4px}
 .пэ .ряд{display:contents}
-.пэ .я{padding:14px 0;border-bottom:1px solid rgba(124,141,166,.18);font-size:15.5px;line-height:1.38;color:var(--текст2);
+.пэ .я{padding:14px 0;border-bottom:1px solid rgba(124,141,166,.18);font-size:20px;line-height:1.38;color:var(--текст2);
   opacity:0;transform:translateY(8px);transition:opacity .4s ease,transform .4s ease}
 .пэ .я.включён{opacity:1;transform:none}
 .пэ .я b{color:var(--текст);font-weight:700}
 .пэ .я.эф b{color:var(--мята)}
-.пэ .я .н{display:inline-block;width:26px;color:var(--кмг);font-family:'Unbounded',sans-serif;font-size:12px;font-weight:700}
+.пэ .я .н{display:inline-block;width:26px;color:var(--кмг);font-family:'Unbounded',sans-serif;font-size:16px;font-weight:700}
 .пэ .я.эф .н{color:var(--мята)}
 .пэ .я em{font-style:normal;color:var(--кмг);font-weight:700}
 .пэ_цифры{margin-top:44px;display:flex;gap:18px}
 .пэ_цифры div{flex:1;border-top:2px solid rgba(2,174,240,.42);padding-top:10px}
-.пэ_цифры b{display:block;font-family:'Unbounded',sans-serif;font-size:26px;color:var(--кмг);font-weight:700;line-height:1.1}
-.пэ_цифры span{display:block;margin-top:5px;font-size:13px;line-height:1.35;color:var(--приглуш)}
-.пэ_прим{margin-top:8px;font-size:11.5px;color:var(--приглуш)}
+.пэ_цифры b{display:block;font-family:'Unbounded',sans-serif;font-size:30.5px;color:var(--кмг);font-weight:700;line-height:1.1}
+.пэ_цифры span{display:block;margin-top:5px;font-size:17.5px;line-height:1.35;color:var(--приглуш)}
+.пэ_прим{margin-top:8px;font-size:15.5px;color:var(--приглуш)}
 /* ===== проблемы: плитки + одна панель сути (14.09) ===== */
 .пп_плитки{position:relative;margin-top:26px;display:grid;grid-template-columns:repeat(5,1fr);gap:22px;padding-top:24px}
 .пп_плитки .нить{stroke:rgba(124,141,166,.5);stroke-dasharray:6 8}
 .пп_плитка{position:relative;display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;border:1px solid rgba(240,174,74,.3);
   background:linear-gradient(180deg,rgba(12,22,38,.9),rgba(5,8,16,.7))}
 .пп_плитка img{width:48px;height:48px;object-fit:contain;filter:grayscale(1) brightness(.65)}
-.пп_плитка em{position:absolute;right:14px;top:10px;font-family:'Unbounded',sans-serif;font-style:normal;font-size:11px;color:#F0AE4A;font-weight:700}
-.пп_плитка b{font-size:15px;line-height:1.25;color:var(--текст)}
+.пп_плитка em{position:absolute;right:14px;top:10px;font-family:'Unbounded',sans-serif;font-style:normal;font-size:15px;color:#F0AE4A;font-weight:700}
+.пп_плитка b{font-size:19px;line-height:1.25;color:var(--текст)}
 .пп_маркер{position:absolute;inset:-1px;border-radius:14px;border:2px solid #F0AE4A;box-shadow:0 0 0 4px rgba(240,174,74,.14),0 0 28px rgba(240,174,74,.3);pointer-events:none}
 .пп_панели{position:relative;flex:0 0 auto;margin-top:34px;height:360px}
 .пп_панель{position:absolute;inset:0;display:grid;grid-template-columns:1.25fr .75fr;gap:34px;align-items:stretch}
 .пп_текст{border:1px solid var(--грань);border-radius:18px;padding:26px 30px;background:rgba(12,22,38,.6)}
-.пп_н{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:#F0AE4A}
-.пп_текст h3{margin:10px 0 0;font-family:'Unbounded',system-ui,sans-serif;font-size:26px;line-height:1.2;font-weight:700;color:var(--текст);text-wrap:balance}
-.пп_текст p{margin:18px 0 0;font-size:18px;line-height:1.6;color:var(--текст2);max-width:60ch}
+.пп_н{font-size:15.5px;letter-spacing:.2em;text-transform:uppercase;color:#F0AE4A}
+.пп_текст h3{margin:10px 0 0;font-family:'Unbounded',system-ui,sans-serif;font-size:30.5px;line-height:1.2;font-weight:700;color:var(--текст);text-wrap:balance}
+.пп_текст p{margin:18px 0 0;font-size:23px;line-height:1.6;color:var(--текст2);max-width:60ch}
 .пп_акцент{border:1px solid rgba(240,174,74,.4);border-radius:18px;padding:26px 30px;background:rgba(240,174,74,.06);display:flex;flex-direction:column;justify-content:center;gap:12px}
-.пп_акцент b{font-family:'Unbounded',sans-serif;font-size:34px;line-height:1.15;color:#F0AE4A;text-wrap:balance}
-.пп_акцент span{font-size:15px;line-height:1.4;color:var(--текст2)}
+.пп_акцент b{font-family:'Unbounded',sans-serif;font-size:36.5px;line-height:1.15;color:#F0AE4A;text-wrap:balance}
+.пп_акцент span{font-size:19px;line-height:1.4;color:var(--текст2)}
 
 /* ===== проблемы и эффекты как цепочка (закупщики 11.09: «там только текст») ===== */
 .пэ_полотно{margin-top:26px;display:flex;flex-direction:column;gap:34px;flex:1}
@@ -173,82 +173,83 @@ button{font:inherit;color:inherit;background:none;border:none;cursor:pointer}
 .пэ_цепь.проблемы .пэ_шаг i{color:#F0AE4A}
 .пэ_цепь.эффекты .пэ_шаг{border-color:rgba(62,230,184,.4)}
 .пэ_цепь.эффекты .пэ_шаг i{color:var(--мята)}
-.пэ_шаг i{font-family:'Unbounded',sans-serif;font-style:normal;font-size:12px;font-weight:700;letter-spacing:.1em}
-.пэ_шаг b{font-size:15.5px;line-height:1.25;color:var(--текст);min-height:2.5em}
-.пэ_шаг span{font-size:12.5px;line-height:1.35;color:var(--приглуш)}
-.пэ_цепь.длинные .пэ_шаг b{font-size:15px;min-height:0}
-.пэ_цепь.длинные .пэ_шаг span{font-size:13px;line-height:1.45;color:var(--текст2)}
-.пэ_цепь.длинные .пэ_шаг em{font-style:normal;font-size:12.5px;color:#F0AE4A;margin-top:4px}
+.пэ_шаг i{font-family:'Unbounded',sans-serif;font-style:normal;font-size:16px;font-weight:700;letter-spacing:.1em}
+.пэ_шаг b{font-size:20px;line-height:1.25;color:var(--текст);min-height:2.5em}
+.пэ_шаг span{font-size:17px;line-height:1.35;color:var(--приглуш)}
+.пэ_цепь.длинные .пэ_шаг b{font-size:19px;min-height:0}
+.пэ_цепь.длинные .пэ_шаг span{font-size:17.5px;line-height:1.45;color:var(--текст2)}
+.пэ_цепь.длинные .пэ_шаг em{font-style:normal;font-size:17px;color:#F0AE4A;margin-top:4px}
 .пэ_цепь.длинные .пэ_шаг img{width:52px;height:52px}
-.пэ_низ{display:grid;grid-template-columns:1.1fr .9fr;gap:34px;align-items:stretch}
+/* 17.09: без блока «было → стало» низ — одна панель с тремя процентами в ряд */
+.пэ_низ{display:grid;grid-template-columns:1fr;gap:34px;align-items:stretch}
 .пэ_низ > div{border:1px solid var(--грань);border-radius:16px;padding:18px 22px;background:rgba(12,22,38,.6)}
-.пэ_низ .имя{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
+.пэ_низ .имя{font-size:15.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--приглуш)}
 .столбики{display:flex;gap:40px;align-items:flex-end;height:150px;margin-top:16px;padding-left:6px}
 .столб{position:relative;width:64px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
 .столб i{display:block;width:100%;height:var(--в);border-radius:6px 6px 0 0;background:linear-gradient(180deg,rgba(2,174,240,.55),rgba(2,174,240,.15));
   transform:scaleY(0);transform-origin:bottom;transition:transform .9s cubic-bezier(.2,.7,.3,1)}
 .пэ_остатки.включён .столб i{transform:scaleY(1)}
 .столб.горит i{background:linear-gradient(180deg,#F0AE4A,rgba(240,174,74,.25))}
-.столб em{position:absolute;top:-2px;font-style:normal;font-size:15px;font-weight:700;color:var(--текст);transform:translateY(calc(-100% - 4px));opacity:0;transition:opacity .5s ease .7s}
+.столб em{position:absolute;top:-2px;font-style:normal;font-size:19px;font-weight:700;color:var(--текст);transform:translateY(calc(-100% - 4px));opacity:0;transition:opacity .5s ease .7s}
 .столб:nth-child(1) em{top:calc(100% - 60%)}.столб:nth-child(2) em{top:0}
 .пэ_остатки.включён .столб em{opacity:1}
-.столб u{text-decoration:none;font-size:12px;color:var(--приглуш);margin-top:6px}
-.подпись_ост{margin-top:12px;font-size:13px;color:var(--текст2)}
+.столб u{text-decoration:none;font-size:16px;color:var(--приглуш);margin-top:6px}
+.подпись_ост{margin-top:12px;font-size:17.5px;color:var(--текст2)}
 .подпись_ост strong{color:#F0AE4A}
 .кубики{display:flex;gap:16px;margin-top:18px}
-.кубики span{flex:1;border-radius:12px;padding:14px 16px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--приглуш);
+.кубики span{flex:1;border-radius:12px;padding:14px 16px;font-size:16px;letter-spacing:.08em;text-transform:uppercase;color:var(--приглуш);
   border:1px solid var(--грань);background:rgba(5,8,16,.6);transform:translateY(10px);opacity:0;transition:all .5s ease}
 .пэ_системы.включён .кубики span{transform:none;opacity:1}
 .пэ_системы.включён .кубики span:nth-child(2){transition-delay:.12s}.пэ_системы.включён .кубики span:nth-child(3){transition-delay:.24s}
-.кубики b{display:block;font-family:'Unbounded',sans-serif;font-size:30px;color:var(--текст);margin-bottom:4px}
+.кубики b{display:block;font-family:'Unbounded',sans-serif;font-size:35.5px;color:var(--текст);margin-bottom:4px}
 .кубики .одинс b{color:#F0AE4A}
 .ряд_бс{display:grid;grid-template-columns:200px 1fr 80px;align-items:center;gap:16px;margin-top:14px}
-.ряд_бс span{font-size:13.5px;color:var(--текст2)}
-.ряд_бс b{font-family:'Unbounded',sans-serif;font-size:18px;color:var(--мята);text-align:right}
+.ряд_бс span{font-size:18px;color:var(--текст2)}
+.ряд_бс b{font-family:'Unbounded',sans-serif;font-size:23px;color:var(--мята);text-align:right}
 .полосы{display:flex;flex-direction:column;gap:5px}
 .полосы i{position:relative;display:block;height:16px;border-radius:4px}
-.полосы i em{position:absolute;right:8px;top:-1px;font-style:normal;font-size:12px;font-weight:700;color:var(--текст)}
+.полосы i em{position:absolute;right:8px;top:-1px;font-style:normal;font-size:16px;font-weight:700;color:var(--текст)}
 .полосы .было{width:100%;background:rgba(124,141,166,.28)}
 .полосы .стало{width:100%;background:linear-gradient(90deg,var(--мята),rgba(62,230,184,.35));transition:width 1.2s cubic-bezier(.2,.7,.3,1) .3s}
 .было_стало.включён .полосы .стало{width:var(--д)}
-.пэ_проценты{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;align-content:start}
+.пэ_проценты{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 22px;align-content:start}
 .пэ_проценты .имя{grid-column:1/-1}
-.пц b{display:block;font-family:'Unbounded',sans-serif;font-size:26px;color:var(--кмг);line-height:1.1}
-.пц span{font-size:12.5px;color:var(--приглуш)}
+.пц b{display:block;font-family:'Unbounded',sans-serif;font-size:36.5px;color:var(--кмг);line-height:1.1}
+.пц span{font-size:19px;color:var(--текст2)}
 
 .пэ.одна{grid-template-columns:1fr;margin-top:26px}
-.пэ.одна .я{font-size:18px;padding:16px 0}
-.пэ.одна .я .н{width:34px;font-size:13px}
+.пэ.одна .я{font-size:23px;padding:16px 0}
+.пэ.одна .я .н{width:34px;font-size:17.5px}
 .эф_две{display:grid;grid-template-columns:1.25fr .75fr;gap:48px;margin-top:10px}
-.эф_список.пэ.одна .я{font-size:16.5px;padding:13px 0}
+.эф_список.пэ.одна .я{font-size:21px;padding:13px 0}
 .эф_цифры{display:flex;flex-direction:column;gap:14px;padding-top:18px}
-.эф_бирка{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--мята);padding-bottom:8px;border-bottom:1px solid rgba(62,230,184,.45)}
+.эф_бирка{font-size:16px;letter-spacing:.2em;text-transform:uppercase;color:var(--мята);padding-bottom:8px;border-bottom:1px solid rgba(62,230,184,.45)}
 .эф_к{display:flex;align-items:center;gap:18px;padding:10px 0;border-bottom:1px solid rgba(124,141,166,.18)}
-.эф_к b{font-family:'Unbounded',sans-serif;font-size:30px;color:var(--кмг);font-weight:700;min-width:170px;line-height:1}
-.эф_к.малый b{font-size:22px}
-.эф_к span{font-size:15px;color:var(--текст);line-height:1.3}
-.эф_к span i{display:block;font-style:normal;font-size:12.5px;color:var(--приглуш);margin-top:3px}
+.эф_к b{font-family:'Unbounded',sans-serif;font-size:35.5px;color:var(--кмг);font-weight:700;min-width:170px;line-height:1}
+.эф_к.малый b{font-size:26px}
+.эф_к span{font-size:19px;color:var(--текст);line-height:1.3}
+.эф_к span i{display:block;font-style:normal;font-size:17px;color:var(--приглуш);margin-top:3px}
 
 /* 11.09: блокеры текущего процесса — янтарём, как незакрытое */
 .карточка.блокер{border-color:rgba(240,174,74,.6);background:rgba(240,174,74,.08)}
 .карточка.блокер b{color:#F0AE4A}
-.карточка .метка_блокер{display:inline-block;margin-top:8px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#F0AE4A;border:1px solid rgba(240,174,74,.5);border-radius:6px;padding:3px 8px}
+.карточка .метка_блокер{display:inline-block;margin-top:8px;font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:#F0AE4A;border:1px solid rgba(240,174,74,.5);border-radius:6px;padding:3px 8px}
 @media (prefers-reduced-motion: reduce){
   .слайд{transition:opacity .01s linear, visibility 0s .01s;transform:none}
   .слайд.виден{transition:opacity .01s linear}
 }
 
-.бровь{font-size:14px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
-h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top:10px;max-width:1600px}
-.идея{margin-top:10px;font-size:15.5px;line-height:1.45;color:var(--приглуш);max-width:1500px}
+.бровь{font-size:19px;letter-spacing:.22em;text-transform:uppercase;color:var(--приглуш)}
+h2.заголовок{font-size:39px;font-weight:700;line-height:1.15;margin-top:10px;max-width:1600px}
+.идея{margin-top:10px;font-size:20px;line-height:1.45;color:var(--приглуш);max-width:1500px}
 
 /* ===== чипы систем (в опорах их больше нет, остаются для бирок) ===== */
-.чип{display:inline-block;font-family:'Unbounded',sans-serif;font-size:11.5px;
+.чип{display:inline-block;font-family:'Unbounded',sans-serif;font-size:15.5px;
   letter-spacing:.03em;padding:6px 12px;border-radius:999px;white-space:nowrap;
   border:1px solid rgba(2,174,240,.45);color:var(--кмг);background:rgba(2,174,240,.10)}
 .чип.обмен{border-color:rgba(62,213,152,.5);color:var(--мята);background:rgba(62,213,152,.10)}
 .чип.пусто{border-color:var(--грань);color:var(--приглуш);background:transparent;
-  font-family:'Golos Text',sans-serif;font-size:12.5px;letter-spacing:.02em}
+  font-family:'Golos Text',sans-serif;font-size:17px;letter-spacing:.02em}
 
 /* ===== общие элементы процессных слайдов =====
    Три слайда собраны по одному покадровому сценарию заказчика (документ
@@ -258,34 +259,34 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .система{position:absolute;border:1px solid var(--грань);border-radius:20px;
   background:linear-gradient(180deg, rgba(12,22,38,.88), rgba(5,8,16,.62));
   padding:22px 26px 24px}
-.система > .имя{font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;
+.система > .имя{font-size:17px;letter-spacing:.18em;text-transform:uppercase;
   color:var(--приглуш);line-height:1.35}
 .модуль{margin-top:16px;border:1.5px solid rgba(2,174,240,.55);border-radius:14px;
   background:rgba(2,174,240,.10);padding:16px 18px 16px}
-.модуль .заг{font-size:19px;font-weight:700;color:var(--текст);line-height:1.25;
+.модуль .заг{font-size:24.5px;font-weight:700;color:var(--текст);line-height:1.25;
   display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.модуль .ии{font-family:'Unbounded',sans-serif;font-size:10px;letter-spacing:.14em;
+.модуль .ии{font-family:'Unbounded',sans-serif;font-size:13.5px;letter-spacing:.14em;
   padding:4px 8px;border-radius:999px;border:1px solid var(--кмг);color:var(--кмг)}
 .модуль.обмен{border-color:rgba(62,213,152,.6);background:rgba(62,213,152,.10)}
 .модуль.обмен .ии{border-color:var(--мята);color:var(--мята)}
 .действия{margin-top:14px;list-style:none;display:flex;flex-direction:column;gap:7px}
-.действия li{font-size:15.5px;line-height:1.4;color:var(--текст2);padding-left:18px;position:relative}
+.действия li{font-size:20px;line-height:1.4;color:var(--текст2);padding-left:18px;position:relative}
 .действия li::before{content:"";position:absolute;left:2px;top:9px;width:6px;height:6px;
   border-radius:50%;background:var(--кмг)}
 .действия li.ключ{color:var(--мята);font-weight:600}
 .действия li.ключ::before{background:var(--мята)}
 .источники{margin-top:14px;display:flex;flex-wrap:wrap;gap:8px}
-.источник{font-size:13.5px;padding:6px 11px;border-radius:999px;border:1px solid var(--грань);
+.источник{font-size:18px;padding:6px 11px;border-radius:999px;border:1px solid var(--грань);
   color:var(--текст2);background:rgba(12,22,38,.6)}
 .карточка{position:absolute;border-radius:16px;padding:18px 22px;
   border:1px solid rgba(62,213,152,.45);background:rgba(62,213,152,.09)}
-.карточка b{display:block;font-size:17px;color:var(--мята);font-weight:700}
+.карточка b{display:block;font-size:22px;color:var(--мята);font-weight:700}
 .карточка b .ии{margin-left:8px;vertical-align:middle}
 .карточка ul{margin-top:10px;list-style:none;display:flex;flex-direction:column;gap:5px}
-.карточка li{font-size:14.5px;color:var(--текст2);line-height:1.35}
+.карточка li{font-size:18.5px;color:var(--текст2);line-height:1.35}
 .карточка.синяя{border-color:rgba(2,174,240,.5);background:rgba(2,174,240,.09)}
 .карточка.синяя b{color:var(--кмг)}
-.бирка_срок{position:absolute;font-family:'Unbounded',sans-serif;font-size:12px;
+.бирка_срок{position:absolute;font-family:'Unbounded',sans-serif;font-size:16px;
   letter-spacing:.08em;padding:9px 14px;border-radius:12px;
   border:1px solid rgba(2,174,240,.6);color:var(--кмг);background:rgba(2,174,240,.14)}
 
@@ -306,7 +307,7 @@ h2.заголовок{font-size:36px;font-weight:700;line-height:1.15;margin-top
 .поток_подпись.назад{fill:var(--мята)}
 svg .поток[data-к]{transform:none}
 .стрела .подпись{position:absolute;left:-8px;right:-8px;bottom:12px;text-align:center;
-  font-size:13px;line-height:1.3;color:var(--текст2)}
+  font-size:17.5px;line-height:1.3;color:var(--текст2)}
 .стрела.назад .подпись{bottom:auto;top:12px;color:var(--мята)}
 .стрела.вниз .подпись{left:14px;right:auto;bottom:auto;top:50%;transform:translateY(-50%);
   text-align:left;white-space:normal;width:220px}
@@ -325,16 +326,16 @@ svg .поток[data-к]{transform:none}
 /* ===== слайд 1: как рождается потребность ===== */
 .склад{position:absolute;border:1.5px solid rgba(2,174,240,.55);border-radius:18px;
   background:linear-gradient(180deg, rgba(12,22,38,.92), rgba(5,8,16,.7));padding:20px 24px 22px}
-.склад .имя{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
-.склад .заг{margin-top:8px;font-size:18px;font-weight:700;display:flex;align-items:center;gap:10px}
-.склад .ии{font-family:'Unbounded',sans-serif;font-size:10px;letter-spacing:.14em;padding:4px 8px;
+.склад .имя{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
+.склад .заг{margin-top:8px;font-size:23px;font-weight:700;display:flex;align-items:center;gap:10px}
+.склад .ии{font-family:'Unbounded',sans-serif;font-size:13.5px;letter-spacing:.14em;padding:4px 8px;
   border-radius:999px;border:1px solid var(--кмг);color:var(--кмг)}
 .склад .сетка{margin-top:16px;display:grid;grid-template-columns:repeat(8,1fr);gap:8px}
 .ячейка{aspect-ratio:1;border-radius:5px;background:rgba(2,174,240,.22);border:1px solid rgba(2,174,240,.48);
   opacity:0;transform:scale(.55);transition:opacity .3s ease,transform .35s cubic-bezier(.2,.8,.3,1)}
 .склад.включён .ячейка{opacity:1;transform:none}
 .ячейка.пусто{background:transparent;border-style:dashed;border-color:rgba(124,141,166,.7)}
-.склад .ключ{margin-top:14px;display:flex;gap:18px;font-size:13px;color:var(--приглуш)}
+.склад .ключ{margin-top:14px;display:flex;gap:18px;font-size:17.5px;color:var(--приглуш)}
 .склад .ключ span{display:flex;align-items:center;gap:7px}
 .склад .ключ span::before{content:"";width:11px;height:11px;border-radius:3px}
 .склад .ключ .есть::before{background:rgba(2,174,240,.22);border:1px solid rgba(2,174,240,.48)}
@@ -350,8 +351,8 @@ svg .поток[data-к]{transform:none}
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.7))}
 .исток .мини{flex:0 0 70px;height:56px}
 .исток .мини svg{width:70px;height:56px;display:block}
-.исток b{display:block;font-size:15px;line-height:1.25;color:var(--текст)}
-.исток span{display:block;margin-top:4px;font-size:12.5px;line-height:1.3;color:var(--приглуш)}
+.исток b{display:block;font-size:19px;line-height:1.25;color:var(--текст)}
+.исток span{display:block;margin-top:4px;font-size:17px;line-height:1.3;color:var(--приглуш)}
 .мини .з{fill:rgba(2,174,240,.55);stroke:none}
 .мини .п{fill:none;stroke:rgba(124,141,166,.8);stroke-dasharray:2 2}
 .мини .к{fill:none;stroke:rgba(2,174,240,.6);stroke-width:1.5}
@@ -365,41 +366,44 @@ svg .поток[data-к]{transform:none}
   transition:stroke-dashoffset .8s ease}
 .сбор.включён{stroke-dashoffset:0}
 svg .сбор[data-к]{transform:none}
-.пилюля{position:absolute;font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.04em;
+.пилюля{position:absolute;font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.04em;
   padding:14px 20px;border-radius:999px;border:1.5px solid rgba(2,174,240,.6);color:var(--кмг);
   background:rgba(2,174,240,.12)}
 
 /* ===== слайд 2: маркетинг цен и бюджет ===== */
-.склад .ищет{margin-top:12px;font-size:14px;line-height:1.45;color:var(--текст2)}
+/* 18.09 (фото экрана): схема сверстана абсолютными координатами под прежний кегль, с крупным
+   шрифтом карточки полезли друг на друга и за низ; полотно ужато целиком */
+#с2 .полотно{zoom:.86;width:2000px}   /* холст шире кадра — ужат обратно в 1724 */
+.склад .ищет{margin-top:12px;font-size:19px;line-height:1.45;color:var(--текст2)}
 .склад .ищет strong,.карточка .кодчип strong{color:var(--кмг);font-weight:700}
 .карточка li.мятн{color:var(--мята)}
 .справочник{position:absolute;border:1px solid var(--грань);border-radius:14px;padding:12px 14px;
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.7))}
-.справочник b{display:block;font-size:14px;color:var(--текст)}
-.справочник > span{display:block;font-size:11.5px;color:var(--приглуш);line-height:1.3;margin-top:2px}
+.справочник b{display:block;font-size:19px;color:var(--текст)}
+.справочник > span{display:block;font-size:15.5px;color:var(--приглуш);line-height:1.3;margin-top:2px}
 .справочник ul{margin-top:8px;list-style:none;display:flex;flex-direction:column;gap:4px}
-.справочник li{font-size:12px;white-space:nowrap;color:var(--приглуш);display:flex;justify-content:space-between;gap:8px;
+.справочник li{font-size:16px;white-space:nowrap;color:var(--приглуш);display:flex;justify-content:space-between;gap:8px;
   padding:3px 6px;border-radius:6px;transition:background .5s ease .6s,color .5s ease .6s}
-.справочник li span{font-size:11.5px;white-space:nowrap}
+.справочник li span{font-size:15.5px;white-space:nowrap}
 .справочник.включён li.совп{background:rgba(2,174,240,.16);color:var(--текст)}
 .справочник.включён li.совп span{color:var(--кмг)}
 .поставщик{position:absolute;width:240px;border:1px solid var(--грань);border-radius:12px;padding:10px 14px;
   background:linear-gradient(180deg, rgba(12,22,38,.9), rgba(5,8,16,.7))}
-.поставщик b{font-size:13.5px;color:var(--текст);display:inline-block;min-width:150px}
-.поставщик .код{margin-left:8px;font-size:11px;color:var(--кмг)}
+.поставщик b{font-size:18px;color:var(--текст);display:inline-block;min-width:150px}
+.поставщик .код{margin-left:8px;font-size:15px;color:var(--кмг)}
 /* 11.09: товаропроизводители (КТП, закупщики 13.09: «не ТПФ») подчёркнуты — закупщики просили выделить */
-.поставщик .тпф{margin-left:8px;font-size:11px;color:var(--мята);border:1px solid rgba(62,230,184,.5);border-radius:5px;padding:1px 6px}
+.поставщик .тпф{margin-left:8px;font-size:15px;color:var(--мята);border:1px solid rgba(62,230,184,.5);border-radius:5px;padding:1px 6px}
 .поставщик.тп{border-color:rgba(62,230,184,.55)}
 .поставщик .кп{margin-top:8px;height:14px;position:relative;display:flex;align-items:center;gap:8px}
 .поставщик .кп i{display:block;height:6px;border-radius:3px;background:linear-gradient(90deg, rgba(62,213,152,.35), var(--зелёный))}
-.поставщик .кп em{font-style:normal;font-size:12px;color:var(--мята);white-space:nowrap;margin-left:auto}
+.поставщик .кп em{font-style:normal;font-size:16px;color:var(--мята);white-space:nowrap;margin-left:auto}
 .карточка .шкала{position:relative;height:34px;margin-top:12px;border-bottom:2px solid var(--грань)}
 .карточка .шкала i{position:absolute;top:14px;width:2px;height:12px;background:var(--мята)}
 .карточка .шкала i.сред{background:var(--кмг)}
-.карточка .шкала span{position:absolute;top:-2px;font-size:11px;transform:translateX(-50%)}
+.карточка .шкала span{position:absolute;top:-2px;font-size:15px;transform:translateX(-50%)}
 .карточка .шкала span.низ{left:26%;color:var(--мята)}
 .карточка .шкала span.сред{left:70%;color:var(--кмг)}
-.склад .статус{margin-top:14px;display:inline-block;padding:8px 12px;border-radius:999px;font-size:13px;font-weight:600;
+.склад .статус{margin-top:14px;display:inline-block;padding:8px 12px;border-radius:999px;font-size:17.5px;font-weight:600;
   border:1px solid rgba(62,213,152,.6);color:var(--мята);background:rgba(62,213,152,.12)}
 .сбор.назад{stroke:var(--зелёный)}
 
@@ -410,25 +414,25 @@ svg .сбор[data-к]{transform:none}
 .кал .т{font-family:'Golos Text',sans-serif;font-size:8px;fill:var(--текст2)}
 .заявка{position:absolute;display:flex;flex-direction:column;align-items:center;gap:4px}
 .заявка svg{width:56px;height:68px}
-.заявка span{font-size:11px;line-height:1.2;text-align:center;color:var(--кмг)}
+.заявка span{font-size:15px;line-height:1.2;text-align:center;color:var(--кмг);max-width:64px}
 .док{fill:rgba(2,174,240,.14);stroke:var(--кмг);stroke-width:1.6}
 .строки{fill:none;stroke:rgba(2,174,240,.7);stroke-width:1.4}
-.площадка .секретарь{margin-top:10px;display:inline-block;font-size:12.5px;color:var(--мята);
+.площадка .секретарь{margin-top:10px;display:inline-block;font-size:17px;color:var(--мята);
   border:1px solid rgba(62,213,152,.5);border-radius:999px;padding:5px 11px;background:rgba(62,213,152,.1)}
 .участник{position:absolute;width:130px;display:flex;flex-direction:column;align-items:center;gap:6px;
   padding:12px 8px;border-radius:12px;border:1px solid var(--грань);background:rgba(12,22,38,.7)}
 .участник svg{width:40px;height:48px}
-.участник b{font-size:12.5px;color:var(--текст2);font-weight:600}
+.участник b{font-size:17px;color:var(--текст2);font-weight:600}
 .галка{fill:none;stroke:var(--мята);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;
   stroke-dasharray:30;stroke-dashoffset:30;transition:stroke-dashoffset .5s ease}
 .участник.включён .галка,.документ.включён .галка,.галка.включён{stroke-dashoffset:0}
 .участник.победитель{border-color:rgba(62,213,152,.6);box-shadow:0 0 18px rgba(62,213,152,.35)}
 .участник.победитель b{color:var(--мята)}
-.участник.победитель::after{content:"выбран";font-size:11px;color:var(--мята)}
+.участник.победитель::after{content:"выбран";font-size:15px;color:var(--мята)}
 .договор{display:flex;align-items:center;gap:18px}
 .договор .печать{width:64px;height:64px;flex:0 0 64px}
 .договор .цепь{width:64px;height:32px;margin-left:auto}
-.договор span{display:block;font-size:13px;color:var(--текст2);margin-top:4px}
+.договор span{display:block;font-size:17.5px;color:var(--текст2);margin-top:4px}
 .круг{fill:none;stroke:var(--кмг);stroke-width:1.8}
 .круг.мята{stroke:var(--мята)}
 .круг.серая{stroke:var(--приглуш)}
@@ -451,32 +455,33 @@ svg .сбор[data-к]{transform:none}
 .лента .документ .док{fill:rgba(2,174,240,.14)}
 .лента .т.серый{fill:var(--приглуш)}
 svg .ось[data-к]{transform:none}
-.карточка.календ b{font-size:15px}
+.карточка.календ b{font-size:19px}
 
 /* ===== 0. семь шагов ===== */
 .семь{margin-top:auto;display:grid;grid-template-columns:repeat(7,1fr);gap:22px}
-.шаг7{border-top:2px solid rgba(2,174,240,.42);padding-top:16px}
-.шаг7 .н{font-family:'Unbounded',sans-serif;font-size:14px;color:var(--кмг);font-weight:700}
-.шаг7 h3{margin-top:12px;font-size:20px;font-weight:700;line-height:1.25;min-height:76px}
-.шаг7 .сис{margin-top:12px;font-size:14px;line-height:1.4;color:var(--приглуш)}
+.шаг7{border-top:2px solid rgba(2,174,240,.42);padding-top:16px;display:flex;flex-direction:column}
+.шаг7 .н{font-family:'Unbounded',sans-serif;font-size:19px;color:var(--кмг);font-weight:700}
+/* заголовок с запасом под три строки — чтобы имена систем стояли на одной линии */
+.шаг7 h3{margin-top:12px;font-size:25.5px;font-weight:700;line-height:1.25;min-height:100px}
+.шаг7 .сис{margin-top:12px;font-size:19px;line-height:1.4;color:var(--приглуш)}
 .шаг7.обмен{border-top-color:rgba(62,213,152,.55)}
 .шаг7.обмен .н{color:var(--мята)}
 .лента7{margin-top:40px;margin-bottom:auto;width:1724px;height:60px}
 .лента7 .ось{stroke:var(--циан);stroke-width:2;fill:none;opacity:.6}
 /* карточка товара — один пример через все слайды */
-.товар_имя{margin-top:8px;font-size:17px;font-weight:700;color:var(--текст)}
+.товар_имя{margin-top:8px;font-size:22px;font-weight:700;color:var(--текст)}
 .карточка li.цена_стр{color:var(--кмг)}
 .карточка li strong{color:var(--кмг)}
 
 /* ===== первая страница ===== */
-.система_имя{margin-top:22px;font-size:34px;font-weight:700;color:var(--кмг)}
-.система_имя span{display:block;font-family:'Golos Text',sans-serif;font-size:16px;font-weight:400;
+.система_имя{margin-top:22px;font-size:36.5px;font-weight:700;color:var(--кмг)}
+.система_имя span{display:block;font-family:'Golos Text',sans-serif;font-size:20.5px;font-weight:400;
   color:var(--приглуш);letter-spacing:.04em;margin-top:4px}
-.подзаг{margin-top:8px;font-size:22px;color:var(--текст2)}
+.подзаг{margin-top:8px;font-size:26px;color:var(--текст2)}
 /* Иконки шагов сгенерированы одним листом (nano_banana_pro) и нарезаны:
    лист — медиа/иконки_закупки/лист.png, чтобы перерезать при нужде. */
 .шаг7 .ик{width:76px;height:76px;margin-top:10px;display:block;object-fit:contain}
-.шаг7 .сис b{display:block;font-size:15px;color:var(--текст);font-weight:700}
+.шаг7 .сис b{display:block;font-size:19px;color:var(--текст);font-weight:700}
 .шаг7 .сис b.платформа{color:var(--кмг)}
 .шаг7 .сис span{display:block;margin-top:4px}
 /* семь шагов открываются одним нажатием — каскадом слева направо */
@@ -489,7 +494,7 @@ svg .ось[data-к]{transform:none}
 .семь .шаг7:nth-child(9){transition-delay:.66s}
 .лента7{transition-delay:.8s}
 /* полосы над колонками: четыре реализованных шага и три в работе */
-.семь .полоса{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;
+.семь .полоса{font-size:17.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--приглуш);padding-bottom:10px;
   border-bottom:2px solid rgba(124,141,166,.35);margin-bottom:6px}
 .семь .полоса b{font-weight:700}
 .семь .полоса.готово{grid-column:1/5;border-bottom-color:var(--мята)}
@@ -503,9 +508,12 @@ svg .ось[data-к]{transform:none}
 .шаг7.работа .ик{opacity:.7}
 /* внешняя система (бюджетирование, SK Store) — тёплый цвет, не палитра платформы */
 .шаг7 .сис b.внешняя{color:var(--внеш)}
-/* плашка статуса — на одной высоте у всех: строка системы фиксированной высоты */
-.шаг7 .сис{min-height:62px}
-.шаг7 .ст{margin-top:14px;font-size:13px;line-height:1.35}
+/* плашка статуса — на одной линии у всех семи. 18.09 (Адиль, фото стенда): min-height у строки системы
+   не спасал — «Модуль „Формирование потребностей“» уходит в три строки и сдвигал плашку ниже остальных.
+   Карточка — flex-колонка, плашка прижата к низу и одной высоты у всех, поэтому её верх совпадает
+   при любой длине текста выше (высота ряда сетки — по самой высокой карточке) */
+.шаг7 .сис{min-height:88px}
+.шаг7 .ст{margin-top:auto;padding-top:14px;min-height:104px;font-size:17.5px;line-height:1.35}
 .шаг7 .ст b{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:999px;font-weight:700}
 .шаг7 .ст b::before{content:"";width:8px;height:8px;border-radius:50%}
 .шаг7.готово .ст b{color:var(--мята);border:1px solid rgba(62,230,184,.6);background:rgba(62,230,184,.12)}
@@ -515,12 +523,12 @@ svg .ось[data-к]{transform:none}
 .шаг7 .ст span{display:block;margin-top:6px;color:var(--приглуш)}
 /* карточка товара: поля в две колонки «имя — значение» */
 .поля li{display:flex;justify-content:space-between;gap:12px;align-items:baseline}
-.поля li span{color:var(--приглуш);font-size:13px;white-space:nowrap}
+.поля li span{color:var(--приглуш);font-size:17.5px;white-space:nowrap}
 .поля li strong{color:var(--текст);font-weight:600;text-align:right}
 .поля li em{font-style:normal;color:var(--приглуш);text-align:right}
 .поля li strong.мятн{color:var(--мята)}
 /* статус документа потребности — чип; на шаге 2–3 меняется по кадрам (data-к / data-до) */
-.поля li strong.стат{display:inline-block;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;
+.поля li strong.стат{display:inline-block;padding:3px 10px;border-radius:999px;font-size:16px;font-weight:700;
   border:1px solid rgba(62,213,152,.6);color:var(--мята);background:rgba(62,213,152,.12)}
 .поля li strong.стат.идёт{border-color:rgba(79,227,255,.6);color:var(--циан);background:rgba(79,227,255,.1)}
 .поля li strong.стат[data-к]{display:none}
@@ -529,9 +537,9 @@ svg .ось[data-к]{transform:none}
 .поля li strong.мятн[data-к]{display:none}
 .поля li strong.мятн[data-к].включён{display:inline}
 .поля.две{display:grid;grid-template-columns:1fr 1fr;column-gap:28px}
-.карточка .средняя{margin-top:10px;font-size:13px;color:var(--приглуш)}
-.карточка .средняя strong{display:block;font-size:24px;color:var(--мята);font-weight:700;margin-top:2px}
-.карточка li.прим{color:var(--приглуш);font-size:13px}
+.карточка .средняя{margin-top:10px;font-size:17.5px;color:var(--приглуш)}
+.карточка .средняя strong{display:block;font-size:28.5px;color:var(--мята);font-weight:700;margin-top:2px}
+.карточка li.прим{color:var(--приглуш);font-size:17.5px}
 .карточка li strong.акцент{color:var(--мята)}
 .шестерня{width:40px;height:40px;margin-top:14px;display:block;fill:none;stroke:var(--кмг);stroke-width:2}
 .шестерня .крут{transform-origin:20px 20px;animation:кручение 1.6s linear infinite}
@@ -543,37 +551,57 @@ svg .ось[data-к]{transform:none}
 /* ===== титул ===== */
 #с00{justify-content:center}
 .титул_имя{font-size:118px;font-weight:700;line-height:1;color:var(--кмг)}
-.титул_расш{margin-top:18px;font-size:40px;color:var(--текст)}
-.титул_расш.en{margin-top:0;font-size:26px;color:var(--текст2)}
+.титул_расш{margin-top:18px;font-size:43px;color:var(--текст)}
+.титул_расш.en{margin-top:0;font-size:30.5px;color:var(--текст2)}
 .титул_черта{width:132px;height:3px;background:var(--кмг);margin:30px 0 26px;border-radius:2px;box-shadow:0 0 22px rgba(2,174,240,.55)}
-.титул_суть{font-size:26px;color:var(--текст2);max-width:1200px;line-height:1.4}
+.титул_суть{font-size:30.5px;color:var(--текст2);max-width:1200px;line-height:1.4}
 /* подпись-следствие под карточкой */
 /* список товаров пилота — две колонки, строка: номер · наименование · группа · код АСУ НСИ */
 .пилот{margin:0;padding:0;list-style:none;columns:2;column-gap:44px}
-.пилот li{display:flex;align-items:baseline;gap:14px;padding:11px 0;border-bottom:1px solid var(--грань);break-inside:avoid;font-size:16.5px}
-.пилот li i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:12px;color:var(--кмг);flex:0 0 28px}
-.пилот li b{font-weight:600;color:var(--текст);flex:1 1 auto;line-height:1.3}
-.пилот li span{color:var(--приглуш);font-size:13px;flex:0 0 190px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.пилот li em{font-style:normal;color:var(--мята);font-size:14.5px;flex:0 0 180px;text-align:right;white-space:nowrap}
+/* 18.09 (фото экрана): после увеличения шрифтов 13 строк колонки уходили под логотип — плотнее */
+.пилот li{display:flex;align-items:baseline;gap:12px;padding:6px 0;border-bottom:1px solid var(--грань);break-inside:avoid;font-size:18px}
+.пилот li i{font-style:normal;font-family:'Unbounded',sans-serif;font-size:16px;color:var(--кмг);flex:0 0 28px}
+.пилот li b{font-weight:600;color:var(--текст);flex:1 1 auto;line-height:1.25}
+.пилот li span{color:var(--приглуш);font-size:15px;flex:0 0 170px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.пилот li em{font-style:normal;color:var(--мята);font-size:16px;flex:0 0 165px;text-align:right;white-space:nowrap}
 /* скрины систем: рамка в палитре показа, картинка по ширине; четыре экрана — сеткой 2×2 */
 .скрин{position:absolute;max-height:100%;border:1.5px solid rgba(2,174,240,.45);border-radius:14px;overflow:hidden;background:#0C1626;
   box-shadow:0 0 40px rgba(2,174,240,.18)}
 .скрин img{display:block;width:100%;height:auto}
 .скрин .рамка{position:absolute;border:2.5px solid var(--мята);border-radius:6px;box-shadow:0 0 0 4px rgba(62,230,184,.18),0 0 24px rgba(62,230,184,.5)}
-.скрин .подпись_рамки{position:absolute;font-size:15px;font-weight:700;color:var(--мята);padding:6px 12px;border-radius:999px;
+.скрин .подпись_рамки{position:absolute;font-size:19px;font-weight:700;color:var(--мята);padding:6px 12px;border-radius:999px;
   background:rgba(5,8,16,.85);border:1px solid rgba(62,230,184,.6)}
+/* 18.09 (Адиль): столбцы, которые считает ИИ, — заливкой в цвете платформы поверх всей колонки таблицы;
+   строка и цена остаются мятной и янтарной рамками, чтобы три смысла не делили один цвет */
+.скрин .столбец{position:absolute;background:rgba(2,174,240,.16);border:2px solid rgba(2,174,240,.7);border-radius:6px;
+  box-shadow:0 0 16px rgba(2,174,240,.35)}
+.скрин .подпись_рамки.синяя{color:var(--кмг);border-color:rgba(2,174,240,.6)}
 /* один скрин на слайд, справа — что делает ИИ; картинка в исходном разрешении, не ужата */
 .полотно.экран{display:flex;gap:40px;align-items:flex-start}
 .экран .скрин{position:relative;flex:0 0 auto;max-width:1220px}
 .экран .скрин img{max-height:760px;width:auto;max-width:1220px}
+/* 18.09: скрины AI-Broker от закупщиков — WhatsApp, 424–788 px; в своём размере на 1920 не читаются, растянуты */
+#с4а .скрин img{width:1080px;height:auto}
+#с4б .скрин img{height:700px}
+/* 18.09 (Адиль): «скрин сделать больше» — вертикальный скрин 461×830 на 1920 читался мельче оригинала.
+   Разрезан по пустой полосе на две половины (спецификации + соответствия | расхождения + итог), они рядом
+   по 660 px шириной, текст «что делает ИИ» — под ними в две колонки, компактнее общего стиля */
+#с4в .полотно{flex-direction:column;gap:14px}
+#с4в .скрины_два{display:flex;gap:24px;align-items:flex-start}
+#с4в .скрин img{width:660px;height:auto}
+#с4в .что_ии{padding-top:0;min-width:0}
+#с4в .что_ии h3{margin-top:6px;font-size:26px}
+#с4в .что_ии ul{margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:4px 40px}
+#с4в .что_ии li{margin-top:4px;font-size:20px;line-height:1.35}
+#с4в .что_ии li::before{top:9px}
 .что_ии{flex:1 1 auto;min-width:380px;padding-top:6px}
-.что_ии .имя{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
-.что_ии h3{margin-top:12px;font-size:28px;line-height:1.25;font-weight:700}
+.что_ии .имя{font-size:16px;letter-spacing:.18em;text-transform:uppercase;color:var(--приглуш)}
+.что_ии h3{margin-top:12px;font-size:33px;line-height:1.25;font-weight:700}
 .что_ии ul{margin:22px 0 0;padding:0;list-style:none}
-.что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:19px;line-height:1.4;color:var(--текст2)}
+.что_ии li{position:relative;padding-left:26px;margin-top:14px;font-size:24.5px;line-height:1.4;color:var(--текст2)}
 .что_ии li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:10px;border-radius:50%;background:var(--мята);box-shadow:0 0 10px rgba(62,230,184,.7)}
 .что_ии li:nth-child(1){transition-delay:.05s}.что_ии li:nth-child(2){transition-delay:.15s}.что_ии li:nth-child(3){transition-delay:.25s}.что_ии li:nth-child(4){transition-delay:.35s}.что_ии li:nth-child(5){transition-delay:.45s}
-.след{position:absolute;font-size:16px;line-height:1.45;color:var(--текст2);border-left:2px solid var(--кмг);padding-left:14px}
+.след{position:absolute;font-size:20.5px;line-height:1.45;color:var(--текст2);border-left:2px solid var(--кмг);padding-left:14px}
 /* шаг 1: шина сбора */
 .сбор.шина{opacity:.35}
 /* календарь: дни до срока загораются по очереди */
@@ -599,7 +627,7 @@ svg .день[data-к],svg .срок[data-к]{transform:none}
 .волна.включён{animation:волна 2.4s ease-out infinite}
 @keyframes волна{0%{opacity:.75;transform:scale(1)}100%{opacity:0;transform:scale(4.2)}}
 .найден{fill:var(--зелёный);filter:drop-shadow(0 0 12px rgba(62,213,152,.85))}
-.имя_точки,.имя_найден{font-family:'Golos Text',sans-serif;font-size:15px}
+.имя_точки,.имя_найден{font-family:'Golos Text',sans-serif;font-size:19px}
 .имя_точки{fill:var(--текст2)}
 .имя_найден{fill:var(--мята)}
 svg [data-к]{transition:opacity .45s ease}
@@ -616,7 +644,7 @@ svg .луч[data-к],svg .возврат[data-к]{transform:none}
   transition:background .25s ease, transform .25s ease}
 .точки button[aria-current="true"]{background:var(--кмг);transform:scale(1.34);
   box-shadow:0 0 12px rgba(2,174,240,.6)}
-.счётчик{font-family:'Unbounded',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--приглуш)}
+.счётчик{font-family:'Unbounded',sans-serif;font-size:17.5px;letter-spacing:.14em;color:var(--приглуш)}
 
 @media print{
   @page{size:1920px 1080px;margin:0}
@@ -673,55 +701,12 @@ body.экраны #обёртка::after{display:none}
   <div class="полотно ролик"><video src="медиа/ролики/закупки.mp4" playsinline preload="metadata"></video></div>
 </section>
 
-<section class="слайд" id="с0п" aria-label="Какие проблемы решаем">
-  <div class="бровь">Зачем · текущие проблемы закупок</div>
-  <h2 class="заголовок дисплей">Какие проблемы решаем</h2>
-  <p class="идея">Пять проблем закупки, которые решает сквозной процесс. Нажатие — следующая.</p>
-  <!-- 14.09: формулировки и суть — из таблицы Армана дословно. Подача: пять
-       плиток сверху, суть по одной в панели снизу (Адиль: «кипа текста»),
-       текущая плитка подсвечена маркером data-к/data-до. -->
-  <div class="пп_плитки">
-    <svg class="пэ_нить" viewBox="0 0 1724 8" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="4" x2="1724" y2="4" class="нить" pathLength="1"/></svg>
-      <div class="пп_плитка" data-к="1"><i class="пп_маркер" data-к="1" data-до="1"></i><img src="медиа/иконки_закупки/шаг1.png" alt=""><em>01</em><b>Неточная потребность</b></div>
-      <div class="пп_плитка" data-к="2"><i class="пп_маркер" data-к="2" data-до="2"></i><img src="медиа/иконки_закупки/шаг2.png" alt=""><em>02</em><b>Цены вручную</b></div>
-      <div class="пп_плитка" data-к="3"><i class="пп_маркер" data-к="3" data-до="3"></i><img src="медиа/иконки_закупки/шаг3.png" alt=""><em>03</em><b>Ручные операции и разрывы</b></div>
-      <div class="пп_плитка" data-к="4"><i class="пп_маркер" data-к="4" data-до="4"></i><img src="медиа/иконки_закупки/шаг5.png" alt=""><em>04</em><b>Долгий закупочный цикл</b></div>
-      <div class="пп_плитка" data-к="5"><i class="пп_маркер" data-к="5" data-до="5"></i><img src="медиа/иконки_закупки/шаг7.png" alt=""><em>05</em><b>Разорванная ответственность</b></div>
-  </div>
-  <div class="пп_панели">
-      <div class="пп_панель" data-к="1" data-до="1">
-        <div class="пп_текст"><div class="пп_н">Проблема 01</div><h3>Потребность формируется неточно, что приводит к росту запасов и неликвидов</h3><p>Потребность часто формируется на основании заявок прошлых лет, ручных оценок и неполной видимости складов. В результате закупаются ТРУ, которые уже есть на складах или не будут использованы в срок.</p></div>
-        <div class="пп_акцент"><b>88 → 147</b><span>млрд ₸ остатков за три года · 85 млрд ₸ — исторические</span></div>
-      </div>
-      <div class="пп_панель" data-к="2" data-до="2">
-        <div class="пп_текст"><div class="пп_н">Проблема 02</div><h3>Цены определяются вручную и быстро теряют актуальность</h3><p>Ручной сбор КП, Excel и переписка приводят к тому, что цена становится устаревшей ещё до утверждения бюджета или плана закупок. Из-за этого появляются корректировки, возвраты и повторные согласования.</p></div>
-        <div class="пп_акцент"><b>КП → Excel → почта</b><span>цена устаревает до утверждения бюджета</span></div>
-      </div>
-      <div class="пп_панель" data-к="3" data-до="3">
-        <div class="пп_текст"><div class="пп_н">Проблема 03</div><h3>Процесс перегружен ручными операциями и разрывами между системами</h3><p>Данные вводятся вручную, переносятся между Excel, почтой и разными ИС. Это увеличивает трудозатраты, создаёт ошибки и снижает прослеживаемость закупки от потребности до договора.</p></div>
-        <div class="пп_акцент"><b>Excel · почта · разные ИС</b><span>закупка не прослеживается от потребности до договора</span></div>
-      </div>
-      <div class="пп_панель" data-к="4" data-до="4">
-        <div class="пп_текст"><div class="пп_н">Проблема 04</div><h3>Закупочный цикл затягивается из-за согласований, проверок и процедурных возвратов</h3><p>Многоступенчатые согласования, ручная проверка документации и несинхронность бюджета, плана и закупочной процедуры удлиняют цикл. Закупка часто движется не как сквозной процесс, а как набор отдельных согласований.</p></div>
-        <div class="пп_акцент"><b>бюджет ≠ план ≠ процедура</b><span>набор согласований вместо сквозного процесса</span></div>
-      </div>
-      <div class="пп_панель" data-к="5" data-до="5">
-        <div class="пп_текст"><div class="пп_н">Проблема 05</div><h3>Ответственность за результат обрывается между этапами: никто не управляет E2E-процессом</h3><p>Каждый участник отвечает только за свой участок: потребность, цену, бюджет, план, закупку или договор. После передачи на следующий этап контроль результата теряется, а проблемы выявляются поздно — уже на поставке, оплате или претензионной работе.</p></div>
-        <div class="пп_акцент"><b>потребность · цена · бюджет · план · закупка · договор</b><span>у каждого свой участок — за результат не отвечает никто</span></div>
-      </div>
-  </div>
-</section>
-
-<!-- ================= 0. первая страница: helicopter view =================
-     Созвон 03.09 23:40: заголовок «Сквозной процесс проведения закупок
-     посредством ИИ», мельче — «без участия человеческого фактора»; сверху
-     имя системы KMG AISAP с расшифровкой; у шагов — иллюстрации, названия
-     системы крупнее, модуль под ним. -->
 <section class="слайд" id="с0" aria-label="Helicopter view">
   <div class="бровь">Helicopter view</div>
   <div class="система_имя дисплей">KMG AISAP <span>AI Satyp Alu Platformasy</span></div>
-  <h2 class="заголовок дисплей">Сквозной процесс проведения процедур закупок посредством ИИ</h2>
-  <div class="подзаг">без участия человеческого фактора</div>
+  <h2 class="заголовок дисплей">Сквозной процесс обеспечения ТМЦ с применением ИИ</h2>
+  <!-- 16.09 (закупщики): «убрать все „без участия человека“» -->
+  <div class="подзаг">сквозная автоматизация с участием ИИ</div>
   <div class="семь">
     <div class="полоса готово" data-к="2"><b>Реализовано</b> · 4 шага из 7</div>
     <div class="полоса работа" data-к="2"><b>В работе</b> · 3 шага</div>
@@ -781,45 +766,59 @@ body.экраны #обёртка::after{display:none}
   </svg>
 </section>
 
+<section class="слайд" id="с0п" aria-label="Какие проблемы решаем">
+  <div class="бровь">Зачем · текущие проблемы закупок</div>
+  <h2 class="заголовок дисплей">Какие проблемы решаем</h2>
+  <p class="идея">Пять проблем закупки, которые решает сквозной процесс. Нажатие — следующая.</p>
+  <!-- 14.09: формулировки и суть — из таблицы Армана дословно. Подача: пять
+       плиток сверху, суть по одной в панели снизу (Адиль: «кипа текста»),
+       текущая плитка подсвечена маркером data-к/data-до. -->
+  <div class="пп_плитки">
+    <svg class="пэ_нить" viewBox="0 0 1724 8" preserveAspectRatio="none" aria-hidden="true"><line x1="0" y1="4" x2="1724" y2="4" class="нить" pathLength="1"/></svg>
+      <div class="пп_плитка" data-к="1"><i class="пп_маркер" data-к="1" data-до="1"></i><img src="медиа/иконки_закупки/шаг1.png" alt=""><em>01</em><b>Неточная потребность</b></div>
+      <div class="пп_плитка" data-к="2"><i class="пп_маркер" data-к="2" data-до="2"></i><img src="медиа/иконки_закупки/шаг2.png" alt=""><em>02</em><b>Цены вручную</b></div>
+      <div class="пп_плитка" data-к="3"><i class="пп_маркер" data-к="3" data-до="3"></i><img src="медиа/иконки_закупки/шаг3.png" alt=""><em>03</em><b>Ручные операции и разрывы</b></div>
+      <div class="пп_плитка" data-к="4"><i class="пп_маркер" data-к="4" data-до="4"></i><img src="медиа/иконки_закупки/шаг5.png" alt=""><em>04</em><b>Долгий закупочный цикл</b></div>
+      <div class="пп_плитка" data-к="5"><i class="пп_маркер" data-к="5" data-до="5"></i><img src="медиа/иконки_закупки/шаг7.png" alt=""><em>05</em><b>Разорванная ответственность</b></div>
+  </div>
+  <div class="пп_панели">
+      <div class="пп_панель" data-к="1" data-до="1">
+        <div class="пп_текст"><div class="пп_н">Проблема 01</div><h3>Потребность формируется неточно, что приводит к росту запасов и неликвидов</h3><p>Потребность часто формируется на основании заявок прошлых лет, ручных оценок и неполной видимости складов. В результате закупаются товары, которые уже есть на складах или не будут использованы в срок.</p></div>
+        <!-- 17.09 (закупщики): годы дописаны -->
+        <div class="пп_акцент"><b>88 → 147</b><span>млрд ₸ остатков: 2022 → 2026 год · из них 85 млрд ₸ — исторический остаток прошлых лет</span></div>
+      </div>
+      <div class="пп_панель" data-к="2" data-до="2">
+        <div class="пп_текст"><div class="пп_н">Проблема 02</div><h3>Цены определяются вручную и быстро теряют актуальность</h3><p>Ручной сбор КП, Excel и переписка приводят к тому, что цена становится устаревшей ещё до утверждения бюджета или плана закупок. Из-за этого появляются корректировки, возвраты и повторные согласования.</p></div>
+        <div class="пп_акцент"><b>КП → Excel → почта</b><span>цена устаревает до утверждения бюджета</span></div>
+      </div>
+      <div class="пп_панель" data-к="3" data-до="3">
+        <div class="пп_текст"><div class="пп_н">Проблема 03</div><h3>Процесс перегружен ручными операциями и разрывами между системами</h3><p>Данные вводятся вручную, переносятся между Excel, почтой и разными ИС. Это увеличивает трудозатраты, создаёт ошибки и снижает прослеживаемость закупки от потребности до договора.</p></div>
+        <div class="пп_акцент"><b>Excel · почта · разные ИС</b><span>закупка не прослеживается от потребности до договора</span></div>
+      </div>
+      <div class="пп_панель" data-к="4" data-до="4">
+        <div class="пп_текст"><div class="пп_н">Проблема 04</div><h3>Закупочный цикл затягивается из-за согласований, проверок и процедурных возвратов</h3><p>Многоступенчатые согласования, ручная проверка документации и несинхронность бюджета, плана и закупочной процедуры удлиняют цикл. Закупка часто движется не как сквозной процесс, а как набор отдельных согласований.</p></div>
+        <div class="пп_акцент"><b>бюджет ≠ план ≠ процедура</b><span>набор согласований вместо сквозного процесса</span></div>
+      </div>
+      <div class="пп_панель" data-к="5" data-до="5">
+        <div class="пп_текст"><div class="пп_н">Проблема 05</div><h3>Ответственность за результат обрывается между этапами: никто не управляет E2E-процессом</h3><p>Каждый участник отвечает только за свой участок: потребность, цену, бюджет, план, закупку или договор. После передачи на следующий этап контроль результата теряется, а проблемы выявляются поздно — уже на поставке, оплате или претензионной работе.</p></div>
+        <div class="пп_акцент"><b>потребность · цена · бюджет · план · закупка · договор</b><span>у каждого свой участок — за результат не отвечает никто</span></div>
+      </div>
+  </div>
+</section>
+
+<!-- ================= 0. первая страница: helicopter view =================
+     Созвон 03.09 23:40: заголовок «Сквозной процесс проведения закупок
+     посредством ИИ», мельче — «без участия человеческого фактора»; сверху
+     имя системы KMG AISAP с расшифровкой; у шагов — иллюстрации, названия
+     системы крупнее, модуль под ним. -->
+
+
 
 
 <!-- ================= 1б. товары пилота =================
      Созвон 05.09: отдельным слайдом — список товаров, выбранных для пилота,
      с кодом АСУ НСИ. Перечень и коды — из таблицы заказчика. -->
-<section class="слайд скрыт" id="с1б" aria-label="Товары пилота">
-  <div class="бровь">Пилот · Мангистауэнергомунай</div>
-  <h2 class="заголовок дисплей">Для пилота выбрано 25 товаров</h2>
-  <div class="подзаг">формирование потребности по ним ИИ ведёт полностью автоматически</div>
-  <div class="полотно">
-    <ol class="пилот">
-        <li style="transition-delay:0ms" data-к="1"><i>1</i><b>Вода питьевая 0,5л</b><span>Напитки</span><em>0103.019064</em></li>
-        <li style="transition-delay:35ms" data-к="1"><i>2</i><b>Вода питьевая 19л</b><span>Напитки</span><em>0103.019066</em></li>
-        <li style="transition-delay:70ms" data-к="1"><i>3</i><b>Бензин-растворитель Уайт-спирит ГОСТ 3134-78</b><span>Запчасти к специальной технике</span><em>02030103.031558</em></li>
-        <li style="transition-delay:105ms" data-к="1"><i>4</i><b>Уголок горячекатаный равнополочный 100х100х8мм ст3сп ГОСТ 8509-93</b><span>Стройматериалы</span><em>06030301.526079</em></li>
-        <li style="transition-delay:140ms" data-к="1"><i>5</i><b>Труба электросварная прямошовная 57х3мм ст3сп</b><span>Стройматериалы</span><em>08010201.476634</em></li>
-        <li style="transition-delay:175ms" data-к="1"><i>6</i><b>Лента сигнальная Осторожно кабель 250ммх100м</b><span>Изделия резиновые и пластмассовые</span><em>16050302.466672</em></li>
-        <li style="transition-delay:210ms" data-к="1"><i>7</i><b>Эмаль нитроцеллюлозная НЦ-132 желтый</b><span>Хозяйственные товары</span><em>170101.009063</em></li>
-        <li style="transition-delay:245ms" data-к="1"><i>8</i><b>Мыло хозяйственное 72% 250г</b><span>Хозяйственные товары</span><em>17080501.022814</em></li>
-        <li style="transition-delay:280ms" data-к="1"><i>9</i><b>Выключатель автоматический Iном.32А Iоткл.6кА Uном.230В 1р IP20</b><span>Оборудование электрическое</span><em>2302020101.009044</em></li>
-        <li style="transition-delay:315ms" data-к="1"><i>10</i><b>Фотореле электронное ФР-1</b><span>Запчасти к специальной технике</span><em>2302060111.023159</em></li>
-        <li style="transition-delay:350ms" data-к="1"><i>11</i><b>Электропатрон карболитовый E27</b><span>Осветительное оборудование</span><em>2306020104.017928</em></li>
-        <li style="transition-delay:385ms" data-к="1"><i>12</i><b>Зажим аппаратный А2А-35</b><span>Оборудование электрическое</span><em>2306020302.027248</em></li>
-        <li style="transition-delay:420ms" data-к="1"><i>13</i><b>Наконечник кабельный ТМЛ-35-10-10 35мм2 медный</b><span>Электротехнические изделия</span><em>23060203040104.463656</em></li>
-        <li style="transition-delay:455ms" data-к="1"><i>14</i><b>Перемычка ПГС 25-560 гибкая</b><span>Электротехнические изделия</span><em>23060205.468022</em></li>
-        <li style="transition-delay:490ms" data-к="1"><i>15</i><b>Изолятор штырьевой фарфоровый ШФ 20-Г</b><span>Электроизоляционные материалы</span><em>2308030102.461396</em></li>
-        <li style="transition-delay:525ms" data-к="1"><i>16</i><b>Колпачок К-9</b><span>Изделия резиновые и пластмассовые</span><em>2308030401.037121</em></li>
-        <li style="transition-delay:560ms" data-к="1"><i>17</i><b>Провод СИП-3 1х35</b><span>Кабель</span><em>240404.022178</em></li>
-        <li style="transition-delay:595ms" data-к="1"><i>18</i><b>Ножовка по металлу 300х1мм</b><span>Инструменты</span><em>2807020109.036828</em></li>
-        <li style="transition-delay:630ms" data-к="1"><i>19</i><b>Картридж CE285A черный</b><span>Офисная оргтехника с комплектующими и расходными материалами к ним</span><em>290607.022210</em></li>
-        <li style="transition-delay:665ms" data-к="1"><i>20</i><b>Бумага A4 80г/м2 500л.</b><span>Канцелярские товары</span><em>420101.010604</em></li>
-        <li style="transition-delay:700ms" data-к="1"><i>21</i><b>Бумага туалетная 2-слойная 17м</b><span>Хозяйственные товары</span><em>420119.488106</em></li>
-        <li style="transition-delay:735ms" data-к="1"><i>22</i><b>Опора железобетонная СВ 164-12 16400мм</b><span>Стройматериалы</span><em>460801.442296</em></li>
-        <li style="transition-delay:770ms" data-к="1"><i>23</i><b>Каска защитная белая р.52-65</b><span>Средства индивидуальной защиты</span><em>6109.436815</em></li>
-        <li style="transition-delay:805ms" data-к="1"><i>24</i><b>Кисть плоская 50мм натуральная</b><span>Инструменты</span><em>74060201.018267</em></li>
-        <li style="transition-delay:840ms" data-к="1"><i>25</i><b>Знак безопасности Заземление круглый 50мм металл</b><span>Знаки, указатели</span><em>74080803.551988</em></li>
-    </ol>
-  </div>
-</section>
+
 
 <!-- ================= 1. ИИ формирует потребность =================
      Созвон 23:40: шесть карточек-источников — все слева от модуля; карточка
@@ -851,7 +850,7 @@ body.экраны #обёртка::after{display:none}
     <div class="склад" style="left:450px;top:150px;width:420px" data-к="1">
       <div class="имя">Шаг 1 · KMG AISAP · модуль формирования потребности</div>
       <div class="заг">ИИ анализирует данные и формирует потребность <span class="ии">AI</span></div>
-      <p class="ищет" style="margin-top:8px">запуск по настраиваемому расписанию · без участия человека</p>
+      <p class="ищет" style="margin-top:8px">запуск по настраиваемому расписанию</p>
       <div class="сетка"><i class="ячейка" style="transition-delay:0ms"></i><i class="ячейка" style="transition-delay:18ms"></i><i class="ячейка" style="transition-delay:36ms"></i><i class="ячейка" style="transition-delay:54ms"></i><i class="ячейка" style="transition-delay:72ms"></i><i class="ячейка пусто" style="transition-delay:90ms"></i><i class="ячейка" style="transition-delay:108ms"></i><i class="ячейка" style="transition-delay:126ms"></i><i class="ячейка" style="transition-delay:144ms"></i><i class="ячейка" style="transition-delay:162ms"></i><i class="ячейка" style="transition-delay:180ms"></i><i class="ячейка" style="transition-delay:198ms"></i><i class="ячейка" style="transition-delay:216ms"></i><i class="ячейка" style="transition-delay:234ms"></i><i class="ячейка пусто" style="transition-delay:252ms"></i><i class="ячейка" style="transition-delay:270ms"></i><i class="ячейка" style="transition-delay:288ms"></i><i class="ячейка" style="transition-delay:306ms"></i><i class="ячейка" style="transition-delay:324ms"></i><i class="ячейка" style="transition-delay:342ms"></i><i class="ячейка" style="transition-delay:360ms"></i><i class="ячейка" style="transition-delay:378ms"></i><i class="ячейка пусто" style="transition-delay:396ms"></i><i class="ячейка" style="transition-delay:414ms"></i><i class="ячейка" style="transition-delay:432ms"></i><i class="ячейка" style="transition-delay:450ms"></i><i class="ячейка" style="transition-delay:468ms"></i><i class="ячейка пусто" style="transition-delay:486ms"></i><i class="ячейка" style="transition-delay:504ms"></i><i class="ячейка" style="transition-delay:522ms"></i><i class="ячейка" style="transition-delay:540ms"></i><i class="ячейка" style="transition-delay:558ms"></i></div>
       <div class="ключ"><span class="есть">есть</span><span class="нет">заканчивается</span></div>
       <div class="сияние" data-к="3"></div>
@@ -880,7 +879,7 @@ body.экраны #обёртка::after{display:none}
         <li><span>Место поставки</span><strong>Мангистауская обл., пос. Ынтымак (база СПО)</strong></li>
       </ul>
     </div>
-    <div class="пилюля" style="left:1440px;top:306px" data-к="5">Маркетинг цен</div>
+    <div class="пилюля" style="left:1440px;top:372px" data-к="5">Маркетинг цен</div>
     <p class="след" style="left:1440px;top:160px;width:284px" data-к="5">После того как потребность сформирована, автоматически проводится маркетинговое исследование.</p>
   </div>
 </section>
@@ -906,7 +905,19 @@ body.экраны #обёртка::after{display:none}
 <section class="слайд" id="с1с" aria-label="Шаг 1 · так это выглядит в системе">
   <div class="бровь">Шаг 1 · так это выглядит в системе</div>
   <div class="полотно экран">
+    <!-- 17.09 (закупщики): на скрине потребность по СИП-3 переписана под слайд 4 —
+         500 м (исходный скрин с 65 528,53 — в ИСХОДНИКИ/закупки/скрины); строка
+         выделена, отдельно показано, что цены и суммы ещё нет — как на слайде 9 -->
     <div class="скрин" data-к="1"><img src="медиа/скрины_закупки/шаг1_потребность.png" alt="">
+      <!-- 18.09 (Адиль): три столбца расчёта ИИ выделены цветом; координаты — по шапке таблицы скрина 1871×810 -->
+      <div class="столбец" style="left:32.7%;top:42.4%;width:7.3%;height:57.1%" data-к="2"></div>
+      <div class="столбец" style="left:40%;top:42.4%;width:4.2%;height:57.1%" data-к="2"></div>
+      <div class="столбец" style="left:44.2%;top:42.4%;width:5.9%;height:57.1%" data-к="2"></div>
+      <div class="подпись_рамки синяя" style="left:32.7%;top:30.6%" data-к="2">Считает ИИ: прогноз · остаток · потребность</div>
+      <div class="рамка" style="left:10.8%;top:49.3%;width:88.4%;height:4.2%" data-к="2"></div>
+      <div class="рамка" style="left:81%;top:49.3%;width:6.4%;height:4.2%;border-color:var(--янтарь);box-shadow:0 0 0 4px rgba(242,184,75,.18),0 0 24px rgba(242,184,75,.5)" data-к="3"></div>
+      <div class="подпись_рамки" style="right:16px;top:56%;color:var(--янтарь)" data-к="3">Цены и суммы пока нет — их определит маркетинг</div>
+      <div class="подпись_рамки" style="left:16px;top:56%" data-к="2">Провод СИП-3 1×35 · 500 м · статус «Маркетинг»</div>
     </div>
     <aside class="что_ии" data-к="2">
       <div class="имя">Что делает ИИ</div>
@@ -926,7 +937,7 @@ body.экраны #обёртка::after{display:none}
   <h2 class="заголовок дисплей">Проведение маркетингового анализа: список поставщиков формируется автоматически, цену определяет ИИ</h2>
 
   <div class="полотно">
-    <svg class="потоки" viewBox="0 0 1724 720" style="position:absolute;left:0;top:0;width:1724px;height:720px;pointer-events:none" aria-hidden="true">
+    <svg class="потоки" viewBox="0 0 2000 740" style="position:absolute;left:0;top:0;width:2000px;height:740px;pointer-events:none" aria-hidden="true">
       <defs>
         <marker id="стрелка_циан2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
           <path d="M0 0L10 5L0 10z" fill="#4FE3FF"/></marker>
@@ -934,20 +945,21 @@ body.экраны #обёртка::after{display:none}
           <path d="M0 0L10 5L0 10z" fill="#3ED598"/></marker>
       </defs>
       <path class="поток" pathLength="1" marker-end="url(#стрелка_циан2)" d="M320 210 H392" data-к="2"/>
-      <line class="сбор" pathLength="1" x1="485" y1="270" x2="485" y2="460" data-к="3"/>
-      <line class="сбор" pathLength="1" x1="735" y1="270" x2="735" y2="460" data-к="3"/>
+      <line class="сбор" pathLength="1" x1="485" y1="270" x2="485" y2="560" data-к="3"/>
+      <line class="сбор" pathLength="1" x1="735" y1="270" x2="735" y2="560" data-к="3"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="196" style="transition-delay:0ms" data-к="4"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="296" style="transition-delay:120ms" data-к="4"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="396" style="transition-delay:240ms" data-к="4"/>
       <line class="сбор" pathLength="1" x1="760" y1="210" x2="900" y2="496" style="transition-delay:360ms" data-к="4"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="196" x2="1180" y2="330" style="transition-delay:0ms" data-к="5"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="296" x2="1180" y2="330" style="transition-delay:140ms" data-к="5"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="396" x2="1180" y2="330" style="transition-delay:280ms" data-к="5"/>
-      <line class="сбор назад" pathLength="1" x1="1140" y1="496" x2="1180" y2="330" style="transition-delay:420ms" data-к="5"/>
-      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1300 400 V620 H200 V432" data-к="6" data-до="6"/>
-      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан2)" d="M1430 330 H1462" data-к="7"/>
-      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1596 470 V660 H150 V432" data-к="8"/>
-      <text class="поток_подпись назад" x="1180" y="680" text-anchor="middle" data-к="8">статус бюджета</text>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="196" x2="1208" y2="330" style="transition-delay:0ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="296" x2="1208" y2="330" style="transition-delay:140ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="396" x2="1208" y2="330" style="transition-delay:280ms" data-к="5"/>
+      <line class="сбор назад" pathLength="1" x1="1140" y1="496" x2="1208" y2="330" style="transition-delay:420ms" data-к="5"/>
+      <!-- 17.09 (закупщики): стрелка начиналась с y=400 — внутри карточки, поверх списка; теперь от её низа -->
+      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1300 486 V690 H200 V432" data-к="6" data-до="6"/>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан2)" d="M1545 330 H1598" data-к="7"/>
+      <path class="поток назад" pathLength="1" marker-end="url(#стрелка_мята2)" d="M1760 480 V712 H150 V432" data-к="8"/>
+      <text class="поток_подпись назад" x="1000" y="706" text-anchor="middle" data-к="8">статус бюджета</text>
     </svg>
 
     <!-- потребность с кодом -->
@@ -974,11 +986,11 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- справочники -->
-    <div class="справочник" style="left:380px;top:460px;width:210px" data-к="3">
+    <div class="справочник" style="left:380px;top:560px;width:250px" data-к="3">
       <b>Реестр КТП</b>
       <ul><li class="совп">ТОО «Талдыкорганкабель»<span>КТП</span></li><li class="совп">ТОО «AluTech»<span>КТП</span></li></ul>
     </div>
-    <div class="справочник" style="left:600px;top:460px;width:290px" data-к="3">
+    <div class="справочник" style="left:645px;top:560px;width:360px" data-к="3">
       <b>Исторические поставщики</b>
       <ul><li class="совп">ТОО «Алматы КазКабель»<span>победитель 2025</span></li><li class="совп">ТОО «ЦентрСнабСтрой»<span>победитель 2024</span></li><li class="">цены прошлых лет<span>500–900 ₸/м без НДС</span></li></ul>
     </div>
@@ -1004,7 +1016,7 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- результат -->
-    <div class="карточка" style="left:1180px;top:200px;width:250px" data-к="6">
+    <div class="карточка" style="left:1210px;top:180px;width:330px" data-к="6">
       <b>Цена определена <span class="ии">AI</span></b>
       <div class="товар_имя">Провод СИП-3 1х35</div>
       <div class="средняя">средняя из 4 цен: 2 КТП + 2 поставщика, без НДС<strong>638 ₸/м</strong></div>
@@ -1015,7 +1027,7 @@ body.экраны #обёртка::after{display:none}
     </div>
 
     <!-- бюджет -->
-    <div class="склад" style="left:1464px;top:150px;width:260px" data-к="7">
+    <div class="склад" style="left:1600px;top:150px;width:320px" data-к="7">
       <div class="имя">Шаг 3 · Система бюджетирования</div>
       <div class="заг">Проверка наличия утверждённого бюджета на закуп выявленной потребности</div>
       <svg class="шестерня" viewBox="0 0 40 40" data-к="7" data-до="7" aria-hidden="true"><g class="крут"><circle cx="20" cy="20" r="9"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(0 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(45 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(90 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(135 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(180 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(225 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(270 20 20)"/><rect x="18" y="2" width="4" height="8" rx="1" transform="rotate(315 20 20)"/></g></svg>
@@ -1067,13 +1079,16 @@ body.экраны #обёртка::after{display:none}
     </div>
     <aside class="что_ии" data-к="2">
       <div class="имя">Что делает ИИ</div>
-      <h3>Маркетинговое исследование проходит без человека</h3>
+      <!-- 16.09 (Есмамбетов): скрин списка заявок заменён на карточку заявки —
+           товар «Провод СИП-3 1×35» и подобранный пул поставщиков; тексты по скрину,
+           «без человека» снято (Арман: «с применением ИИ») -->
+      <!-- 17.09 (Арман): «ИИ здесь не применяется» — подобран автоматически -->
+      <h3>Маркетинговое исследование: пул поставщиков подобран автоматически</h3>
       <ul>
-        <li>Документ по потребности автоматически поступил на маркетинговое исследование</li>
-        <li>Поставщики подобраны по коду ЕНС ТРУ / АСУ НСИ и истории закупок</li>
-        <li>Приглашения отправлены, КП собраны</li>
-        <li>Заключение рассчитано, цена определена</li>
-        <li>Колонка «Авто: Да» — каждый шаг без человека</li>
+        <li>Товар из заявки — «Провод СИП-3 1×35», категория по АСУ НСИ</li>
+        <li>Пул поставщиков: 8 по умолчанию — реестр КТП по ЕНС ТРУ, участники закупок по историческим данным КМГ и открытые источники</li>
+        <li>Каждый поставщик с БИН, адресом и почтой — приглашения уходят автоматически</li>
+        <li>Дальше — сбор КП, заключение и цена</li>
       </ul>
     </aside>
   </div>
@@ -1125,7 +1140,10 @@ body.экраны #обёртка::after{display:none}
       <h3>Бюджет проверен, статус вернулся в потребность</h3>
       <ul>
         <li>Запрос в систему бюджетирования ушёл автоматически</li>
-        <li>Ответ по проводу СИП-3: в бюджете — Да, цена 638 ₸/м без НДС, сумма 319 тыс. ₸</li>
+        <!-- 16.09 вечер (закупщики): скрин DS Warehouse показывал 65 529 м / 41 818 206 ₸; 18.09 (Адиль, фото стенда):
+             строка переписана под пример слайда 4 — 500 м, 319 000 ₸; днём 18.09 Адиль прислал свой скрин, где и
+             «Прогнозируемое потребление» = 500,00 — он и стоит (исходники обоих в ИСХОДНИКИ/закупки) -->
+        <li>Ответ по проводу СИП-3: в бюджете — Да, цена 638 ₸/м без НДС, потребность 500 м, сумма 319 000 ₸</li>
         <li>Статус позиции — «Бюджетирование завершено»</li>
         <li>Дальше передача к закупу инициируется автоматически — через интеграцию систем</li>
       </ul>
@@ -1244,7 +1262,7 @@ body.экраны #обёртка::after{display:none}
      Созвон 11.09 (Адиль, закупщики): план закупок утверждается дважды —
      целиком в ИСЭЗ, потом мелкие товары до 85 млн ещё раз в SK Store; и ЦП
      «Заказ на поставку» подписывают вручную обе стороны. Показать как
-     блокеры, целевой процесс — следующим слайдом. -->
+     блокеры, целевой процесс — отдельным слайдом (с 18.09 — последним в показе). -->
 <section class="слайд" id="с4а" aria-label="Шаг 4 · AI-Broker · живая система">
   <div class="бровь">Шаг 4 · AI-Broker · живая система</div>
   <div class="полотно экран">
@@ -1252,12 +1270,17 @@ body.экраны #обёртка::after{display:none}
     </div>
     <aside class="что_ии" data-к="2">
       <div class="имя">Что делает ИИ</div>
-      <h3>AI-Broker сопоставил план закупок с остатками на складах</h3>
+      <!-- 16.09: скрины AI Broker обновлены закупщиками (прогон № 73 от 16.09.2026),
+           тексты — по тому, что видно на скрине -->
+      <!-- 17.09 (закупщики, комментарии к слайдам 11–13): тексты — их формулировки
+           дословно, пример КТО ↔ ККТ «Система измерительная». 18.09: скрины под этот
+           пример прислали (каталог, карточка сделки, сверка ТС) — стоят как есть -->
+      <h3>Проверка потребности плана закупок по складам ДЗО КМГ</h3>
       <ul>
-        <li>1 398 совпадений: позиция плана ↔ остаток на складе другого ДЗО</li>
-        <li>Оценка ИИ по каждой паре: точное совпадение — 100 %, неточное — доля</li>
-        <li>Покупатель и продавец — разные компании группы</li>
-        <li>Совпадение одним нажатием становится сделкой</li>
+        <li>Потребность, заявленная в плане закупок, проверяется на наличие соответствующих материальных ресурсов на складских объектах ДЗО КМГ</li>
+        <li>В примере: АО «КазТрансОйл» планирует закуп товарной позиции «Система измерительная» — аналогичная позиция имеется на складах ТОО «Казахстанско-Китайский Трубопровод»</li>
+        <li>Стоимость закупки заявленной потребности — 7 млн ₸; с учётом складских остатков ККТ необходимый объём закупки сокращается до 1 млн ₸</li>
+        <li>Потенциальный экономический эффект — 6 млн ₸: существенное сокращение затрат за счёт имеющихся складских запасов</li>
       </ul>
     </aside>
   </div>
@@ -1270,12 +1293,10 @@ body.экраны #обёртка::after{display:none}
     </div>
     <aside class="что_ии" data-к="2">
       <div class="имя">Что делает ИИ</div>
-      <h3>Одно совпадение: что нужно и что лежит на складе</h3>
+      <h3>Карточка потребности: закупка и предложение рядом</h3>
       <ul>
-        <li>Покупатель — план: труба общего назначения, 6,44 т, июль 2026</li>
-        <li>Продавец — склад: труба бесшовная 159×12, 15,225 т, лежит с апреля 2025</li>
-        <li>Уверенность совпадения — 85 %: названия разные, товар один</li>
-        <li>ИИ читает описание и характеристики, а не только код</li>
+        <li>Ключевая информация о планируемой закупке: покупатель, характеристики товара, количество и единица измерения, сроки закупки, стоимость</li>
+        <li>Основные сведения о предложении: продавец, характеристики товара, количество и единица измерения, дата поступления товара</li>
       </ul>
     </aside>
   </div>
@@ -1284,16 +1305,18 @@ body.экраны #обёртка::after{display:none}
 <section class="слайд" id="с4в" aria-label="Шаг 4 · AI-Broker · живая система">
   <div class="бровь">Шаг 4 · AI-Broker · живая система</div>
   <div class="полотно экран">
-    <div class="скрин" data-к="1"><img src="медиа/скрины_закупки/брокер_сделка.png" alt="">
+    <div class="скрины_два" data-к="1">
+      <div class="скрин"><img src="медиа/скрины_закупки/брокер_сделка_1.png" alt=""></div>
+      <div class="скрин"><img src="медиа/скрины_закупки/брокер_сделка_2.png" alt=""></div>
     </div>
     <aside class="что_ии" data-к="2">
       <div class="имя">Что делает ИИ</div>
-      <h3>Сделка внутри группы: покупатель и продавец принимают</h3>
+      <h3>Сверка технических спецификаций покупателя и продавца посредством ИИ</h3>
       <ul>
-        <li>АО ОМГ покупает деэмульгатор у АО ЭМГ — со склада, не с рынка</li>
-        <li>Количество, цена и сумма подставлены из плана и остатка</li>
-        <li>Обе стороны принимают сделку в одном окне</li>
-        <li>ИИ сравнивает техспецификации сторон и даёт вывод</li>
+        <li>После загрузки технических спецификаций система на базе ИИ автоматически анализирует заявленные характеристики и формирует структурированный вывод</li>
+        <li>Соответствующие технические показатели и выявленные расхождения</li>
+        <li>Потенциальные риски несоответствия</li>
+        <li>Итоговая оценка совместимости товара: совместимы / частично совместимы / несовместимы</li>
       </ul>
     </aside>
   </div>
@@ -1301,9 +1324,11 @@ body.экраны #обёртка::after{display:none}
 
 <!-- 15.09 (закупщики через Есмамбетова): «лист 7 убрать полностью — это лист про
      текущее состояние с барьерами». Скрыт, не удалён. -->
-<section class="слайд скрыт" id="с4т" aria-label="Шаг 6 · текущее состояние">
-  <div class="бровь">Шаг 6 · текущее состояние · Zakup.sk и SK Store</div>
-  <h2 class="заголовок дисплей">Текущее состояние: два барьера на пути закупки</h2>
+<!-- 17.09 (Арман): лист барьеров возвращён — «наоборот, надо оставить»; скрыт был 15.09 по закупщикам -->
+<section class="слайд" id="с4т" aria-label="Шаг 6 · текущее состояние">
+  <div class="бровь">Шаг 6 · планирование и процедуры · Zakup.sk и SK Store</div>
+  <!-- 17.09 (закупщики): ПП согласился, что человек в процессе остаётся — слова «барьер» сняты -->
+  <h2 class="заголовок дисплей">Процесс планирования и процедуры закупок</h2>
   <p class="идея">Закупки посредством Zakup.sk и закупки посредством SK Store идут по одному плану: план утверждается ЭЦП в Zakup.sk, заказ на поставку подписывается ЭЦП обеих сторон.</p>
 
   <div class="полотно">
@@ -1325,11 +1350,11 @@ body.экраны #обёртка::after{display:none}
       <path d="M480 170 H612" class="стр" marker-end="url(#стр_циан_т)" data-к="1"/>
       <g data-к="1">
         <rect x="622" y="80" width="480" height="180" rx="16" class="узел блок"/>
-        <text x="646" y="112" class="узел_заг блок">Барьер 1 · утверждение плана в Zakup.sk</text>
+        <text x="646" y="112" class="узел_заг блок">Утверждение плана в Zakup.sk</text>
         <text x="646" y="142" class="узел_т">План закупок утверждается посредством ЭЦП</text>
         <text x="646" y="166" class="узел_т">в портале Zakup.sk (ИСЭЗ).</text>
         <g transform="translate(646 186)"><rect width="150" height="50" rx="8" class="подпись_к"/><path d="M12 36c10-16 18-20 22-10s6 10 14 0 12-14 22-4 16 8 26 2" class="росчерк"/><text x="75" y="14" class="подпись_т" text-anchor="middle">ЭЦП</text></g>
-        <rect x="820" y="196" width="258" height="30" rx="7" class="бейдж"/><text x="949" y="216" class="бейдж_т" text-anchor="middle">барьер · утверждение ЭЦП</text>
+        <rect x="820" y="196" width="258" height="30" rx="7" class="бейдж"/><text x="949" y="216" class="бейдж_т" text-anchor="middle">утверждение ЭЦП</text>
       </g>
       <path d="M1102 170 H1234" class="стр" marker-end="url(#стр_циан_т)" data-к="2"/>
       <g data-к="2">
@@ -1360,83 +1385,16 @@ body.экраны #обёртка::after{display:none}
       <path d="M1102 480 H1234" class="стр" marker-end="url(#стр_циан_т)" data-к="5"/>
       <g data-к="5">
         <rect x="1244" y="390" width="480" height="180" rx="16" class="узел блок"/>
-        <text x="1268" y="422" class="узел_заг блок">Барьер 2 · заказ на поставку · ЭЦП</text>
+        <text x="1268" y="422" class="узел_заг блок">Заказ на поставку · ЭЦП</text>
         <text x="1268" y="452" class="узел_т">Заказ подписывается посредством ЭЦП</text>
         <text x="1268" y="476" class="узел_т">заказчиком, затем поставщиком.</text>
         <g transform="translate(1268 492)"><rect width="120" height="50" rx="8" class="подпись_к"/><path d="M10 36c8-14 14-20 20-10s8 8 16-2 10-12 20-4 16 10 26 0" class="росчерк"/><text x="60" y="14" class="подпись_т" text-anchor="middle">заказчик</text></g>
         <path d="M1396 517 H1412" class="стр янтарь" marker-end="url(#стр_янтарь_т)"/>
         <g transform="translate(1420 492)"><rect width="120" height="50" rx="8" class="подпись_к"/><path d="M10 36c8-14 14-20 20-10s8 8 16-2 10-12 20-4 16 10 26 0" class="росчерк"/><text x="60" y="14" class="подпись_т" text-anchor="middle">поставщик</text></g>
-        <rect x="1556" y="502" width="150" height="30" rx="7" class="бейдж"/><text x="1631" y="522" class="бейдж_т" text-anchor="middle">барьер · ЭЦП</text>
+        <rect x="1556" y="502" width="150" height="30" rx="7" class="бейдж"/><text x="1631" y="522" class="бейдж_т" text-anchor="middle">подписание ЭЦП</text>
       </g>
     </svg>
   </div>
-</section>
-
-<section class="слайд" id="с4" aria-label="Слайд 4">
-  <!-- 15.09 (закупщики): заголовок «Взаимодействие систем на этапе планирования и
-       проведения закупки», подзаголовок про SK Store снят, «план — в SK Store» →
-       «передано на закуп», плашка площадки — про автоматическую детализацию и
-       публикацию, значок AI у площадки убран («тут не используется»), карточка
-       справа — «Заказ на поставку сформирован и утверждён» без подписи. -->
-  <div class="бровь">Шаг 6 · KMG AISAP и SK Store</div>
-  <h2 class="заголовок дисплей">Взаимодействие систем на этапе планирования и проведения закупки</h2>
-
-  <div class="полотно">
-    <svg class="потоки" viewBox="0 0 1724 640" style="position:absolute;left:0;top:0;width:1724px;height:640px;pointer-events:none" aria-hidden="true">
-      <defs>
-        <marker id="стрелка_циан4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
-          <path d="M0 0L10 5L0 10z" fill="#4FE3FF"/></marker>
-      </defs>
-      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M300 280 H374" data-к="2"/>
-      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M1020 280 H1092" data-к="4"/>
-    </svg>
-
-    <!-- 1. срок наступил -->
-    <div class="карточка синяя календ" style="left:0;top:150px;width:300px" data-к="0">
-      <b>Шаг 5 · План закупок · KMG AISAP</b>
-      <svg viewBox="0 0 132 100" class="кал"><rect x="4" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:45ms" data-к="1"/><rect x="22" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:90ms" data-к="1"/><rect x="40" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:135ms" data-к="1"/><rect x="58" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:180ms" data-к="1"/><rect x="76" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:225ms" data-к="1"/><rect x="94" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:270ms" data-к="1"/><rect x="112" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:315ms" data-к="1"/><rect x="4" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:360ms" data-к="1"/><rect x="22" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:405ms" data-к="1"/><rect x="40" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:450ms" data-к="1"/><rect x="58" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:495ms" data-к="1"/><rect x="76" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:540ms" data-к="1"/><rect x="94" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:585ms" data-к="1"/><rect x="112" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:630ms" data-к="1"/><rect x="4" y="50" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:675ms" data-к="1"/><rect x="22" y="50" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:720ms" data-к="1"/><rect x="40" y="50" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:765ms" data-к="1"/><rect x="58" y="50" width="14" height="12" rx="2" class="срок" style="transition-delay:810ms" data-к="1"/><rect x="76" y="50" width="14" height="12" rx="2" class="день"/><rect x="94" y="50" width="14" height="12" rx="2" class="день"/><rect x="112" y="50" width="14" height="12" rx="2" class="день"/><rect x="4" y="66" width="14" height="12" rx="2" class="день"/><rect x="22" y="66" width="14" height="12" rx="2" class="день"/><rect x="40" y="66" width="14" height="12" rx="2" class="день"/><rect x="58" y="66" width="14" height="12" rx="2" class="день"/><rect x="76" y="66" width="14" height="12" rx="2" class="день"/><rect x="94" y="66" width="14" height="12" rx="2" class="день"/><rect x="112" y="66" width="14" height="12" rx="2" class="день"/><rect x="4" y="82" width="14" height="12" rx="2" class="день"/><rect x="22" y="82" width="14" height="12" rx="2" class="день"/><rect x="40" y="82" width="14" height="12" rx="2" class="день"/><rect x="58" y="82" width="14" height="12" rx="2" class="день"/><rect x="76" y="82" width="14" height="12" rx="2" class="день"/><rect x="94" y="82" width="14" height="12" rx="2" class="день"/><rect x="112" y="82" width="14" height="12" rx="2" class="день"/><text x="4" y="10" class="т">наступает дата закупки</text></svg>
-    </div>
-    <!-- 2. заявка -->
-    <div class="заявка" style="left:312px;top:232px" data-к="2">
-      <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
-        <path d="M12 22h16M12 30h16M12 38h10" class="строки"/></svg>
-      <span>передано на закуп —<br>в SK Store</span>
-    </div>
-
-    <!-- 3. площадка -->
-    <div class="склад площадка" style="left:380px;top:150px;width:640px;height:264px" data-к="2">
-      <div class="имя">Шаг 6 · SK Store · электронная площадка</div>
-      <div class="заг">Процедура закупки: победитель — наименьшая цена</div>
-      <div class="секретарь" data-к="2">автоматическая детализация категории и карточки товара · автоматическая публикация товаров на торги</div>
-      <div class="участник " style="left:30px;top:124px;transition-delay:0ms" data-к="3">
-        <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
-          <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:600ms"/></svg>
-        <b>Поставщик 1</b>
-      </div>
-      <div class="участник победитель" style="left:240px;top:124px;transition-delay:180ms" data-к="3">
-        <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
-          <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:780ms"/></svg>
-        <b>Поставщик 2</b>
-      </div>
-      <div class="участник " style="left:450px;top:124px;transition-delay:360ms" data-к="3">
-        <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
-          <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:960ms"/></svg>
-        <b>Поставщик 3</b>
-      </div>
-    </div>
-    <!-- 4. договор -->
-    <!-- 11.09: подписание заказа на поставку ЭЦП в целевом процессе снимается —
-         поставщику уходит уведомление о победе и сроке поставки по Правилам,
-         подписи обеих сторон не нужны («это типа революция»). Юридическую
-         сторону закупщики берут на себя. -->
-    <div class="карточка договор" style="left:1100px;top:200px;width:560px" data-к="4">
-      <svg viewBox="0 0 64 64" class="печать"><circle cx="32" cy="32" r="28" class="круг"/><circle cx="32" cy="32" r="20" class="круг"/>
-        <path d="M20 33l8 8 16-16" class="галка включён"/></svg>
-      <div><b>Заказ на поставку сформирован и утверждён</b></div>
-    </div>
-
-  </div>
-
 </section>
 
 <!-- ================= 5. исполнение договора =================
@@ -1536,7 +1494,8 @@ body.экраны #обёртка::after{display:none}
      «Концептуального видения по закупкам» (14.05.26): относительная степень
      улучшения процесса по слайдам 5–7 и метрики со слайда 9. Оценки там — по
      лучшим практикам, это сказано на слайде. -->
-<section class="слайд скрыт" id="с6" aria-label="Эффекты пилота">
+<!-- 16.09: слайд эффектов временно возвращён — Арман хочет посмотреть; убрать снова — класс «скрыт» -->
+<section class="слайд" id="с6" aria-label="Эффекты пилота">
   <div class="бровь">Итог · ожидаемые эффекты пилота</div>
   <h2 class="заголовок дисплей">Что даёт сквозной процесс закупок на ИИ</h2>
   <p class="идея">Те же пять точек — теперь каждая работает на результат.</p>
@@ -1550,21 +1509,126 @@ body.экраны #обёртка::after{display:none}
       <div class="пэ_шаг" data-к="5"><img src="медиа/иконки_закупки/шаг7.png" alt=""><i>05</i><b>Сквозная ответственность за процесс</b><span>Единая ответственность от потребности до использования ТМЦ</span></div>
     </div>
     <div class="пэ_низ">
-      <div class="было_стало" data-к="6">
-        <div class="имя">Было → стало</div>
-        <div class="ряд_бс"><span>шагов в процессе</span><div class="полосы"><i class="было"><em>203</em></i><i class="стало" style="--д:66%"><em>133</em></i></div><b>−34 %</b></div>
-        <div class="ряд_бс"><span>часов на процесс</span><div class="полосы"><i class="было"><em>437</em></i><i class="стало" style="--д:34%"><em>148</em></i></div><b>−66 %</b></div>
-        <div class="ряд_бс"><span>исходящих документов</span><div class="полосы"><i class="было"><em>25</em></i><i class="стало" style="--д:8%"><em>2</em></i></div><b>−92 %</b></div>
-      </div>
+      <!-- 17.09 (Арман): блок «Было → стало» (203 → 133 шагов, 437 → 148 часов,
+           25 → 2 документов) снят — цифры «стало» пересчитываются (шагов будет
+           24, часы не считали), пришлёт утром. Пока — только эффективность. -->
       <div class="пэ_проценты" data-к="6">
         <div class="имя">Эффективность процессов</div>
-        <div class="пц"><b>+69 %</b><span>формирование потребности</span></div>
-        <div class="пц"><b>+55 %</b><span>маркетинг цен</span></div>
-        <div class="пц"><b>+50 %</b><span>план закупок</span></div>
-        <div class="пц"><b>−10–20 %</b><span>времени планирования закупок</span></div>
+        <!-- 17.09 (Арман): потребность и маркетинг формируются автоматически — +100 %;
+             план закупок +95 %; «время планирования закупок −10–20 %» снято -->
+        <div class="пц"><b>+100 %</b><span>формирование потребности</span></div>
+        <div class="пц"><b>+100 %</b><span>маркетинг цен</span></div>
+        <div class="пц"><b>+95 %</b><span>план закупок</span></div>
       </div>
     </div>
   </div>
+</section>
+
+<!-- 16.09 вечер (Адиль): список товаров пилота возвращён в самый конец -->
+<section class="слайд" id="с1б" aria-label="Товары пилота">
+  <div class="бровь">Пилот · Мангистауэнергомунай</div>
+  <h2 class="заголовок дисплей">Для пилота выбрано 25 товаров</h2>
+  <div class="подзаг">формирование потребности по ним ИИ ведёт полностью автоматически</div>
+  <div class="полотно">
+    <ol class="пилот">
+        <li style="transition-delay:0ms" data-к="1"><i>1</i><b>Вода питьевая 0,5л</b><span>Напитки</span><em>0103.019064</em></li>
+        <li style="transition-delay:35ms" data-к="1"><i>2</i><b>Вода питьевая 19л</b><span>Напитки</span><em>0103.019066</em></li>
+        <li style="transition-delay:70ms" data-к="1"><i>3</i><b>Бензин-растворитель Уайт-спирит ГОСТ 3134-78</b><span>Запчасти к специальной технике</span><em>02030103.031558</em></li>
+        <li style="transition-delay:105ms" data-к="1"><i>4</i><b>Уголок горячекатаный равнополочный 100х100х8мм ст3сп ГОСТ 8509-93</b><span>Стройматериалы</span><em>06030301.526079</em></li>
+        <li style="transition-delay:140ms" data-к="1"><i>5</i><b>Труба электросварная прямошовная 57х3мм ст3сп</b><span>Стройматериалы</span><em>08010201.476634</em></li>
+        <li style="transition-delay:175ms" data-к="1"><i>6</i><b>Лента сигнальная Осторожно кабель 250ммх100м</b><span>Изделия резиновые и пластмассовые</span><em>16050302.466672</em></li>
+        <li style="transition-delay:210ms" data-к="1"><i>7</i><b>Эмаль нитроцеллюлозная НЦ-132 желтый</b><span>Хозяйственные товары</span><em>170101.009063</em></li>
+        <li style="transition-delay:245ms" data-к="1"><i>8</i><b>Мыло хозяйственное 72% 250г</b><span>Хозяйственные товары</span><em>17080501.022814</em></li>
+        <li style="transition-delay:280ms" data-к="1"><i>9</i><b>Выключатель автоматический Iном.32А Iоткл.6кА Uном.230В 1р IP20</b><span>Оборудование электрическое</span><em>2302020101.009044</em></li>
+        <li style="transition-delay:315ms" data-к="1"><i>10</i><b>Фотореле электронное ФР-1</b><span>Запчасти к специальной технике</span><em>2302060111.023159</em></li>
+        <li style="transition-delay:350ms" data-к="1"><i>11</i><b>Электропатрон карболитовый E27</b><span>Осветительное оборудование</span><em>2306020104.017928</em></li>
+        <li style="transition-delay:385ms" data-к="1"><i>12</i><b>Зажим аппаратный А2А-35</b><span>Оборудование электрическое</span><em>2306020302.027248</em></li>
+        <li style="transition-delay:420ms" data-к="1"><i>13</i><b>Наконечник кабельный ТМЛ-35-10-10 35мм2 медный</b><span>Электротехнические изделия</span><em>23060203040104.463656</em></li>
+        <li style="transition-delay:455ms" data-к="1"><i>14</i><b>Перемычка ПГС 25-560 гибкая</b><span>Электротехнические изделия</span><em>23060205.468022</em></li>
+        <li style="transition-delay:490ms" data-к="1"><i>15</i><b>Изолятор штырьевой фарфоровый ШФ 20-Г</b><span>Электроизоляционные материалы</span><em>2308030102.461396</em></li>
+        <li style="transition-delay:525ms" data-к="1"><i>16</i><b>Колпачок К-9</b><span>Изделия резиновые и пластмассовые</span><em>2308030401.037121</em></li>
+        <li style="transition-delay:560ms" data-к="1"><i>17</i><b>Провод СИП-3 1х35</b><span>Кабель</span><em>240404.022178</em></li>
+        <li style="transition-delay:595ms" data-к="1"><i>18</i><b>Ножовка по металлу 300х1мм</b><span>Инструменты</span><em>2807020109.036828</em></li>
+        <li style="transition-delay:630ms" data-к="1"><i>19</i><b>Картридж CE285A черный</b><span>Офисная оргтехника с комплектующими и расходными материалами к ним</span><em>290607.022210</em></li>
+        <li style="transition-delay:665ms" data-к="1"><i>20</i><b>Бумага A4 80г/м2 500л.</b><span>Канцелярские товары</span><em>420101.010604</em></li>
+        <li style="transition-delay:700ms" data-к="1"><i>21</i><b>Бумага туалетная 2-слойная 17м</b><span>Хозяйственные товары</span><em>420119.488106</em></li>
+        <li style="transition-delay:735ms" data-к="1"><i>22</i><b>Опора железобетонная СВ 164-12 16400мм</b><span>Стройматериалы</span><em>460801.442296</em></li>
+        <li style="transition-delay:770ms" data-к="1"><i>23</i><b>Каска защитная белая р.52-65</b><span>Средства индивидуальной защиты</span><em>6109.436815</em></li>
+        <li style="transition-delay:805ms" data-к="1"><i>24</i><b>Кисть плоская 50мм натуральная</b><span>Инструменты</span><em>74060201.018267</em></li>
+        <li style="transition-delay:840ms" data-к="1"><i>25</i><b>Знак безопасности Заземление круглый 50мм металл</b><span>Знаки, указатели</span><em>74080803.551988</em></li>
+    </ol>
+  </div>
+</section>
+
+<!-- 18.09 (Адиль, фото стенда): целевое видение перенесено в самый конец — после эффектов и товаров пилота -->
+<section class="слайд" id="с4" aria-label="Слайд 4">
+  <!-- 15.09 (закупщики): заголовок «Взаимодействие систем на этапе планирования и
+       проведения закупки», подзаголовок про SK Store снят, «план — в SK Store» →
+       «передано на закуп», плашка площадки — про автоматическую детализацию и
+       публикацию, значок AI у площадки убран («тут не используется»), карточка
+       справа — «Заказ на поставку сформирован и утверждён» без подписи. -->
+  <!-- 17.09 (Арман): «целевое видение вернуть» — заголовок снова про целевое видение,
+       содержимое — в редакции закупщиков 15.09 -->
+  <div class="бровь">Шаг 6 · целевое видение · KMG AISAP и SK Store</div>
+  <h2 class="заголовок дисплей">Целевое видение: как системы ведут закупку от плана до заказа</h2>
+
+  <div class="полотно">
+    <svg class="потоки" viewBox="0 0 1724 640" style="position:absolute;left:0;top:0;width:1724px;height:640px;pointer-events:none" aria-hidden="true">
+      <defs>
+        <marker id="стрелка_циан4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="#4FE3FF"/></marker>
+      </defs>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M300 258 H310" data-к="2"/>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M356 258 H376" data-к="2"/>
+      <path class="поток" pathLength="1" marker-end="url(#стрелка_циан4)" d="M1020 280 H1092" data-к="4"/>
+    </svg>
+
+    <!-- 1. срок наступил -->
+    <div class="карточка синяя календ" style="left:0;top:150px;width:300px" data-к="0">
+      <b>Шаг 5 · План закупок · KMG AISAP</b>
+      <svg viewBox="0 0 132 100" class="кал"><rect x="4" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:45ms" data-к="1"/><rect x="22" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:90ms" data-к="1"/><rect x="40" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:135ms" data-к="1"/><rect x="58" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:180ms" data-к="1"/><rect x="76" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:225ms" data-к="1"/><rect x="94" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:270ms" data-к="1"/><rect x="112" y="18" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:315ms" data-к="1"/><rect x="4" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:360ms" data-к="1"/><rect x="22" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:405ms" data-к="1"/><rect x="40" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:450ms" data-к="1"/><rect x="58" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:495ms" data-к="1"/><rect x="76" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:540ms" data-к="1"/><rect x="94" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:585ms" data-к="1"/><rect x="112" y="34" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:630ms" data-к="1"/><rect x="4" y="50" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:675ms" data-к="1"/><rect x="22" y="50" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:720ms" data-к="1"/><rect x="40" y="50" width="14" height="12" rx="2" class="день прошёл" style="transition-delay:765ms" data-к="1"/><rect x="58" y="50" width="14" height="12" rx="2" class="срок" style="transition-delay:810ms" data-к="1"/><rect x="76" y="50" width="14" height="12" rx="2" class="день"/><rect x="94" y="50" width="14" height="12" rx="2" class="день"/><rect x="112" y="50" width="14" height="12" rx="2" class="день"/><rect x="4" y="66" width="14" height="12" rx="2" class="день"/><rect x="22" y="66" width="14" height="12" rx="2" class="день"/><rect x="40" y="66" width="14" height="12" rx="2" class="день"/><rect x="58" y="66" width="14" height="12" rx="2" class="день"/><rect x="76" y="66" width="14" height="12" rx="2" class="день"/><rect x="94" y="66" width="14" height="12" rx="2" class="день"/><rect x="112" y="66" width="14" height="12" rx="2" class="день"/><rect x="4" y="82" width="14" height="12" rx="2" class="день"/><rect x="22" y="82" width="14" height="12" rx="2" class="день"/><rect x="40" y="82" width="14" height="12" rx="2" class="день"/><rect x="58" y="82" width="14" height="12" rx="2" class="день"/><rect x="76" y="82" width="14" height="12" rx="2" class="день"/><rect x="94" y="82" width="14" height="12" rx="2" class="день"/><rect x="112" y="82" width="14" height="12" rx="2" class="день"/><text x="4" y="10" class="т">наступает дата закупки</text></svg>
+    </div>
+    <!-- 2. заявка -->
+    <div class="заявка" style="left:312px;top:232px" data-к="2">
+      <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
+        <path d="M12 22h16M12 30h16M12 38h10" class="строки"/></svg>
+      <span>передано на закуп —<br>в SK Store</span>
+    </div>
+
+    <!-- 3. площадка -->
+    <div class="склад площадка" style="left:380px;top:130px;width:700px;height:330px" data-к="2">
+      <div class="имя">Шаг 6 · SK Store · электронная площадка</div>
+      <div class="заг">Процедура закупки: победитель — наименьшая цена</div>
+      <div class="секретарь" data-к="2">автоматическая детализация категории и карточки товара · автоматическая публикация товаров на торги</div>
+      <div class="участник " style="left:30px;top:180px;transition-delay:0ms" data-к="3">
+        <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
+          <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:600ms"/></svg>
+        <b>Поставщик 1</b>
+      </div>
+      <div class="участник победитель" style="left:270px;top:180px;transition-delay:180ms" data-к="3">
+        <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
+          <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:780ms"/></svg>
+        <b>Поставщик 2</b>
+      </div>
+      <div class="участник " style="left:510px;top:180px;transition-delay:360ms" data-к="3">
+        <svg viewBox="0 0 40 48"><path d="M6 4h20l8 8v32H6z" class="док"/><path d="M26 4v8h8" class="док"/>
+          <path d="M12 26l5 5 10-10" class="галка" style="transition-delay:960ms"/></svg>
+        <b>Поставщик 3</b>
+      </div>
+    </div>
+    <!-- 4. договор -->
+    <!-- 11.09: подписание заказа на поставку ЭЦП в целевом процессе снимается —
+         поставщику уходит уведомление о победе и сроке поставки по Правилам,
+         подписи обеих сторон не нужны («это типа революция»). Юридическую
+         сторону закупщики берут на себя. -->
+    <div class="карточка договор" style="left:1130px;top:200px;width:560px" data-к="4">
+      <svg viewBox="0 0 64 64" class="печать"><circle cx="32" cy="32" r="28" class="круг"/><circle cx="32" cy="32" r="20" class="круг"/>
+        <path d="M20 33l8 8 16-16" class="галка включён"/></svg>
+      <div><b>Заказ на поставку сформирован и утверждён</b></div>
+    </div>
+
+  </div>
+
 </section>
 
 
@@ -1688,6 +1752,10 @@ body.экраны #обёртка::after{display:none}
   document.body.classList.toggle("экраны", !!слайды[0].querySelector(".экран"));
   кнопки[0].setAttribute("aria-current", "true");
   счёт.textContent = "01 / " + ("0" + слайды.length).slice(-2);
+  /* ?с=N — открыть сразу N-й слайд целиком (как в цифры_кмг.html): для снимков
+     и чтобы докладчик мог дать прямую ссылку на нужный лист */
+  var мС = /[?&]с=(\d+)/.exec(decodeURIComponent(location.search));
+  if(мС) показать(+мС[1] - 1, true);
 
   function вперёд(){
     var с = слайды[текущий], всего = кадрыСлайда(с), было = состояние[с.id] || 0;
