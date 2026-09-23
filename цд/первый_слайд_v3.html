@@ -91,8 +91,8 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
    задаёт JS, см. МИНИ_ВЫСОТА_ДОЛЯ), и панель не должна на неё заезжать. Если
    содержимое выше остатка (низкое окно) — прокручивается внутри, как и раньше.
    Стартует чуть ниже и выезжает вверх. */
-#panel.вместо-стека,#panel.раскрыт{top:132px;bottom:auto;left:26px;right:auto;
-  max-height:calc(100vh - 132px - var(--мини-высота,27vh) - 26px - 16px);
+#panel.вместо-стека,#panel.раскрыт{top:124px;bottom:auto;left:26px;right:auto;
+  max-height:calc(100vh - 124px - var(--мини-высота,21.5vh) - 26px - 10px);
   transform:translateY(22px)}
 #panel.вместо-стека.vis,#panel.раскрыт.vis{transform:none}
 #panel::-webkit-scrollbar{width:5px}
@@ -1659,7 +1659,7 @@ build().catch(e => { document.getElementById('loadmsg').textContent = 'Ошиб�
 /* ================================================================
    ИНТЕРАКЦИЯ
    ================================================================ */
-const state = { hover:null, hoverSub:null, locked:null, launching:null, closing:null, openId:null, camAz:0, camRadius:0, launchRadius:0, launchPolar:0, launchAt:0, closeAt:0, viewShiftX:0, viewShiftTargetX:0, переходАт:0 };
+const state = { hover:null, hoverSub:null, locked:null, launching:null, closing:null, openId:null, camAz:0, camRadius:0, launchRadius:0, launchPolar:0, launchAt:0, closeAt:0, viewShiftX:0, viewShiftTargetX:0, viewShiftОт:0, переходАт:0 };
 // РАСКРЫТА объявлена выше, у pickMeshes: она нужна ещё в build() для вычисляемых там restPickMeshes
 const panelState = { zone:null, sub:null };
 const active = () => state.locked || state.hover;
@@ -1695,9 +1695,9 @@ const УХОД_ВНИЗ = 260;          // и вниз, в тот же угол 
    высоты окна, потому что и сама модель на экране растёт вместе с ней.
    МИНИ_ВЫСОТА_ДОЛЯ ещё и отдана панели через CSS-переменную: панель не
    должна заезжать в угол, поэтому её max-height считается от неё же. */
-const МИНИ_МАСШТАБ = 0.38;          // во сколько раз стопка сжимается
-const МИНИ_ВЫСОТА_ДОЛЯ = 0.27;      // высота углового места, доля высоты окна
-const МИНИ_ШИРИНА_К_ВЫСОТЕ = 1.0;   // ширина углового места к его высоте (изометрия — почти квадрат)
+const МИНИ_МАСШТАБ = 0.30;          // во сколько раз стопка сжимается
+const МИНИ_ВЫСОТА_ДОЛЯ = 0.215;     // высота углового места, доля высоты окна (замерено: стопка при 0.30 занимает ≈0.22 высоты окна)
+const МИНИ_ШИРИНА_К_ВЫСОТЕ = 1.1;   // ширина углового места к его высоте (замерено: 321×296 при 0.38)
 const МИНИ_ПОЛЕ = 26;               // отступ от левого и нижнего края, px — как у панели
 const ПЕРЕХОД_МС = 900;             // перелёт стопки в угол и обратно
 document.documentElement.style.setProperty('--мини-высота', (МИНИ_ВЫСОТА_ДОЛЯ*100) + 'vh');
@@ -1731,6 +1731,7 @@ const _мини = new THREE.Vector3();
    посреди перелёта ничего не ломает. */
 function запомнитьОткуда(){
   state.переходАт = performance.now();
+  state.viewShiftОт = state.viewShiftX;
   for(const id in zones){
     const z = zones[id];
     z.от = { offset:z.offset, x:z.offsetX, y:z.offsetYExit ?? 0, z:z.offsetZ ?? 0, s:z.exitScale ?? 1 };
@@ -2315,8 +2316,8 @@ function обновитьАкцентыНаземки(k, t){
     z.глушь = 1 - ((выбран === 0) ? в : 0) * 0.72;
   }
 
-  elNaz.classList.toggle('on', !!активный);
-  if(!активный) return;
+  elNaz.classList.toggle('on', !!активный && !state.openId);
+  if(!активный || state.openId) return;
   elNaz.textContent = активный.подпись;
   активный.якорь.getWorldPosition(_вект);
   _вект.project(camera);
@@ -2341,7 +2342,8 @@ function обновитьБурение(){
   const б = zones.skv && zones.skv.бурение;
   // по mixH, а не по mix: подпись обязана выходить вместе с самим долотом,
   // то есть уже на наведении, а не только после нажатия
-  const видно = б && ((zones.skv.mixH || 0) > 0.35);
+  // при открытом контенте стопка — миниатюра в углу, подпись к ней великовата и вылезала за край
+  const видно = б && !state.openId && ((zones.skv.mixH || 0) > 0.35);
   elDrill.classList.toggle('on', !!видно);
   if(!видно){ тикБурения = 0; return; }
 
@@ -2361,7 +2363,7 @@ function обновитьБурение(){
 // подпись горизонтального ствола — у носка лежачей части
 function обновитьГоризонт(){
   const г = zones.skv && zones.skv.горизонт;
-  const видно = г && ((zones.skv.mixH || 0) > 0.35);
+  const видно = г && !state.openId && ((zones.skv.mixH || 0) > 0.35);
   elГориз.classList.toggle('on', !!видно);
   if(!видно) return;
   г.якорь.getWorldPosition(_вект);
@@ -2371,7 +2373,7 @@ function обновитьГоризонт(){
   elГориз.style.top  = ((-_вект.y * 0.5 + 0.5) * innerHeight) + 'px';
 }
 function обновитьМеткиТЭО(){
-  const показывать = меткиТЭО.length && (
+  const показывать = меткиТЭО.length && !state.openId && (
     (state.locked === 'plast' && panelState.sub === 2) ||
     (state.hover === 'plast' && state.hoverSub === 2));
   elTeo.classList.toggle('on', !!показывать);
@@ -2699,7 +2701,7 @@ function animate(){
                  : (state.hover === 'plast' ? state.hoverSub : null);
       // столбы ранжирования выходят вместе со слоем оценки
       if(z.столбы){
-        const вид = (aSub === 2) ? 1 : 0;
+        const вид = (aSub === 2 && !state.openId) ? 1 : 0;   // столбы ранжирования без подписей (см. обновитьМеткиТЭО) в миниатюре — просто палки
         z.видСтолбов = (z.видСтолбов === undefined ? 0 : z.видСтолбов) + (вид - (z.видСтолбов === undefined ? 0 : z.видСтолбов))*k;
         // погашенные столбы убираем из рендера целиком — иначе они всё равно
         // участвуют в проходе прозрачности и мажут соседние слои
@@ -2720,7 +2722,7 @@ function animate(){
           const base = (si === 0 ? -8 : si === 2 ? 8 : 0);   // si: 0 — нижняя, 2 — верхняя
           // на оценке стопку не разносим: столбы прошивают её насквозь, и в
           // разъехавшихся слоях связь «запасы → точка → эффект» рвётся
-          if(aSub === null || aSub === 2) tOff = base;
+          if(aSub === null || aSub === 2 || state.openId) tOff = base;
           else if(si === aSub) tOff = base;                  // выбранная остаётся на месте
           else tOff = base + (si < aSub ? -1 : 1) * 34 * Math.abs(si - aSub);   // соседние уезжают
         }
@@ -2729,7 +2731,9 @@ function animate(){
            иначе группа уедет — её содержимое стоит в координатах всего стека.
            На технико-экономической оценке подрастают все три: столбы ранжирования
            идут сквозь стопку, и разнокалиберные слои под ними читаются как ошибка. */
-        const tScale = !plastActive || aSub === null ? 1
+        // в миниатюре (открыт контент) составляющие не разъезжаются и не растут: в углу на это
+        // нет места, стопка вылезала за нижний край окна. Выбранная по-прежнему светится (tMix ниже).
+        const tScale = !plastActive || aSub === null || state.openId ? 1
                      : (aSub === 2 ? 1.12 : (aSub === si ? 1.22 : 0.93));
         s.scl = (s.scl === undefined) ? 1 : s.scl + (tScale - s.scl)*k;
         const cy = (s.st + s.sb)/2;
@@ -2838,7 +2842,11 @@ function animate(){
   // что и остальное (см. комментарий у fitBetweenPanels): раньше прыгал
   // разом в кадре, где openProject уже поставил классу .vis, и модель
   // заметно дёргалась ровно в момент появления контента.
-  state.viewShiftX += (state.viewShiftTargetX - state.viewShiftX)*k;
+  /* Пока идёт перелёт стопки, сдвиг кадра гасится тем же прогрессом, а не
+     своим быстрым лерпом: иначе он успевал уйти в первые же 200 мс, и модель
+     сперва дёргалась вправо (сдвиг снимался), а уже потом ехала в угол. */
+  if(перелётП < 1) state.viewShiftX = state.viewShiftОт + (state.viewShiftTargetX - state.viewShiftОт)*перелётЕ;
+  else state.viewShiftX += (state.viewShiftTargetX - state.viewShiftX)*k;
   if(Math.abs(state.viewShiftX) > 0.4){
     camera.setViewOffset(innerWidth, innerHeight, state.viewShiftX, 0, innerWidth, innerHeight);
   } else {
