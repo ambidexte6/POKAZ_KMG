@@ -126,9 +126,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 .rsep::after{content:'';position:absolute;right:0;top:-2.5px;border-left:5px solid var(--line);
   border-top:3px solid transparent;border-bottom:3px solid transparent}
 
-#hint{position:fixed;bottom:62px;left:26px;z-index:10;font-family:var(--mono);font-size:16px;
-  letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
-
 /* переходы наружу — неприметные, в том же окне */
 #next,#demo2,#demo2full,#pilot,#далее{position:fixed;z-index:12;display:inline-flex;align-items:center;gap:8px;
   font-family:var(--mono);font-size:17px;letter-spacing:.18em;text-transform:uppercase;
@@ -264,6 +261,13 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #знак{position:fixed;right:26px;top:64px;z-index:60;pointer-events:none;
   height:50px;opacity:.32;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6))}
 #знак svg{display:block;height:100%;width:auto}
+
+/* Полноэкранная заливка перехода в проект слоя: тем же цветом, что и фон
+   обеих сторон, — смена страницы читается как затемнение, а не как
+   перезагрузка. */
+#launch-overlay{position:fixed;inset:0;z-index:90;background:var(--bg0);
+  opacity:0;pointer-events:none;transition:opacity .5s ease}
+#launch-overlay.vis{opacity:1;pointer-events:auto}
 </style>
 </head>
 <body>
@@ -322,7 +326,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   <div class="rd"><div class="y">далее</div><div class="d">100% добывающих активов</div></div>
 </div>
 
-<div id="hint">Вращение — мышь · наведите на слой модели или список слева</div>
 <!-- target="_top": слайд открывается ещё и внутри demo_with_map.html, и без
      этого вторая часть грузилась бы в рамку, будто она часть нашего показа -->
 <a id="next" target="_top" rel="noopener"
@@ -362,6 +365,7 @@ if (!/[?&]коротко=1/.test(decodeURIComponent(location.search))) location.
 <div id="drill"><span class="pt"></span>идёт бурение<b class="m">—</b></div>
 <div id="horiz"><span class="pt"></span>горизонтальное бурение</div>
 <div id="naz-lbl"></div>
+<div id="launch-overlay"></div>
 
 <script type="importmap">
 { "imports": {
@@ -896,6 +900,33 @@ function holoBox(w, h, d, cy, hex, cells=8, fillHex=0x0A2E3E){
    ================================================================ */
 const zones = {};
 let pickMeshes = [];
+/* Наведение при заблокированном (нажатом) слое таргетится по живым, анимированным
+   хитбоксам — раскладка тогда зависит только от state.locked, а не от самого
+   наведения, и раскачаться не может. Пока ничего не нажато, раскладка от
+   наведения как раз и зависит (лёгкая раздвижка), и наведение по этим же живым
+   хитбоксам входит в петлю: хитбокс уезжает от курсора, наведение гаснет,
+   хитбокс едет обратно, наведение включается снова — и так по кругу, заметнее
+   всего на верхнем крае верхнего слоя и нижнем крае нижнего, где раздвижка
+   больше всего. `restPickMeshes` стоят неподвижно, в позициях состояния покоя
+   (см. `вычислитьОтдых`), и наведение проверяется по ним, пока ничего не нажато —
+   раскладка на них не давит, значит и раскачиваться нечему. */
+let restPickMeshes = [];
+const РАСКРЫТА = new URLSearchParams(location.search).get('коротко') === '1' && new URLSearchParams(location.search).get('стопка') !== '1';   // раскрытая стопка — короткий показ
+let REST_OFFSET = { grr:0, plast:0, skv:0, naz:0 };
+function вычислитьОтдых(bands){
+  const out = { grr:0, plast:0, skv:0, naz:0 };
+  if(!РАСКРЫТА) return out;   // `?стопка=1` — слои и в покое стоят стопкой, без раздвижки
+  const GAP = 24;
+  let total = GAP * (RANK_UP.length - 1);
+  for(const id of RANK_UP) total += (bands[id][1]-bands[id][0]) * 1.06;
+  let bot = -total/2;
+  for(const id of RANK_UP){
+    const h = (bands[id][1]-bands[id][0]) * 1.06, c = bot + h/2;
+    out[id] = c - (bands[id][0]+bands[id][1])/2;
+    bot = c + h/2 + GAP;
+  }
+  return out;
+}
 const FOOT = 250;                                   // ширина куба в сцене
 // целевые высоты подземных плит (наземка — натуральная, чтобы не плющить объекты)
 const TARGET_H = { grr:44, plast:56, skv:56 };
@@ -950,7 +981,9 @@ const ТОЧКИ = [
 ];
 const меткиТЭО = [];   // {точка, узел, div} — подписи ведём в HTML, не в текстуре
 
-// слои грузятся напрямую из .glb (без base64-глобала — меньше RAM, работает на GitHub Pages)
+// Слои грузятся напрямую из .glb (без base64-глобала — меньше RAM, работает на GitHub Pages).
+// Новые модели сохраняют иерархию узлов: в наземке станки уже разделены на
+// подвижные детали, а PumpCycle приходит готовой анимацией из GLB.
 const GLB_FILES = {
   plast1: 'пласт_1_ггдм.glb',
   plast2: 'пласт_2_стратегия.glb',
@@ -960,8 +993,37 @@ const GLB_FILES = {
 const gltfLoader = new GLTFLoader();
 function loadLayer(id){
   return new Promise((res, rej) => {
-    gltfLoader.load(encodeURIComponent(GLB_FILES[id]), g => res(g.scene), undefined, rej);
+    gltfLoader.load(encodeURIComponent(GLB_FILES[id]), res, undefined, rej);
   });
+}
+
+/* Физическая модель и её цифровой каркас живут в одной иерархии. Каркас
+   добавляется ребёнком к исходному mesh: так трансформации отдельных деталей
+   и анимация PumpCycle автоматически применяются к обеим версиям. Старый
+   способ создавал новые Mesh только из geometry и терял node transforms — у
+   составных GLB все детали оказывались бы в начале координат. */
+function подготовитьМодель(root, цвет, физМаты, каркасМаты){
+  const meshes = [];
+  root.traverse(n => { if(n.isMesh) meshes.push(n); });
+  for(const mesh of meshes){
+    const исходные = Array.isArray(mesh.material) ? mesh.material : [mesh.material];
+    const физ = исходные.map(m => {
+      const копия = m.clone();
+      копия.transparent = true;
+      физМаты.push(копия);
+      return копия;
+    });
+    mesh.material = Array.isArray(mesh.material) ? физ : физ[0];
+
+    const карМат = new THREE.MeshBasicMaterial({ color:цвет, wireframe:true,
+      transparent:true, opacity:0, blending:THREE.AdditiveBlending,
+      depthWrite:false });
+    const каркас = new THREE.Mesh(mesh.geometry, карМат);
+    каркас.renderOrder = 1;
+    mesh.add(каркас);
+    каркасМаты.push(карМат);
+  }
+  return root;
 }
 
 /* ── станки-качалки ───────────────────────────────────────────────────
@@ -1233,27 +1295,18 @@ function собратьКачалки(z, M, yb, части){
 
 async function build(){
   const roots = {};
+  const animations = {};
   // верхняя составляющая пласта (ТЭО) собирается кодом — модель для неё не грузим
   const LOAD_IDS = ['plast1','plast2','skv','naz'];
   // грузим параллельно — общее время ≈ самый долгий файл, а не сумма всех
   let loaded = 0;
-  const частиСтанка = {};
-  await Promise.all([
-    ...LOAD_IDS.map(id => loadLayer(id).then(s => {
-      roots[id] = s;
+  await Promise.all(
+    LOAD_IDS.map(id => loadLayer(id).then(g => {
+      roots[id] = g.scene;
+      animations[id] = g.animations || [];
       ++loaded;   // 18.09 (Адиль): служебные надписи загрузки убраны
-    })),
-    // станок-качалка: не слой, а деталь наземки, поэтому вне списка слоёв
-    new Promise(res => gltfLoader.load(encodeURIComponent('качалка_части.glb'), g => {
-      g.scene.traverse(n => {
-        // нормали в файл не писались — считаем на месте, вес файла вдвое меньше.
-        // Части с рёбрами приходят линиями (mode LINES), нормали им не нужны.
-        if(n.isMesh){ n.geometry.computeVertexNormals(); частиСтанка[n.name] = n.geometry; }
-        else if(n.isLineSegments) частиСтанка[n.name] = n.geometry;
-      });
-      res();
-    }, undefined, () => res()))   // не нашёлся — слой соберётся без станков
-  ]);
+    }))
+  );
 
   // размеры и стек: ширина и глубина всех плит приводятся к одному футпринту
   const DEPTH = 190;
@@ -1279,12 +1332,13 @@ async function build(){
     acc += up;
     bands[id][0] += acc; bands[id][1] += acc;
   }
+  REST_OFFSET = вычислитьОтдых(bands);
 
   for(const id of RANK_UP){
     const M = meta[id];
     const [yb, yt] = bands[id];
     const z = zones[id] = { id, yb, yt, physMats:[], wireMats:[], holo:[], mix:0, target:0,
-      offset:0, targetOffset:0, scaleG:new THREE.Group() };
+      offset:0, targetOffset:0, offsetX:0, targetOffsetX:0, scaleG:new THREE.Group() };
     world.add(z.scaleG);
 
     const place = mesh => {
@@ -1295,35 +1349,7 @@ async function build(){
 
     // физическая версия (пласт собирается из 3 подслоёв ниже)
     if(id !== 'plast'){
-      const physG = new THREE.Group();
-      M.r.traverse(n => {
-        if(!n.isMesh) return;
-        // у наземки из сетки вырезаны станки: их место занимают собранные кодом
-        const геом = (id === 'naz')
-          ? частьСетки(безКачалок(n.geometry), (x,y,zz) => !вФакеле(x,y,zz))
-          : n.geometry;
-
-        /* Резервуарный парк отделяется в свою пару мешей. Он уходит в двойник
-           уже на наведении — вместе со станками и трубопроводом, — а остальной
-           слой остаётся физическим до нажатия. Одним мешем так не получится:
-           у железа и каркаса баков должна быть своя непрозрачность. */
-        const баки = (id === 'naz') ? частьСетки(геом, вХранилище) : null;
-        const остальное = баки ? частьСетки(геом, (x,y,zz) => !вХранилище(x,y,zz)) : геом;
-
-        const пара = (g, свои) => {
-          const pm = n.material.clone(); pm.transparent = true;
-          physG.add(new THREE.Mesh(g, pm));
-          const wm = new THREE.MeshBasicMaterial({ color:holoColors[id][0], wireframe:true,
-            transparent:true, opacity:0, blending:THREE.AdditiveBlending, depthWrite:false });
-          physG.add(new THREE.Mesh(g, wm));
-          свои.физ.push(pm); свои.кар.push(wm);
-        };
-        пара(остальное, { физ:z.physMats, кар:z.wireMats });
-        if(баки){
-          z.бакиФиз = z.бакиФиз || []; z.бакиКар = z.бакиКар || [];
-          пара(баки, { физ:z.бакиФиз, кар:z.бакиКар });
-        }
-      });
+      const physG = подготовитьМодель(M.r, holoColors[id][0], z.physMats, z.wireMats);
       if(id === 'skv'){
         // слой скважин повёрнут на −90°: штатные чёрные трубы встают рядом под качалками
         const center = M.box.getCenter(new THREE.Vector3());
@@ -1344,15 +1370,9 @@ async function build(){
       } else {
         place(physG);
         z.scaleG.add(physG);
-        if(id === 'naz' && СТАНКИ_ВКЛ && частиСтанка['коромысло']) собратьКачалки(z, M, yb, частиСтанка);
-        /* В отладочном режиме выводим число треугольников слоя: по нему сразу
-           видно, какая версия страницы открыта. Без реза их 27 936, с резом —
-           25 487. Иначе спор «убраны станки или нет» не разрешить. */
-        if(id === 'naz' && !СТАНКИ_ВКЛ){
-          let тр = 0;
-          physG.traverse(n => { if(n.isMesh && n.geometry.index) тр = Math.max(тр, n.geometry.index.count/3); });
-          document.getElementById('hint').textContent =
-            'отладка · станки сняты · треугольников в слое наземки: ' + тр.toLocaleString('ru');
+        if(id === 'naz' && animations.naz.length){
+          z.mixer = new THREE.AnimationMixer(M.r);
+          animations.naz.forEach(clip => z.mixer.clipAction(clip).play());
         }
       }
     } else {
@@ -1399,6 +1419,11 @@ async function build(){
         hit.userData.zone = 'plast'; hit.userData.sub = si;
         world.add(hit);
         pickMeshes.push(hit);
+        // неподвижный близнец — наведение при незажатом слое проверяется по нему, см. restPickMeshes выше
+        const restHit = hit.clone();
+        restHit.position.y = (st+sb)/2 + REST_OFFSET.plast;
+        world.add(restHit);
+        restPickMeshes.push(restHit);
         z.subs3d.push({ wrap, physMats, wireMats, holo:hb.userData.parts, st, sb, hit, off:0, mix:0 });
       }
       z.столбы = []; z.узлыСтолбов = [];
@@ -1425,47 +1450,90 @@ async function build(){
       z.scaleG.add(hb); z.holo.push(hb.userData.parts);
     }
 
-    // ЦД скважины: собственные стволы строго под качалками наземки + подсветка
+    // ЦД скважины: бурение привязано к узлам обсадных труб новой GLB.
     if(id === 'skv'){
-      // Подсветка идёт «муфтой» поверх стволов самой модели: координаты и радиус
-      // сняты замером сверху по чёрным трубам GLB, чуть шире — чтобы обнимать трубу.
-      z.wellMats = [];
-      const WELLS = [[-80.5, 81.4], [0.1, 81.5], [80.5, 81.4]];
+      /* В wells.glb каждая обсадная труба — отдельный узел. Берём их реальные
+         границы после центровки, поворота и масштаба слоя. Прежние жёсткие
+         координаты относились к старой модели, поэтому светлые трубы стояли
+         рядом с чёрными. Теперь полная светлая оболочка ниже строится ровно
+         по фактическому box каждой обсадной трубы. */
+      z.scaleG.updateMatrixWorld(true);
+      let WELLS = ['Well_01_hollow_casing','Well_02_hollow_casing','Well_03_hollow_casing']
+        .map(name => {
+          const узел = M.r.getObjectByName(name);
+          if(!узел) return null;
+          const box = new THREE.Box3().setFromObject(узел);
+          const p = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
+          return { x:p.x, z:p.z, y0:box.min.y, y1:box.max.y,
+                   rx:size.x/2, rz:size.z/2 };
+        })
+        .filter(Boolean);
+      /* Некоторые экспортёры переименовывают повторно используемые GLTF-узлы.
+         Запасные координаты вычислены из bounds новой wells.glb после того же
+         поворота и масштаба, поэтому бурение не исчезнет при таком экспорте. */
+      if(WELLS.length !== 3) WELLS = [
+        {x:-77.5, z:92.3, y0:yb, y1:yt, rx:4.87, rz:2.68},
+        {x:  0.2, z:92.3, y0:yb, y1:yt, rx:4.87, rz:2.68},
+        {x: 78.0, z:92.3, y0:yb, y1:yt, rx:4.87, rz:2.68},
+      ];
+      WELLS.sort((a, b) => a.x - b.x);
       const R_PIPE = 4.2;
       const БУРИТСЯ = 1;                       // средняя скважина — в бурении
       const ГОРИЗОНТ = 2;                      // правая — горизонтальный ствол
-      WELLS.forEach(([wx, wz], wi) => {
-        /* Бурящуюся скважину фиолетовым не красим: там сейчас идёт работа, а не
-           телеметрия действующего фонда — её показывает само долото. Бурятся
-           обе: одна вертикально, вторая с заворотом в горизонт. */
+      z.wellMats = [];
+      WELLS.forEach((скв, wi) => {
+        const {x:wx, z:wz, y0, y1, rx, rz} = скв;
         const вБурении = (wi === БУРИТСЯ || wi === ГОРИЗОНТ);
         const wm = вБурении
           ? new THREE.MeshStandardMaterial({ color:'#9AA5B4', roughness:0.5, metalness:0.25,
               transparent:true, opacity:0, emissive:new THREE.Color('#38414F'), emissiveIntensity:0.4,
-              depthWrite:false })
+              depthTest:false, depthWrite:false })
           : new THREE.MeshStandardMaterial({ color:'#9B7BE8', roughness:0.35, metalness:0.2,
               transparent:true, opacity:0, emissive:new THREE.Color('#9B7BE8'), emissiveIntensity:0,
-              depthWrite:false });
+              depthTest:false, depthWrite:false });
         (вБурении ? (z.бурМаты = z.бурМаты || []) : z.wellMats).push(wm);
-        /* У горизонтальной скважины прямой обсадки нет: её ствол целиком идёт
-           одной кривой ниже, и цилиндр поверх него дал бы двойную стенку.
-           Муфты по той же причине только на прямых стволах — на кривой они
-           повисли бы рядом со стволом, а не на нём. */
-        if(wi !== ГОРИЗОНТ){
-          const tube = new THREE.Mesh(new THREE.CylinderGeometry(R_PIPE*1.18, R_PIPE*1.18, (yt-yb)+10, 14), wm);
-          tube.position.set(wx, (yb+yt)/2, wz);
-          z.scaleG.add(tube);
-          // муфты — акцент по стволу
-          for(const q of [0.25, 0.6]){
-            const ring = new THREE.Mesh(new THREE.TorusGeometry(R_PIPE*1.5, 0.7, 8, 18), wm);
-            ring.rotation.x = Math.PI/2;
-            ring.position.set(wx, yb + (yt-yb)*q, wz);
-            z.scaleG.add(ring);
-          }
+
+        /* Полная светлая обсадка поверх чёрной. Размер и положение берутся из
+           фактического world-box узла GLB, поэтому совпадают после любого
+           поворота и неравномерного масштаба слоя. */
+        const tube = new THREE.Mesh(new THREE.CylinderGeometry(1, 1, y1-y0, 20), wm);
+        /* Небольшой одинаковый допуск по X/Z выводит светлую оболочку поверх
+           чёрной без z-fighting, не меняя её центр и пропорции эллипса. */
+        tube.scale.set(rx*1.18, 1, rz*1.18);
+        tube.position.set(wx, (y0+y1)/2, wz);
+        tube.renderOrder = 6;
+        z.scaleG.add(tube);
+        for(const q of [0.25, 0.6]){
+          const ring = new THREE.Mesh(new THREE.TorusGeometry(rx*1.28, Math.max(.55, rx*.13), 8, 22), wm);
+          ring.scale.z = rz/rx;
+          ring.rotation.x = Math.PI/2;
+          ring.position.set(wx, y0 + (y1-y0)*q, wz);
+          z.scaleG.add(ring);
         }
+
         // долото на забой — чуть ниже подошвы слоя, в просвет: там его видно;
         // шлам поднимается по стволу до кровли слоя
-        if(wi === БУРИТСЯ) z.бурение = собратьДолото(z.scaleG, wx, yb - 10, wz, R_PIPE*2.3, (yt - yb) + 12);
+        if(wi === БУРИТСЯ){
+          /* Продолжение идёт от нижнего торца обсадки до корпуса долота.
+             Раньше корпус начинался сразу под основной трубой и давал форму
+             «гриба»; ещё более старая длинная штанга, наоборот, торчала выше
+             слоя. Здесь отдельный прямой участок соединяет их без обоих
+             дефектов и остаётся строго на оси фактического GLB-узла. */
+          const ПРОДОЛЖЕНИЕ = 22;
+          const продолжение = new THREE.Mesh(
+            new THREE.CylinderGeometry(1, 1, ПРОДОЛЖЕНИЕ, 20), wm);
+          продолжение.scale.set(rx*1.18, 1, rz*1.18);
+          продолжение.position.set(wx, y0 - ПРОДОЛЖЕНИЕ/2, wz);
+          продолжение.renderOrder = 6;
+          z.scaleG.add(продолжение);
+
+          const R_ДОЛОТА = R_PIPE*2.3;
+          // верх корпуса долота = 2,25R от начала его локальной группы
+          const yДолота = y0 - ПРОДОЛЖЕНИЕ - R_ДОЛОТА*2.25 + 1;
+          z.бурение = собратьДолото(z.scaleG, wx, yДолота, wz,
+                                   R_ДОЛОТА, (yt - yb) + 12, null, true);
+        }
 
         /* Горизонтальный ствол — вторая бурящаяся скважина. Одной кривой от
            кровли слоя: вертикаль, длинный набор угла и лежачая часть со своим
@@ -1485,7 +1553,10 @@ async function build(){
             transparent:true, opacity:0, emissive:new THREE.Color('#38414F'), emissiveIntensity:0.45,
             depthWrite:false });
           (z.бурМаты = z.бурМаты || []).push(гм);
-          const путь = стволТочки({ гориз:Math.PI }, wx, wz, yb + 4, yt + 5, 28, 30);
+          /* Вертикальная часть уже восстановлена полной трубой выше. Изгиб
+             начинается точно от её нижнего торца и продолжается в пласт. */
+          const путь = стволТочки({ гориз:Math.PI }, wx, wz,
+                                  y0 - 28, y0, 28, 30);
           const ствол = new THREE.Mesh(new THREE.TubeGeometry(путь, 96, R_PIPE*1.18, 12, false), гм);
           z.scaleG.add(ствол);
 
@@ -1532,6 +1603,11 @@ async function build(){
       world.add(hit);
       pickMeshes.push(hit);
       z.hit = hit;
+      // неподвижный близнец — наведение при незажатом слое проверяется по нему, см. restPickMeshes выше
+      const restHit = hit.clone();
+      restHit.position.y = (yb+yt)/2 + REST_OFFSET[id];
+      world.add(restHit);
+      restPickMeshes.push(restHit);
     }
   }
 
@@ -1547,10 +1623,69 @@ build().catch(e => { document.getElementById('loadmsg').textContent = 'Ошиб�
 /* ================================================================
    ИНТЕРАКЦИЯ
    ================================================================ */
-const state = { hover:null, hoverSub:null, locked:null };
-const РАСКРЫТА = new URLSearchParams(location.search).get('коротко') === '1' && new URLSearchParams(location.search).get('стопка') !== '1';   // раскрытая стопка — короткий показ
+const state = { hover:null, hoverSub:null, locked:null, launching:null, camAz:0, launchRadius:0, launchPolar:0 };
+// РАСКРЫТА объявлена выше, у pickMeshes: она нужна ещё в build() для вычисляемых там restPickMeshes
 const panelState = { zone:null, sub:null };
 const active = () => state.locked || state.hover;
+
+/* ── переход в проект слоя ────────────────────────────────────────────
+   Второй клик по уже выбранному слою — не снятие выбора, а вход в его
+   проект: соседние контуры уезжают по X за левый край кадра, и через паузу
+   страница меняется на страницу проекта.
+
+   «Налево» — это мировой −X, а не «влево от текущей камеры»: автовращение
+   к моменту второго клика могло увести камеру куда угодно, и если крутить
+   при этом только сам слой (как было раньше), соседи уезжают в мировом −X,
+   который в этот момент может смотреть куда угодно на экране — визуально
+   «непонятно куда». Поэтому вместо поворота слоя разворачиваем камеру: она
+   плавно возвращается к азимуту старта показа (тому, под которым модель
+   стоит «лицом» и «налево» на экране совпадает с мировым −X), а соседи тем
+   же ходом уезжают за левый край. Радиус и высота обзора (наклон) при этом
+   не трогаются — только азимут, чтобы не менять приближение и ракурс,
+   который выставил себе докладчик. */
+const СТАРТ_АЗИМУТ = Math.atan2(camera.position.x, camera.position.z);
+const УХОД_ВЛЕВО = 460;       // за габарит стопки и панели слева — с запасом
+const ПЕРЕХОД_МС = 1450;      // общее время до смены страницы
+const ЗАТЕМНЕНИЕ_МС = 500;    // из них — на цвет-заливку поверх кадра
+const PROJECT_URL = { plast:'проект_пласт.html', skv:'проект_скважина.html', naz:'проект_наземка.html' };
+const camAzimuth = () => Math.atan2(camera.position.x - controls.target.x, camera.position.z - controls.target.z);
+// Кратчайшая разница углов b−a в (−π, π]: без нормализации доворот иногда шёл
+// бы в обход через дальнюю сторону круга вместо ближайшего короткого пути.
+function углаРазница(a, b){
+  let d = (b - a) % (Math.PI*2);
+  if(d > Math.PI) d -= Math.PI*2;
+  if(d < -Math.PI) d += Math.PI*2;
+  return d;
+}
+let launchT1 = null, launchT2 = null;
+function launchProject(id){
+  if(state.launching || !PROJECT_URL[id]) return;
+  state.launching = id;
+  state.hover = null; state.hoverSub = null;
+  controls.autoRotate = false;
+  controls.enabled = false;
+  // сферические координаты камеры на момент клика — радиус и наклон замораживаем,
+  // доворачиваем только азимут (camAz), см. блок камеры в animate()
+  const off = new THREE.Vector3().copy(camera.position).sub(controls.target);
+  state.launchRadius = off.length();
+  state.launchPolar = Math.acos(THREE.MathUtils.clamp(off.y / state.launchRadius, -1, 1));
+  state.camAz = camAzimuth();
+  refresh();
+  const overlay = $('launch-overlay');
+  launchT1 = setTimeout(() => overlay.classList.add('vis'), ПЕРЕХОД_МС - ЗАТЕМНЕНИЕ_МС);
+  launchT2 = setTimeout(() => { location.href = PROJECT_URL[id] + location.search; }, ПЕРЕХОД_МС);
+}
+// Esc посреди перехода: анимация отменяется, слои возвращаются как были —
+// возможность передумать важнее строгой одноразовости перехода.
+function cancelLaunch(){
+  if(!state.launching) return;
+  state.launching = null;
+  clearTimeout(launchT1); clearTimeout(launchT2);
+  $('launch-overlay').classList.remove('vis');
+  controls.autoRotate = true;
+  controls.enabled = true;
+  refresh();
+}
 
 const raycaster = new THREE.Raycaster();
 const ptr = new THREE.Vector2(-2,-2);
@@ -1561,16 +1696,20 @@ addEventListener('pointermove', e => {
   mouseXY = [e.clientX, e.clientY];
 });
 renderer.domElement.addEventListener('click', () => {
+  if(state.launching) return;
   if(state.hover){
-    const same = state.locked === state.hover && state.hover !== 'plast';
-    state.locked = same ? null : state.hover;
+    if(state.locked === state.hover){ launchProject(state.hover); return; }
+    state.locked = state.hover;
     // клик по подслою пласта открывает его модалку
     if(state.locked === 'plast') panelState.sub = state.hoverSub;
     refresh();
   }
   else if(state.locked){ state.locked = null; refresh(); }
 });
-addEventListener('keydown', e => { if(e.key === 'Escape'){ state.locked = null; state.hover = null; refresh(); } });
+addEventListener('keydown', e => { if(e.key === 'Escape'){
+  if(state.launching){ cancelLaunch(); return; }
+  state.locked = null; state.hover = null; refresh();
+} });
 /* Слайд стоит в рамке подводки (demo_with_map.html, вход на финал): после клика по модели
    фокус остаётся в рамке, и нажатия «дальше/назад» ушли бы в пустоту — пробрасываем их
    родителю сообщением, как это делает этап тиражирования. */
@@ -1602,7 +1741,9 @@ function buildStack(){
     b.addEventListener('mouseenter', () => { state.hover = id; state.hoverSub = null; refresh(); });
     b.addEventListener('mouseleave', () => { state.hover = null; refresh(); });
     b.addEventListener('click', () => {
-      state.locked = (state.locked === id) ? null : id;
+      if(state.launching) return;
+      if(state.locked === id){ launchProject(id); return; }
+      state.locked = id;
       panelState.sub = null;
       refresh();
     });
@@ -1617,6 +1758,7 @@ function buildStack(){
       sb.addEventListener('mouseenter', () => { state.hover = id; state.hoverSub = si; refresh(); });
       sb.addEventListener('mouseleave', () => { state.hoverSub = null; refresh(); });
       sb.addEventListener('click', () => {
+        if(state.launching) return;
         state.locked = id;
         const same = panelState.zone === id && panelState.sub === si;
         panelState.zone = id;                 // иначе showPanel сочтёт контур новым и сбросит выбор
@@ -1676,7 +1818,7 @@ function showPanel(id){
   $('p-h-blocks').style.display = $('p-blocks').innerHTML ? '' : 'none';
   $('panel').classList.add('vis');
 }
-$('p-close').addEventListener('click', () => { state.locked = null; state.hover = null; refresh(); });
+$('p-close').addEventListener('click', () => { if(state.launching) return; state.locked = null; state.hover = null; refresh(); });
 
 const chip = $('chip');
 function refresh(){
@@ -1701,7 +1843,7 @@ function refresh(){
      она открывалась поверх модели до первого касания и закрывала собой то,
      ради чего слайд и открыт. Её содержание переехало на главный экран
      показа, где под него есть отдельный кадр. */
-  if(a && !(typeof ярусСпр === 'number' && ярусСпр > 0) && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты)) showPanel(a); else $('panel').classList.remove('vis');
+  if(a && !state.launching && !(typeof ярусСпр === 'number' && ярусСпр > 0) && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты)) showPanel(a); else $('panel').classList.remove('vis');
   controls.autoRotateSpeed = ROT_SPEED;
   updateNavLine();
   // список меняет высоту и заново центрируется — уточняем позицию, когда раскладка устоялась
@@ -1991,10 +2133,19 @@ function animate(){
   const t = clock.elapsedTime;
   const k = 1 - Math.exp(-dt*8);
 
+  // В новой наземной GLB три станка и их PumpCycle уже собраны автором модели.
+  // Миксер двигает исходные узлы; вложенный wireframe повторяет движение.
+  if(zones.naz && zones.naz.mixer) zones.naz.mixer.update(dt);
+
   let hitZone = null, hitSub = null;
-  if(Math.abs(ptr.x) <= 1 && Math.abs(ptr.y) <= 1 && pickMeshes.length){
+  /* Пока ничего не нажато, раскладка сама реагирует на наведение (лёгкая
+     раздвижка) — трассировка по живым хитбоксам в этом режиме гонялась бы
+     сама за собой (см. комментарий у restPickMeshes). Нажатый слой раскладку
+     наведением не двигает, поэтому там живые хитбоксы безопасны и точнее. */
+  const пикМеши = state.locked ? pickMeshes : restPickMeshes;
+  if(Math.abs(ptr.x) <= 1 && Math.abs(ptr.y) <= 1 && пикМеши.length){
     raycaster.setFromCamera(ptr, camera);
-    const hits = raycaster.intersectObjects(pickMeshes, false);
+    const hits = raycaster.intersectObjects(пикМеши, false);
     if(hits.length){
       hitZone = hits[0].object.userData.zone;
       hitSub = hits[0].object.userData.sub ?? null;
@@ -2003,7 +2154,7 @@ function animate(){
   /* `заморожен` ставит только служебный вход `?наведение=1`: мыши там нет,
      трассировка каждый кадр не находит ничего и сбрасывала бы выставленное
      наведение обратно в ноль. На показе флаг не поднимается никогда. */
-  if(!state.заморожен && (hitZone !== state.hover || hitSub !== state.hoverSub)){
+  if(!state.заморожен && !state.launching && (hitZone !== state.hover || hitSub !== state.hoverSub)){
     const overUI = document.querySelector('#stack:hover, #panel:hover');
     if(!overUI){ state.hover = hitZone; state.hoverSub = hitSub; refresh(); }
   }
@@ -2076,6 +2227,14 @@ function animate(){
     z.offset += (z.targetOffset - z.offset)*k;
     z.scaleG.position.y = z.offset;
     if(z.hit) z.hit.position.y = (z.yb+z.yt)/2 + z.offset;
+
+    /* Переход в проект: соседи уезжают по X за левый край кадра — сам выбранный
+       слой не двигаем и не крутим, «налево» вместо этого делает камера (см. блок
+       камеры перед controls.update() ниже). Вне перехода смещение возвращается к
+       нулю тем же плавным ходом, что и раздвижка по Y. */
+    z.targetOffsetX = (state.launching && id !== state.launching) ? -УХОД_ВЛЕВО : 0;
+    z.offsetX += (z.targetOffsetX - z.offsetX)*k;
+    z.scaleG.position.x = z.offsetX;
 
     /* Оцифровка идёт только по нажатию. Наведение раньше тоже запускало
        голограмму, и от беглого движения мышью слайд мерцал; теперь на наведение
@@ -2224,7 +2383,22 @@ function animate(){
     z.scaleG.scale.setScalar(1 + 0.05*z.mixH);   // укрупнение — и на наведении тоже
   }
 
-  controls.update();
+  /* Камера на переходе в проект: доворот к азимуту старта показа — радиус и
+     наклон замороженные на моменте клика, крутится только азимут, кратчайшим
+     путём (см. `углаРазница`). Ведём камеру вручную и не отдаём кадр
+     `controls.update()`: OrbitControls при enabled:false не даёт новых
+     смещений от пользователя, но с демпфированием мог бы доигрывать старый
+     остаток инерции поверх нашего же поворота. */
+  if(state.launching){
+    state.camAz += углаРазница(state.camAz, СТАРТ_АЗИМУТ)*k;
+    const горизР = state.launchRadius * Math.sin(state.launchPolar);
+    camera.position.set(
+      controls.target.x + горизР*Math.sin(state.camAz),
+      controls.target.y + state.launchRadius*Math.cos(state.launchPolar),
+      controls.target.z + горизР*Math.cos(state.camAz)
+    );
+    camera.lookAt(controls.target);
+  } else controls.update();
   renderer.render(scene, camera);
   обновитьМеткиТЭО();
   обновитьБурение();
