@@ -22,13 +22,11 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #hdr .sub{font-family:var(--mono);font-size:18px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:6px}
 #hdr .sub b{color:var(--cyan);font-weight:700}
 
-/* Список ужат: на показе он спорил с самой моделью за внимание, а его дело —
-   держать порядок контуров, а не читаться вместо сцены. Список остаётся на
-   месте и при раскрытом слое — панель контура садится под ним (см.
-   #panel.раскрыт), а не занимает его место: по клику на любой пункт списка
-   раскрытие переключается на другой слой, список должен быть под рукой. */
+/* После выбора контура список уступает место его панели. */
 #stack{position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;
-  gap:6px;width:360px;padding-left:24px}   /* 18.09: шрифты крупнее — колонка шире, иначе названия контуров в три строки */
+  gap:6px;width:360px;padding-left:24px;
+  transition:opacity .28s ease,transform .42s cubic-bezier(.2,.8,.2,1)}   /* 18.09: шрифты крупнее — колонка шире, иначе названия контуров в три строки */
+#stack.скрыт{opacity:0;pointer-events:none;transform:translateY(calc(-50% - 14px))}
 /* линия процесса: связывает все контуры и шаги в одну цепочку */
 #navline{position:absolute;left:12px;top:20px;bottom:20px;width:2px;background:rgba(140,170,210,.22);border-radius:2px}
 #navline::after{content:'';position:absolute;left:-4px;bottom:-10px;
@@ -88,16 +86,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   border-top:2px solid var(--pc,#4FE3FF);backdrop-filter:blur(12px);padding:20px 22px;
   opacity:0;pointer-events:none;transition:opacity .35s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
 #panel.vis{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
-/* Слой раскрыт: панель контура садится компактной карточкой под списком —
-   слева, а не по центру справа. right/top→left/bottom посреди перехода CSS
-   не анимирует (auto не интерполируется), поэтому переезд — не скольжение
-   через весь экран, а перекрёстное затухание: гаснет на старом месте,
-   загорается на новом (тот же opacity-переход из #panel.vis, только сама
-   позиция уже переставлена). top и max-height здесь — только запасные:
-   список меняет высоту от того, сколько у раскрытого контура шагов, и точную
-   позицию под ним всегда ставит JS (см. позиционироватьПанель) — так порог
-   не наедет на нижние пункты списка ни при каком раскрытом контуре. */
-#panel.раскрыт{top:60vh;bottom:auto;left:26px;right:auto;max-height:34vh;transform:none}
+/* Панель выбранного слоя занимает место исчезнувшего #stack. Сидит под шапкой,
+   а не по центру: низ левой колонки отдан миниатюре стопки (--мини-высота
+   задаёт JS, см. МИНИ_ВЫСОТА_ДОЛЯ), и панель не должна на неё заезжать. Если
+   содержимое выше остатка (низкое окно) — прокручивается внутри, как и раньше.
+   Стартует чуть ниже и выезжает вверх. */
+#panel.вместо-стека,#panel.раскрыт{top:132px;bottom:auto;left:26px;right:auto;
+  max-height:calc(100vh - 132px - var(--мини-высота,27vh) - 26px - 16px);
+  transform:translateY(22px)}
+#panel.вместо-стека.vis,#panel.раскрыт.vis{transform:none}
 #panel::-webkit-scrollbar{width:5px}
 #panel::-webkit-scrollbar-thumb{background:rgba(140,170,210,.3)}
 #p-kick{font-family:var(--mono);font-size:17px;letter-spacing:.24em;text-transform:uppercase;color:var(--pc,#4FE3FF)}
@@ -1662,7 +1659,7 @@ build().catch(e => { document.getElementById('loadmsg').textContent = 'Ошиб�
 /* ================================================================
    ИНТЕРАКЦИЯ
    ================================================================ */
-const state = { hover:null, hoverSub:null, locked:null, launching:null, closing:null, openId:null, camAz:0, camRadius:0, launchRadius:0, launchPolar:0, launchAt:0, closeAt:0, viewShiftX:0, viewShiftTargetX:0 };
+const state = { hover:null, hoverSub:null, locked:null, launching:null, closing:null, openId:null, camAz:0, camRadius:0, launchRadius:0, launchPolar:0, launchAt:0, closeAt:0, viewShiftX:0, viewShiftTargetX:0, переходАт:0 };
 // РАСКРЫТА объявлена выше, у pickMeshes: она нужна ещё в build() для вычисляемых там restPickMeshes
 const panelState = { zone:null, sub:null };
 const active = () => state.locked || state.hover;
@@ -1691,6 +1688,55 @@ const ДЕФОЛТ_РАДИУС = camera.position.length();
 const ДЕФОЛТ_ПОЛЯР = Math.acos(THREE.MathUtils.clamp(camera.position.y / ДЕФОЛТ_РАДИУС, -1, 1));
 const УХОД_ВЛЕВО = 580;         // за габарит стопки и панели слева — с запасом
 const УХОД_ВНИЗ = 260;          // и вниз, в тот же угол — «левый нижний», а не просто «налево»
+/* Стопка при открытом контенте — миниатюра в левом нижнем углу ЭКРАНА. Место
+   задано в долях высоты окна, а не мировыми числами: прежние −260/−150 в
+   единицах сцены зависели от того, где стоит камера, и на другом размере окна
+   миниатюра оказывалась то под панелью, то за краем кадра. Всё измеряется от
+   высоты окна, потому что и сама модель на экране растёт вместе с ней.
+   МИНИ_ВЫСОТА_ДОЛЯ ещё и отдана панели через CSS-переменную: панель не
+   должна заезжать в угол, поэтому её max-height считается от неё же. */
+const МИНИ_МАСШТАБ = 0.38;          // во сколько раз стопка сжимается
+const МИНИ_ВЫСОТА_ДОЛЯ = 0.27;      // высота углового места, доля высоты окна
+const МИНИ_ШИРИНА_К_ВЫСОТЕ = 1.0;   // ширина углового места к его высоте (изометрия — почти квадрат)
+const МИНИ_ПОЛЕ = 26;               // отступ от левого и нижнего края, px — как у панели
+const ПЕРЕХОД_МС = 900;             // перелёт стопки в угол и обратно
+document.documentElement.style.setProperty('--мини-высота', (МИНИ_ВЫСОТА_ДОЛЯ*100) + 'vh');
+const _вперёд = new THREE.Vector3(), _право = new THREE.Vector3(), _верх = new THREE.Vector3(), _к = new THREE.Vector3();
+/* Куда сдвинуть стопку в мире, чтобы её центр встал в центр углового места.
+   Сдвиг идёт строго в плоскости, перпендикулярной взгляду камеры (вправо и
+   вверх от неё, а не по мировым X/Y): глубина центра при этом не меняется и
+   пиксели переводятся в мировые единицы одним множителем. Через мировой X
+   «влево» на экране было бы зависимо от азимута, на котором камеру остановило
+   автовращение, — то же, из-за чего раньше разворачивали камеру (см. выше). */
+function сдвигМини(out){
+  const W = innerWidth, H = innerHeight;
+  const hb = H*МИНИ_ВЫСОТА_ДОЛЯ, wb = hb*МИНИ_ШИРИНА_К_ВЫСОТЕ;
+  const cx = МИНИ_ПОЛЕ + wb/2, cy = H - МИНИ_ПОЛЕ - hb/2;
+  camera.getWorldDirection(_вперёд);
+  _право.crossVectors(_вперёд, camera.up).normalize();
+  _верх.crossVectors(_право, _вперёд);
+  _к.set(0, world.position.y, 0).sub(camera.position);            // от камеры к центру стопки
+  const глубина = _к.dot(_вперёд);
+  const пиксель = глубина*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)) / (H/2);   // мировых единиц в пикселе
+  const вправо = (cx - W/2)*пиксель - _к.dot(_право);             // центр стопки сейчас не строго в центре кадра
+  const вверх  = -(cy - H/2)*пиксель - _к.dot(_верх);
+  return out.set(0, 0, 0).addScaledVector(_право, вправо).addScaledVector(_верх, вверх);
+}
+const _мини = new THREE.Vector3();
+/* Перелёт (в угол и обратно) идёт не «догоняющим» лерпом, как остальное в
+   сцене, а по времени, с плавным стартом и торможением: путь через пол-экрана
+   с максимальной скоростью в первом же кадре читался рывком. Отсюда откуда
+   лететь — снимаем текущее положение каждого слоя в момент нажатия. Куда —
+   считается каждый кадр заново (см. цикл зон в animate), поэтому ресайз
+   посреди перелёта ничего не ломает. */
+function запомнитьОткуда(){
+  state.переходАт = performance.now();
+  for(const id in zones){
+    const z = zones[id];
+    z.от = { offset:z.offset, x:z.offsetX, y:z.offsetYExit ?? 0, z:z.offsetZ ?? 0, s:z.exitScale ?? 1 };
+  }
+}
+const плавно = p => p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3)/2;
 /* Соседей может уходить сразу двое (раскрыт крайний слой) — общая точка угла
    у обоих одна и та же, и на подходе к ней они заметно проходят друг через
    друга (замеченный баг, и на возврате то же самое: closeProject ставит их
@@ -1757,34 +1803,37 @@ function углаРазница(a, b){
 // саму страницу больше не открываем, только формулировку кикера переняли.
 const КИКЕР = { plast:'ЦД пласта', skv:'ЦД скважины', naz:'ЦД наземки' };
 let launchT1 = null;
-function launchProject(id){
-  if(state.launching || state.closing || state.openId) return;
-  state.launching = id;
-  state.launchAt = performance.now();
-  // обычно уже стоит (слой сначала выбирают одним кликом) — но при переключении
-  // (см. switchProject) launchProject зовётся напрямую, без этого клика
+function launchProject(id, переключение = false){
+  if(state.launching || state.closing) return;
+  if(state.openId && !переключение) return;
+  // Один клик — сразу выбор слоя и открытие его контента, без промежуточного
+  // состояния и без таймера второго нажатия.
+  if(переключение && state.openId === 'plast' && state.plastSubПреждеПерехода !== undefined){
+    panelState.sub = state.plastSubПреждеПерехода;   // уходим с пласта — его прежний выбор возвращаем
+  }
   state.locked = id;
   state.hover = null; state.hoverSub = null;
   controls.autoRotate = false;
   controls.enabled = false;
-  // сферические координаты камеры на момент клика — наклон замораживаем,
-  // радиус и азимут (camAz) доворачиваем к цели в animate()
-  const off = new THREE.Vector3().copy(camera.position).sub(controls.target);
-  state.launchRadius = off.length();
-  state.launchPolar = Math.acos(THREE.MathUtils.clamp(off.y / state.launchRadius, -1, 1));
-  state.camAz = camAzimuth();
-  state.camRadius = state.launchRadius;
+  // камера при переключении уже стоит на месте и ведётся вручную — заново её не снимаем
+  if(!переключение){
+    const off = new THREE.Vector3().copy(camera.position).sub(controls.target);
+    state.launchRadius = off.length();
+    state.launchPolar = Math.acos(THREE.MathUtils.clamp(off.y / state.launchRadius, -1, 1));
+    state.camAz = camAzimuth();
+    state.camRadius = state.launchRadius;
+  }
   /* ЦД пласта показывает свою нижнюю составляющую (ГГДМ, «01.1») на раскрытии —
      она нагляднее верхних для короткого кадра, и не важно, какая составляющая
      стояла выбранной до второго клика. Прежний выбор запоминаем — при отмене
      раскрытия (Esc) возвращаем как было, а не оставляем ГГДМ навязанной. */
   if(id === 'plast'){
     state.plastSubПреждеПерехода = panelState.sub;
+    const выбранШаг = panelState.zone === 'plast' && panelState.sub !== null;
     panelState.zone = 'plast';
-    panelState.sub = 0;
+    if(!выбранШаг) panelState.sub = 0;
   }
-  refresh();
-  launchT1 = setTimeout(() => openProject(id), МАКЕТ_МС);
+  openProject(id);
 }
 // Esc посреди раскрытия: анимация отменяется, слои возвращаются как были —
 // возможность передумать важнее строгой одноразовости перехода.
@@ -1808,21 +1857,30 @@ function cancelLaunch(){
    поля в цикле зон animate() перестают зависеть от launchElapsed и просто
    держат конечные значения, пока state.openId не снимут в closeProject(). */
 function openProject(id){
+  const переключение = state.openId !== null;   // слой уже раскрыт: стопка стоит в углу, меняется только содержимое
   state.launching = null;
   state.openId = id;
-  const zd = ZONES[id];
-  $('pc-kick').textContent = КИКЕР[id] + ' · проект ' + zd.no;
-  $('pc-name').textContent = zd.name;
-  $('pc-claim').textContent = zd.claim;
-  $('project-content').style.setProperty('--pc', zd.color);
-  $('project-content').classList.add('vis');
+  if(!переключение) запомнитьОткуда();
+  const pc = $('project-content');
+  const заполнить = () => {
+    const zd = ZONES[state.openId];
+    $('pc-kick').textContent = КИКЕР[state.openId] + ' · проект ' + zd.no;
+    $('pc-name').textContent = zd.name;
+    $('pc-claim').textContent = zd.claim;
+    pc.style.setProperty('--pc', zd.color);
+    pc.classList.add('vis');
+  };
+  clearTimeout(сменаКонтентаТ);
+  if(переключение){
+    // старый контент гаснет, новый выходит следом — иначе текст на экране
+    // просто подменился бы посреди показа, без единого жеста
+    pc.classList.remove('vis');
+    сменаКонтентаТ = setTimeout(() => { if(state.openId) заполнить(); }, 260);
+  } else заполнить();
   $('panel').classList.add('раскрыт');
-  refresh();   // список уже раскрыл нужный контур (buildStack/refresh) — дальше меряем его по факту
-  позиционироватьПанель();
-  // корридор для камеры (см. fitBetweenPanels) меряет панель по факту — даём
-  // макету время доехать (та же .6s, что у его transition), потом меряем снова
-  setTimeout(fitBetweenPanels, 650);
+  refresh();   // внутри — fitBetweenPanels: при открытом слое сдвиг кадра гасится сразу, а не через таймер
 }
+let сменаКонтентаТ = null;
 
 /* Ставит компактную панель контура ровно под текущим списком — высота списка
    зависит от того, сколько шагов у раскрытого контура (у пласта три, у
@@ -1846,24 +1904,23 @@ function позиционироватьПанель(){
   panel.style.maxHeight = Math.min(innerHeight*0.34, доступно) + 'px';
 }
 
-/* Переключение между уже раскрытыми слоями по клику в списке: закрывает
-   текущий раскрытый слой обычным ходом и, когда он полностью закроется (см.
-   finishClosing), открывает следующий — тем же путём, что и первый вход, без
-   отдельной анимации «слой в слой». Красивый прямой переход между двумя уже
-   раскрытыми слоями — отдельная, более поздняя задача. */
-let switchTo = null;
+/* Переключение на другой слой, пока один уже раскрыт (клик по миниатюре в
+   углу). Стопка остаётся в углу, меняется только содержимое (см. openProject).
+   Отклонено: закрыть текущий слой обычным ходом и по окончании открыть новый.
+   Стопка тогда летела бы из угла в центр экрана и сразу обратно в угол — целый
+   раскрой и сворачивание ради того, чтобы подменить текст справа. */
 function switchProject(id){
-  if(state.openId === id) return;
-  switchTo = id;
-  closeProject();
+  if(!state.openId || state.openId === id || state.closing) return;
+  launchProject(id, true);
 }
 
-/* Закрытие — тот же переход в обратную сторону. Макет уходит сразу (контент
-   вправо, панель обратно под список), а 3D-раскрытие — тем же порядком
-   тактов, что при входе, только в обратную сторону: плита закрывается
-   первой, соседи возвращаются следом. */
-const ЗАКРЫТЬ_ПЛИТУ_МС = 500;   // сколько идёт закрытие плиты, прежде чем возвращаются соседи
-const ЗАКРЫТИЕ_МС = 1400;       // общее время закрытия — до возврата к обычному простою
+/* Закрытие — тот же перелёт в обратную сторону: стопка возвращается из угла в
+   центр и разъезжается как в покое, контент уходит вправо, панель гаснет.
+   Отсчёт идёт с того места, где слои стоят сейчас (см. запомнитьОткуда), поэтому
+   закрытие посреди открытия не дёргается. Камеру не трогаем: при открытии она
+   не двигалась, и возвращать её некуда — раньше здесь стояли скачок радиуса и
+   доворот азимута, рассчитанные на прежнее раскрытие с наездом. */
+const ЗАКРЫТИЕ_МС = ПЕРЕХОД_МС + 100;   // до возврата к обычному простою (автовращению)
 let closeT1 = null;
 function closeProject(){
   if(state.launching){ cancelLaunch(); return; }
@@ -1872,30 +1929,13 @@ function closeProject(){
   if(id === 'plast' && state.plastSubПреждеПерехода !== undefined){
     panelState.sub = state.plastSubПреждеПерехода;
   }
+  clearTimeout(сменаКонтентаТ);
   $('project-content').classList.remove('vis');
   $('panel').classList.remove('раскрыт');
   // снимаем измеренные top/max-height — без них класс просто возвращает CSS-умолчания
   $('panel').style.top = '';
   $('panel').style.maxHeight = '';
-
-  for(const zid in zones){
-    const z = zones[zid];
-    if(zid === id){
-      z.faceTilt = ЛИЦОМ_НАКЛОН; z.launchGrow = ОТКРЫТИЕ_МАСШТАБ;
-      z.offsetX = 0; z.offsetYExit = 0; z.tilt = 0;
-    } else {
-      // свой угол на каждого, по собственному месту в стопке — см. рангСвой
-      // в animate(): у среднего слоя оба соседа на одном расстоянии друг от
-      // друга, а по своему рангу всегда разные.
-      const рангСвой = RANK_UP.indexOf(zid);
-      z.offsetX = -УХОД_ВЛЕВО - рангСвой*ШАГ_УХОДА_X;
-      z.offsetYExit = -УХОД_ВНИЗ - рангСвой*ШАГ_УХОДА_Y;
-      z.tilt = ОТЪЕЗД_НАКЛОН; z.exitScale = 0;
-    }
-  }
-  state.camAz = СТАРТ_АЗИМУТ;
-  state.launchPolar = ДЕФОЛТ_ПОЛЯР;
-  state.camRadius = ДЕФОЛТ_РАДИУС * ПРИБЛИЖЕНИЕ;
+  запомнитьОткуда();
   state.openId = null;
   state.closing = id;
   state.closeAt = performance.now();
@@ -1903,7 +1943,6 @@ function closeProject(){
   controls.autoRotate = false;
   controls.enabled = false;
   refresh();
-  setTimeout(fitBetweenPanels, 650);
 
   closeT1 = setTimeout(finishClosing, ЗАКРЫТИЕ_МС);
 }
@@ -1914,12 +1953,6 @@ function finishClosing(){
   controls.autoRotate = true;
   controls.enabled = true;
   refresh();
-  // переключение на другой слой (см. switchProject) — открываем его, как только закрылся текущий
-  if(switchTo){
-    const next = switchTo;
-    switchTo = null;
-    launchProject(next);
-  }
 }
 document.getElementById('pc-back').addEventListener('click', closeProject);
 
@@ -1946,18 +1979,27 @@ addEventListener('pointermove', e => {
 addEventListener('pointercancel', e => {
   if(pointerStart && e.pointerId === pointerStart.id){ pointerStart = null; pointerDragged = false; }
 });
-renderer.domElement.addEventListener('click', () => {
+renderer.domElement.addEventListener('click', e => {
   const былоПеретаскивание = pointerDragged;
   pointerStart = null;
   pointerDragged = false;
   if(былоПеретаскивание) return;
-  if(state.launching || state.closing || state.openId) return;
+  if(state.launching || state.closing) return;
+  if(state.openId){
+    // миниатюра в углу: нажатие по другому слою открывает его контент
+    ptr.set((e.clientX/innerWidth)*2 - 1, -(e.clientY/innerHeight)*2 + 1);
+    raycaster.setFromCamera(ptr, camera);
+    const попадание = raycaster.intersectObjects(pickMeshes, false)[0];
+    const слой = попадание ? попадание.object.userData.zone : null;
+    if(слой && слой !== state.openId){
+      if(слой === 'plast'){ panelState.zone = 'plast'; panelState.sub = попадание.object.userData.sub ?? null; }
+      switchProject(слой);
+    }
+    return;
+  }
   if(state.hover){
-    if(state.locked === state.hover){ launchProject(state.hover); return; }
-    state.locked = state.hover;
-    // клик по подслою пласта открывает его модалку
-    if(state.locked === 'plast') panelState.sub = state.hoverSub;
-    refresh();
+    if(state.hover === 'plast') panelState.sub = state.hoverSub;
+    launchProject(state.hover);
   }
   else if(state.locked){ state.locked = null; refresh(); }
 });
@@ -2000,10 +2042,8 @@ function buildStack(){
     b.addEventListener('click', () => {
       if(state.launching || state.closing) return;
       if(state.openId){ switchProject(id); return; }
-      if(state.locked === id){ launchProject(id); return; }
-      state.locked = id;
       panelState.sub = null;
-      refresh();
+      launchProject(id);
     });
     elStack.appendChild(b);
 
@@ -2018,11 +2058,9 @@ function buildStack(){
       sb.addEventListener('click', () => {
         if(state.launching || state.closing) return;
         if(state.openId){ switchProject(id); return; }
-        state.locked = id;
-        const same = panelState.zone === id && panelState.sub === si;
-        panelState.zone = id;                 // иначе showPanel сочтёт контур новым и сбросит выбор
-        panelState.sub = same ? null : si;
-        refresh();
+        panelState.zone = id;
+        panelState.sub = si;
+        launchProject(id);
       });
       elStack.appendChild(sb);
     });
@@ -2086,6 +2124,15 @@ $('p-close').addEventListener('click', () => {
 const chip = $('chip');
 function refresh(){
   const a = active();
+  const panel = $('panel');
+  const вместоСтека = Boolean(state.locked || state.openId);
+  const первыйПереезд = вместоСтека && !panel.classList.contains('вместо-стека');
+  $('stack').classList.toggle('скрыт', вместоСтека);
+  if(первыйПереезд) panel.classList.remove('vis');
+  panel.classList.toggle('вместо-стека', вместоСтека);
+  // Фиксируем начальную точку слева до .vis, чтобы панель именно встала вверх,
+  // а не перепрыгивала мгновенно из правой позиции после hover.
+  if(первыйПереезд) void panel.offsetWidth;
   for(const id in zones) zones[id].target = (id === a) ? 1 : 0;
   buildStack();
   for(const id of ORDER){
@@ -2106,7 +2153,7 @@ function refresh(){
      она открывалась поверх модели до первого касания и закрывала собой то,
      ради чего слайд и открыт. Её содержание переехало на главный экран
      показа, где под него есть отдельный кадр. */
-  if(a && !state.launching && !state.closing && !(typeof ярусСпр === 'number' && ярусСпр > 0) && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты)) showPanel(a); else $('panel').classList.remove('vis');
+  if(a && !state.launching && !state.closing && !(typeof ярусСпр === 'number' && ярусСпр > 0) && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты)) showPanel(a); else panel.classList.remove('vis');
   controls.autoRotateSpeed = ROT_SPEED;
   updateNavLine();
   // список меняет высоту и заново центрируется — уточняем позицию, когда раскладка устоялась
@@ -2421,9 +2468,18 @@ function animate(){
     const overUI = document.querySelector('#stack:hover, #panel:hover');
     if(!overUI){ state.hover = hitZone; state.hoverSub = hitSub; refresh(); }
   }
-  renderer.domElement.style.cursor = hitZone ? 'pointer' : '';
+  // на миниатюре открытого слоя нажимать некуда — курсор-рука только у соседних
+  const можноНажать = hitZone && hitZone !== state.openId;
+  renderer.domElement.style.cursor = можноНажать ? 'pointer' : '';
 
-  if(hitZone && !state.locked){
+  if(можноНажать && state.openId){
+    // при открытом контенте подсказка — только название слоя под курсором
+    chip.style.display = 'block';
+    chip.style.left = (mouseXY[0]+16)+'px';
+    chip.style.top = (mouseXY[1]+14)+'px';
+    chip.style.setProperty('--cc', ZONES[hitZone].color);
+    chip.textContent = ZONES[hitZone].short;
+  } else if(hitZone && !state.locked){
     chip.style.display = 'block';
     chip.style.left = (mouseXY[0]+16)+'px';
     chip.style.top = (mouseXY[1]+14)+'px';
@@ -2456,7 +2512,20 @@ function animate(){
       bot = c + h/2 + GAP;
     }
   }
-  if(act && pickMeshes.length){
+  if(state.openId && pickMeshes.length){
+    const GAP = 12;
+    let total = GAP * (RANK_UP.length - 1);
+    for(const id of RANK_UP) total += (zones[id].yt - zones[id].yb) * МИНИ_МАСШТАБ;
+    let bot = VIEW_Y - total/2;
+    for(const id of RANK_UP){
+      const z = zones[id];
+      const h = (z.yt - z.yb) * МИНИ_МАСШТАБ;
+      const c = bot + h/2;
+      offsets[id] = c - (z.yb + z.yt)/2 * МИНИ_МАСШТАБ;
+      bot = c + h/2 + GAP;
+    }
+  }
+  if(act && pickMeshes.length && !state.openId){
     const locked = !!state.locked;
     const GAP = locked ? 34 : 14;
     const za = zones[act];
@@ -2486,68 +2555,63 @@ function animate(){
   const pulse = 0.72 + 0.28*Math.sin(t*3.1);
   // мс с момента второго клика — общий таймер на раздвижку соседей и вспышку выбранного
   const launchElapsed = state.launching ? performance.now() - state.launchAt : 0;
-  // мс с момента закрытия — таймер на возврат соседей, см. closeProject
-  const closeElapsed = state.closing ? performance.now() - state.closeAt : 0;
+  // прогресс перелёта стопки в угол и обратно (0..1) и сдвиг миниатюры — один на все слои
+  const перелётП = (state.openId || state.closing) ? Math.min(1, (performance.now() - state.переходАт)/ПЕРЕХОД_МС) : 1;
+  const перелётЕ = плавно(перелётП);
+  if(state.openId) сдвигМини(_мини);
   for(const id in zones){
     const z = zones[id];
 
-    /* Раскрытие слоя: соседи уезжают по X и вниз в левый нижний угол и
-       пропадают там — сам выбранный слой не двигаем, «налево» вместо этого
-       делает камера (см. блок камеры перед controls.update() ниже). Вне
-       раскрытия смещение возвращается к нулю тем же плавным ходом, что и
-       раздвижка по Y.
+    /* Пока контент раскрыт, вся стопка — миниатюра в левом нижнем углу: три слоя
+       остаются вместе, одним куском, и никуда не исчезают — по ним можно нажать,
+       чтобы открыть контент другого слоя. Сам перелёт (туда и обратно) идёт по
+       времени с плавным стартом, см. запомнитьОткуда; после него значения просто
+       держатся тем же лерпом, что и остальное. КУДА лететь — считаем каждый кадр
+       (сдвигМини, offsets выше), а откуда — z.от: слой мог быть и в покое, и на
+       наведении, и посреди прошлого перелёта.
 
-       Трогаются не с нуля, а только после ВОЗВРАТ_МС — камера сперва сама
-       довора­чивает азимут, и только потом сцена начинает расчищаться. И даже
-       тогда не разом: тот, что ближе к выбранному слою по стопке, уходит
-       первым, дальний — на СТУПЕНЬ_МС позже. Разом это читалось как один
-       механический щелчок; вразнобой — как жест, которым докладчик убирает
-       лишнее с дороги. Уходящие ещё и слегка кренятся (вокруг ОСЬ_КРЕНА) и
-       сжимаются в точку (exitScale) — «пропадают», а не просто уезжают за
-       кадр.
-
-       Пока слой раскрыт (state.openId) — соседи безусловно «ушедшие», без
-       отсчёта времени: раскрытие уже случилось и просто держится. При
-       закрытии (state.closing) — то же самое в обратную сторону: соседи
-       стартуют уже «ушедшими» (см. closeProject) и возвращаются только после
-       ЗАКРЫТЬ_ПЛИТУ_МС, тоже не разом.
-
-       Вычисляем ушёл ДО обычной Y-раздвижки ниже: пока слой «ушёл», он выходит
-       из общей раздвижки стопки вовсе (targetOffset держим на 0, а не на
-       offsets[id]) — иначе раздвижка тянула бы его вверх или вниз по стопке
-       СВЕРХ дороги в угол, два движения складывались и слой улетал куда-то в
-       непредсказуемую даль вместо ровного пути в угол (замеченный баг). */
-    // расстояние по стопке от текущего субъекта (раскрываемого/закрываемого
-    // слоя) — для тайминга старта: нужно ДО ветвления по ушёл, а не внутри
-    // одной из веток, иначе у устоявшегося state.openId его вовсе не было бы.
-    const далеко = дальностьОтСтопки(id, state.launching || state.closing || state.openId);
-    // а вот КУДА именно уезжает сосед — по его СОБСТВЕННОМУ месту в стопке
-    // (0/1/2), не по далеко: далеко для двух соседей вокруг среднего слоя
-    // совпадает (оба в одном шаге), и угол получился бы общий на двоих — та
-    // же свалка, что чинили выше, просто в другом месте.
+       Прежняя раскладка раскрытия (соседи уезжают в угол и сжимаются в точку,
+       выбранная плита разворачивается лицом и растёт) осталась только под
+       state.launching, который сейчас никто не включает: открытие идёт с одного
+       клика сразу в openProject. Отдельной анимации «плита на весь кадр» нет —
+       контент раскрывается справа. */
+    const далеко = дальностьОтСтопки(id, state.launching);
     const рангСвой = RANK_UP.indexOf(id);
     let ушёл = false;
     if(state.launching && id !== state.launching){
       ушёл = launchElapsed > ВОЗВРАТ_МС + далеко*СТУПЕНЬ_МС;
-    } else if(state.closing && id !== state.closing){
-      ушёл = closeElapsed <= ЗАКРЫТЬ_ПЛИТУ_МС + далеко*СТУПЕНЬ_МС;
-    } else if(state.openId && id !== state.openId){
-      ушёл = true;
     }
-    z.targetOffset = ушёл ? 0 : offsets[id];
-    z.offset += (z.targetOffset - z.offset)*k;
-    z.scaleG.position.y = z.offset + (z.offsetYExit||0);
-    if(z.hit) z.hit.position.y = (z.yb+z.yt)/2 + z.offset + (z.offsetYExit||0);
-
-    z.targetOffsetX = ушёл ? -УХОД_ВЛЕВО - рангСвой*ШАГ_УХОДА_X : 0;
-    z.offsetX += (z.targetOffsetX - z.offsetX)*k;
-    z.scaleG.position.x = z.offsetX;
-    z.targetOffsetYExit = ушёл ? -УХОД_ВНИЗ - рангСвой*ШАГ_УХОДА_Y : 0;
-    z.offsetYExit = (z.offsetYExit === undefined ? 0 : z.offsetYExit) + (z.targetOffsetYExit - (z.offsetYExit === undefined ? 0 : z.offsetYExit))*k;
+    if(z.offsetYExit === undefined){ z.offsetYExit = 0; z.offsetZ = 0; z.tilt = 0; z.exitScale = 1; }
+    const мини = state.openId !== null;
+    const tL = ушёл ? 0 : offsets[id];
+    const tX = мини ? _мини.x : ушёл ? -УХОД_ВЛЕВО - рангСвой*ШАГ_УХОДА_X : 0;
+    const tY = мини ? _мини.y : ушёл ? -УХОД_ВНИЗ - рангСвой*ШАГ_УХОДА_Y : 0;
+    const tZ = мини ? _мини.z : 0;
+    const tS = мини ? МИНИ_МАСШТАБ : ушёл ? 0 : 1;
+    if(перелётП < 1 && z.от){
+      z.offset = z.от.offset + (tL - z.от.offset)*перелётЕ;
+      z.offsetX = z.от.x + (tX - z.от.x)*перелётЕ;
+      z.offsetYExit = z.от.y + (tY - z.от.y)*перелётЕ;
+      z.offsetZ = z.от.z + (tZ - z.от.z)*перелётЕ;
+      z.exitScale = z.от.s + (tS - z.от.s)*перелётЕ;
+    } else {
+      z.offset += (tL - z.offset)*k;
+      z.offsetX += (tX - z.offsetX)*k;
+      z.offsetYExit += (tY - z.offsetYExit)*k;
+      z.offsetZ += (tZ - z.offsetZ)*k;
+      z.exitScale += (tS - z.exitScale)*k;
+    }
     z.targetTilt = ушёл ? ОТЪЕЗД_НАКЛОН : 0;
-    z.tilt = (z.tilt === undefined ? 0 : z.tilt) + (z.targetTilt - (z.tilt === undefined ? 0 : z.tilt))*k;
-    z.targetExitScale = ушёл ? 0 : 1;
-    z.exitScale = (z.exitScale === undefined ? 1 : z.exitScale) + (z.targetExitScale - (z.exitScale === undefined ? 1 : z.exitScale))*k;
+    z.tilt += (z.targetTilt - z.tilt)*k;
+    z.scaleG.position.set(z.offsetX, z.offset + z.offsetYExit, z.offsetZ);
+    /* Хитбокс живёт в мире, а не в группе слоя (см. build), и сам масштаба и
+       сдвига группы не наследует — повторяем их руками, иначе по миниатюре
+       нельзя было бы попасть: луч искал бы слой там, где он стоял раньше. */
+    const sГ = Math.max(z.exitScale, 0.001);
+    if(z.hit){
+      z.hit.position.set(z.offsetX, (z.yb+z.yt)/2*sГ + z.offset + z.offsetYExit, z.offsetZ);
+      z.hit.scale.setScalar(sГ);
+    }
     /* Доворот лицом к экрану — только у самого выбранного слоя, вокруг ОСЬ_ЛИЦОМ,
        и только после ПОВОРОТ_МС: пока соседи ещё в кадре, доворот плиты вместе
        с их уходом читался бы кашей, а не жестом «встречает лицом». Пока слой
@@ -2557,9 +2621,10 @@ function animate(){
        два поворота вокруг разных осей через Euler XYZ друг на друга наслаивались
        бы неверно (порядок осей и то, что у объекта в любой момент реально
        накапливается только один из двух). */
-    const раскрыт = (state.launching === id && launchElapsed > ПОВОРОТ_МС) || state.openId === id;
+    const раскрыт = state.launching === id && launchElapsed > ПОВОРОТ_МС;
     z.targetFaceTilt = раскрыт ? ЛИЦОМ_НАКЛОН : 0;
-    z.faceTilt = (z.faceTilt === undefined ? 0 : z.faceTilt) + (z.targetFaceTilt - (z.faceTilt === undefined ? 0 : z.faceTilt))*k;
+    z.faceTilt = state.openId ? 0
+      : (z.faceTilt === undefined ? 0 : z.faceTilt) + (z.targetFaceTilt - (z.faceTilt === undefined ? 0 : z.faceTilt))*k;
     const qЛицо = z.faceTilt > 0.0004
       ? new THREE.Quaternion().setFromAxisAngle(ОСЬ_ЛИЦОМ, z.faceTilt) : null;
     const qКрен = z.tilt > 0.0004
@@ -2578,7 +2643,8 @@ function animate(){
        плавный, растянутый рост следом за поворотом; разные по характеру,
        поэтому и не одно и то же значение. */
     z.targetLaunchGrow = раскрыт ? ОТКРЫТИЕ_МАСШТАБ : 0;
-    z.launchGrow = (z.launchGrow === undefined ? 0 : z.launchGrow) + (z.targetLaunchGrow - (z.launchGrow === undefined ? 0 : z.launchGrow))*k;
+    z.launchGrow = state.openId ? 0
+      : (z.launchGrow === undefined ? 0 : z.launchGrow) + (z.targetLaunchGrow - (z.launchGrow === undefined ? 0 : z.launchGrow))*k;
 
     /* Оцифровка идёт только по нажатию. Наведение раньше тоже запускало
        голограмму, и от беглого движения мышью слайд мерцал; теперь на наведение
@@ -2689,7 +2755,9 @@ function animate(){
           s.clip[0].constant =  s.st*sc2 + z.offset + s.off*sc2;
           s.clip[1].constant = -(s.sb*sc2 + z.offset + s.off*sc2);
         }
-        s.hit.position.y = (s.st+s.sb)/2 + z.offset + s.off;
+        // подслои пласта — отдельные хитбоксы; та же привязка к сдвигу и масштабу стопки, что у z.hit выше
+        s.hit.position.set(z.offsetX, ((s.st+s.sb)/2 + s.off)*sГ + z.offset + z.offsetYExit, z.offsetZ);
+        s.hit.scale.setScalar(sГ);
       });
     }
     if(z.particles && m > 0.02){
@@ -2755,13 +2823,8 @@ function animate(){
     if(launchElapsed > ПОВОРОТ_МС){
       state.camRadius += (state.launchRadius*ПРИБЛИЖЕНИЕ - state.camRadius)*k;
     }
-  } else if(state.closing){
-    state.camAz += углаРазница(state.camAz, СТАРТ_АЗИМУТ)*k;
-    state.camRadius += (ДЕФОЛТ_РАДИУС - state.camRadius)*k;
-  } else if(state.openId){
-    state.camAz += углаРазница(state.camAz, СТАРТ_АЗИМУТ)*k;
-    state.camRadius += (state.launchRadius*ПРИБЛИЖЕНИЕ - state.camRadius)*k;
   }
+  // при открытом контенте и закрытии камера стоит там, где её застал клик (см. closeProject)
   if(state.launching || state.closing || state.openId){
     const горизР = state.camRadius * Math.sin(state.launchPolar);
     camera.position.set(
@@ -2976,8 +3039,15 @@ function fitBetweenPanels(){
     state.viewShiftTargetX = 0;
     return;
   }
-  const left = document.getElementById('stack').getBoundingClientRect().right + 24;
   const panel = document.getElementById('panel');
+  if(state.locked){
+    // Выбранная панель теперь слева: центрируем модель в свободном коридоре справа.
+    const left = panel.getBoundingClientRect().right + 24;
+    const right = W - 26;
+    state.viewShiftTargetX = -((left + right)/2 - W/2);
+    return;
+  }
+  const left = document.getElementById('stack').getBoundingClientRect().right + 24;
   /* Место под панель держим всегда, показана она или нет. Считать коридор по
      видимой панели нельзя: пока ничего не выбрано, её нет, модель встаёт по
      центру всего кадра, а на первом же наведении панель выходит, коридор
