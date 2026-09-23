@@ -17,10 +17,22 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   background:radial-gradient(ellipse at 50% 30%,#0C1626 0%,#050810 70%)}
 #scene{position:fixed;inset:0}
 
-#hdr{position:fixed;top:22px;left:26px;z-index:10;pointer-events:none}
-#hdr h1{font-family:var(--serif);font-size:32.5px;font-weight:600;line-height:1.2}
+/* Шапка кадра: живёт над всеми панелями (z-index 15 — выше #project-content
+   с его 14), чтобы название кадра оставалось на экране, даже когда справа
+   стоит система (24.09, Адиль — «заголовок должен быть виден всегда»).
+   На тёмной подложке — небольшая тень для читаемости поверх видео. */
+#hdr{position:fixed;top:22px;left:26px;z-index:15;pointer-events:none;
+  max-width:calc(100vw - 720px);
+  transition:max-width .4s cubic-bezier(.2,.8,.2,1),font-size .4s ease}
+#hdr h1{font-family:var(--serif);font-size:32.5px;font-weight:600;line-height:1.2;
+  text-shadow:0 2px 12px rgba(5,8,16,.85),0 0 22px rgba(5,8,16,.55)}
 #hdr .sub{font-family:var(--mono);font-size:18px;letter-spacing:.24em;text-transform:uppercase;color:var(--dim);margin-top:6px}
 #hdr .sub b{color:var(--cyan);font-weight:700}
+/* При раскрытом слое коридор слева до системного контента ≈ 30vw. Заголовок
+   сжимается по ширине этого коридора и уменьшает шрифт, чтобы уместиться
+   в две строки вместо выхода на видео/скриншот справа. */
+body.раскрыт-слой #hdr{max-width:calc(30vw - 30px)}
+body.раскрыт-слой #hdr h1{font-size:23px;line-height:1.18}
 
 /* Навигация по контурам по умолчанию остаётся колонкой слева. */
 #stack{position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;
@@ -222,6 +234,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #справка .rw:last-child{border-bottom:0}
 #справка .rw .k{font-family:var(--mono);font-size:16.5px;letter-spacing:.08em;text-transform:uppercase;color:#7C8DA6;flex:0 0 40%;line-height:1.35}
 #справка .rw .v{font-size:19.5px;color:#DCE7F5;line-height:1.35}
+/* Строки-эффекты (КИН, МРП) — не «регламент», а конкретный эффект пилота,
+   поэтому и рисуем их иначе (24.09, Адиль — «подсветить, плохо видно»):
+   цифра на левой колонке крупная и бирюзовая, подпись справа — обычная,
+   слева тонкая полоска бирюзой держит их как одну группу «эффектов». */
+#справка .rw.эффект{padding:9px 0 9px 12px;border-left:2px solid var(--teal);
+  border-bottom:1px solid rgba(53,208,194,.12);margin-left:-2px;
+  background:linear-gradient(90deg,rgba(53,208,194,.09),rgba(53,208,194,0) 70%)}
+#справка .rw.эффект .k{font-family:var(--serif);font-size:24px;letter-spacing:0;
+  text-transform:none;color:var(--teal);font-weight:700;line-height:1.15}
+#справка .rw.эффект .v{font-size:17px;color:#B7C9DF;align-self:center}
 #справка .гр{padding:0 0 6px;font-family:var(--mono);font-size:15.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--cyan)}
 #справка .src{margin-top:10px;font-family:var(--mono);font-size:15.5px;letter-spacing:.08em;color:#5E7089}
 /* ко второй части показа — скрыта по решению от 14.08; вернуть: убрать display:none */
@@ -1932,6 +1954,9 @@ function openProject(id){
   // Справка о В. Молдабеке уходит на время раскрытия слоя: место справа занято
   // содержимым слоя, а сама справка вернётся при закрытии (см. closeProject).
   if(window.__закрытьСправку) window.__закрытьСправку();
+  // Тег для CSS: шапка кадра сжимается в коридор слева, чтобы уместиться
+  // над стопкой и не заезжать под системный контент (см. body.раскрыт-слой).
+  document.body.classList.add('раскрыт-слой');
   if(!isSwitch) запомнитьОткуда();
   const pc = $('project-content');
   const populateContent = () => {
@@ -2046,6 +2071,8 @@ function finishClosing(){
   // Возвращаемся в исходный кадр — справка о В. Молдабеке снова стоит справа
   // (см. openProject: там она уходит на время раскрытия слоя).
   if(window.__открытьСправку) window.__открытьСправку();
+  // Шапка кадра расширяется обратно на всю ширину — пара к add в openProject.
+  document.body.classList.remove('раскрыт-слой');
 }
 document.getElementById('pc-back').addEventListener('click', closeProject);
 document.getElementById('mini-reset').addEventListener('click', e => {
@@ -2263,15 +2290,19 @@ function refresh(){
   buildStack();
   for(const id of ORDER){
     /* Шаги раскрываются только у выбранного контура. Наведения мало: иначе
-       список дёргается высотой под курсором и сам себя выводит из-под него. */
+       список дёргается высотой под курсором и сам себя выводит из-под него.
+       И только пока слой не раскрыт полностью: когда справа стоит содержимое
+       системы, слева должны оставаться три пункта (23.09, Адиль), без шагов —
+       иначе получается два уровня одновременно, и глаз ищет, куда смотреть. */
     const раскрыт = (state.locked === id);
+    const показатьШаги = раскрыт && !state.openId;
     const b = $('lay-'+id);
-    if(b){ b.classList.toggle('hot', id === a); b.classList.toggle('open', раскрыт); }
+    if(b){ b.classList.toggle('hot', id === a); b.classList.toggle('open', показатьШаги); }
     const cur = state.locked === id ? panelState.sub : (state.hover === id ? state.hoverSub : null);
     (ZONES[id].subs || []).forEach((_, si) => {
       const sb = $(`lay-step-${id}-${si}`);
       if(!sb) return;
-      sb.classList.toggle('show', раскрыт);
+      sb.classList.toggle('show', показатьШаги);
       sb.classList.toggle('hot', a === id && cur === si);
     });
   }
@@ -3049,8 +3080,10 @@ const СПРАВКА = {
       ['Расчёт сценариев','600 вариантов'],
       ['Выявленный потенциал','дополнительно 161 тыс. тонн добычи'],
       ['Оптимизация бурения','6 наклонно-направленных → 2 горизонтальные'],
-      ['КИН до 30 %','коэффициент извлечения нефти'],
-      ['550 → 700','суток межремонтный период'] ] },
+      /* 24.09 (Адиль): эти две строки — не «регламент», а конкретный эффект пилота.
+         Помечаем классом «эффект», рисуем крупнее и цветом (см. CSS ниже). */
+      ['КИН до 30 %','коэффициент извлечения нефти','эффект'],
+      ['550 → 700','суток межремонтный период','эффект'] ] },
 };
 let ярусСпр = 0;
 (function карточкаПилота(){
@@ -3059,8 +3092,10 @@ let ярусСпр = 0;
   function ярус(узел, я){
     узел.textContent = '';
     const ш = document.createElement('div'); ш.className = 'гр'; ш.textContent = я.шапка; узел.appendChild(ш);
-    я.строки.forEach(([к, в], i) => {
-      const r = document.createElement('div'); r.className = 'rw'; r.style.transitionDelay = (0.08 + i*0.045) + 's';
+    я.строки.forEach(([к, в, класс], i) => {
+      const r = document.createElement('div');
+      r.className = 'rw' + (класс ? ' ' + класс : '');
+      r.style.transitionDelay = (0.08 + i*0.045) + 's';
       const кк = document.createElement('div'); кк.className = 'k'; кк.textContent = к;
       const вв = document.createElement('div'); вв.className = 'v'; вв.textContent = в;
       r.append(кк, вв); узел.appendChild(r);
