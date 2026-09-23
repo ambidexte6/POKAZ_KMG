@@ -300,6 +300,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #project-content.с-видео #pc-name{font-size:38px}
 #project-content.с-видео #pc-claim,#project-content.с-видео #pc-badge{display:none}
 #project-content.с-видео #pc-video{display:block}
+#mini-reset{position:fixed;z-index:16;
+  left:min(calc(var(--mini-margin,34px) + var(--mini-width,35.1vh) + 10px),calc(30vw - 50px));
+  bottom:calc(var(--mini-margin,34px) + var(--mini-half-height,19.5vh));
+  width:42px;height:42px;display:grid;place-items:center;transform:translateY(50%) translateX(-8px);
+  border:1px solid var(--line);border-left:2px solid var(--cyan);background:rgba(10,18,32,.88);
+  color:var(--txt);font-family:var(--mono);font-size:22px;cursor:pointer;backdrop-filter:blur(8px);
+  opacity:0;pointer-events:none;transition:opacity .25s ease,transform .35s cubic-bezier(.2,.8,.2,1),border-color .2s,color .2s}
+#mini-reset.visible{opacity:1;pointer-events:auto;transform:translateY(50%) translateX(0)}
+#mini-reset:hover,#mini-reset:focus-visible{color:var(--cyan);border-color:var(--cyan);outline:none}
 #pc-badge{align-self:flex-start;font-family:var(--mono);font-size:15px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--amber);border:1px solid rgba(240,174,74,.5);padding:7px 14px;margin-top:8px}
 </style>
@@ -331,7 +340,6 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 
 <div id="hdr">
   <h1>Цифровой двойник месторождения на базе ИС «<b style="color:var(--cyan)">ABAI</b>»</h1>
-  <div class="sub">Цель 2025–2028 — стать полностью цифровой компанией и принимать решения заранее</div>
 </div>
 
 <div id="stack">
@@ -409,6 +417,7 @@ if (!/[?&]коротко=1/.test(decodeURIComponent(location.search))) history.r
   <video id="pc-video" controls autoplay muted loop playsinline preload="metadata"></video>
   <div id="pc-badge">заготовка · наполнение позже</div>
 </aside>
+<button id="mini-reset" type="button" aria-label="Вернуть исходный вид" title="Вернуть исходный вид">↩</button>
 
 <script type="importmap">
 { "imports": {
@@ -1702,12 +1711,15 @@ const УХОД_ВНИЗ = 260;          // и вниз, в тот же угол 
    высоты окна, потому что и сама модель на экране растёт вместе с ней.
    MINI_HEIGHT_RATIO ещё и отдана панели через CSS-переменную: панель не
    должна заезжать в угол, поэтому её max-height считается от неё же. */
-const MINI_SCALE = 0.35;
-const MINI_HEIGHT_RATIO = 0.25;
-const MINI_ASPECT_RATIO = 1.1;
-const MINI_MARGIN = 26;
+const MINI_SCALE = 0.50;
+const MINI_HEIGHT_RATIO = 0.39;
+const MINI_ASPECT_RATIO = 0.90;
+const MINI_MARGIN = 34;
 const MINI_TRANSITION_MS = 900;
 document.documentElement.style.setProperty('--мини-высота', (MINI_HEIGHT_RATIO*100) + 'vh');
+document.documentElement.style.setProperty('--mini-width', (MINI_HEIGHT_RATIO*MINI_ASPECT_RATIO*100) + 'vh');
+document.documentElement.style.setProperty('--mini-half-height', (MINI_HEIGHT_RATIO*50) + 'vh');
+document.documentElement.style.setProperty('--mini-margin', MINI_MARGIN + 'px');
 const _forward = new THREE.Vector3(), _right = new THREE.Vector3(), _up = new THREE.Vector3(), _cameraToStack = new THREE.Vector3();
 /* Куда сдвинуть стопку в мире, чтобы её центр встал в центр углового места.
    Сдвиг идёт строго в плоскости, перпендикулярной взгляду камеры (вправо и
@@ -1741,7 +1753,10 @@ function запомнитьОткуда(){
   state.viewShiftОт = state.viewShiftX;
   for(const id in zones){
     const z = zones[id];
-    z.от = { offset:z.offset, x:z.offsetX, y:z.offsetYExit ?? 0, z:z.offsetZ ?? 0, s:z.exitScale ?? 1 };
+    z.от = {
+      offset:z.offset, x:z.offsetX, y:z.offsetYExit ?? 0, z:z.offsetZ ?? 0,
+      s:z.exitScale ?? 1, yaw:z.miniYaw ?? 0
+    };
   }
 }
 const плавно = p => p < 0.5 ? 4*p*p*p : 1 - Math.pow(-2*p + 2, 3)/2;
@@ -1988,6 +2003,10 @@ function finishClosing(){
   refresh();
 }
 document.getElementById('pc-back').addEventListener('click', closeProject);
+document.getElementById('mini-reset').addEventListener('click', e => {
+  e.stopPropagation();
+  closeProject();
+});
 
 const raycaster = new THREE.Raycaster();
 const ptr = new THREE.Vector2(-2,-2);
@@ -2162,6 +2181,7 @@ const chip = $('chip');
 function refresh(){
   const a = active();
   const panel = $('panel');
+  $('mini-reset').classList.toggle('visible', Boolean(state.openId));
   const replacesStack = Boolean(state.locked || state.openId);
   const isFirstMove = replacesStack && !panel.classList.contains('вместо-стека');
   $('stack').classList.toggle('скрыт', replacesStack);
@@ -2190,7 +2210,10 @@ function refresh(){
      она открывалась поверх модели до первого касания и закрывала собой то,
      ради чего слайд и открыт. Её содержание переехало на главный экран
      показа, где под него есть отдельный кадр. */
-  if(a && !state.launching && !state.closing && !(typeof ярусСпр === 'number' && ярусСпр > 0) && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты)) showPanel(a); else panel.classList.remove('vis');
+  const canShowPanel = a && !state.locked && !state.openId && !state.launching && !state.closing
+    && !(typeof ярусСпр === 'number' && ярусСпр > 0)
+    && !(typeof эффектыОткрыты !== 'undefined' && эффектыОткрыты);
+  if(canShowPanel) showPanel(a); else panel.classList.remove('vis');
   controls.autoRotateSpeed = ROT_SPEED;
   updateNavLine();
   // список меняет высоту и заново центрируется — уточняем позицию, когда раскладка устоялась
@@ -2502,15 +2525,21 @@ function animate(){
   /* `заморожен` ставит только служебный вход `?наведение=1`: мыши там нет,
      трассировка каждый кадр не находит ничего и сбрасывала бы выставленное
      наведение обратно в ноль. На показе флаг не поднимается никогда. */
-  if(!state.заморожен && !state.launching && !state.closing && !state.openId && (hitZone !== state.hover || hitSub !== state.hoverSub)){
-    const overUI = document.querySelector('#stack:hover, #panel:hover');
-    if(!overUI){ state.hover = hitZone; state.hoverSub = hitSub; refresh(); }
+  if(!state.заморожен && !state.launching && !state.closing && (hitZone !== state.hover || hitSub !== state.hoverSub)){
+    const overUI = document.querySelector('#stack:hover, #panel:hover, #project-content:hover');
+    if(overUI){
+      if(state.openId && state.hover !== null){ state.hover = null; state.hoverSub = null; refresh(); }
+    } else {
+      state.hover = hitZone; state.hoverSub = hitSub; refresh();
+    }
   }
-  // на миниатюре открытого слоя нажимать некуда — курсор-рука только у соседних
-  const можноНажать = hitZone && hitZone !== state.openId;
-  renderer.domElement.style.cursor = можноНажать ? 'pointer' : '';
+  const isDisabledGgdm = hitZone === 'plast' && hitSub === 0;
+  const canClick = hitZone && !isDisabledGgdm && (
+    !state.openId || hitZone !== state.openId || (hitZone === 'plast' && hitSub !== null)
+  );
+  renderer.domElement.style.cursor = canClick ? 'pointer' : '';
 
-  if(можноНажать && state.openId){
+  if(canClick && state.openId){
     // при открытом контенте подсказка — только название слоя под курсором
     chip.style.display = 'block';
     chip.style.left = (mouseXY[0]+16)+'px';
@@ -2551,16 +2580,24 @@ function animate(){
     }
   }
   if(state.openId && pickMeshes.length){
-    const GAP = 12;
-    let total = GAP * (RANK_UP.length - 1);
+    const BASE_GAP = 22;
+    const HOVER_GAP = 48;
+    const miniHoverId = state.hover;
+    const gapAfter = index => {
+      const current = RANK_UP[index], next = RANK_UP[index + 1];
+      return miniHoverId && (current === miniHoverId || next === miniHoverId) ? HOVER_GAP : BASE_GAP;
+    };
+    let total = 0;
     for(const id of RANK_UP) total += (zones[id].yt - zones[id].yb) * MINI_SCALE;
+    for(let i = 0; i < RANK_UP.length - 1; i++) total += gapAfter(i);
     let bot = VIEW_Y - total/2;
-    for(const id of RANK_UP){
+    for(let i = 0; i < RANK_UP.length; i++){
+      const id = RANK_UP[i];
       const z = zones[id];
       const h = (z.yt - z.yb) * MINI_SCALE;
       const c = bot + h/2;
       offsets[id] = c - (z.yb + z.yt)/2 * MINI_SCALE;
-      bot = c + h/2 + GAP;
+      bot = c + h/2 + (i < RANK_UP.length - 1 ? gapAfter(i) : 0);
     }
   }
   if(act && pickMeshes.length && !state.openId){
@@ -2626,18 +2663,22 @@ function animate(){
     const tY = isMini ? _miniOffset.y : ушёл ? -УХОД_ВНИЗ - рангСвой*ШАГ_УХОДА_Y : 0;
     const tZ = isMini ? _miniOffset.z : 0;
     const tS = isMini ? MINI_SCALE : ушёл ? 0 : 1;
+    const targetMiniYaw = isMini ? camAzimuth() : 0;
+    if(z.miniYaw === undefined) z.miniYaw = 0;
     if(transitionProgress < 1 && z.от){
       z.offset = z.от.offset + (tL - z.от.offset)*easedTransition;
       z.offsetX = z.от.x + (tX - z.от.x)*easedTransition;
       z.offsetYExit = z.от.y + (tY - z.от.y)*easedTransition;
       z.offsetZ = z.от.z + (tZ - z.от.z)*easedTransition;
       z.exitScale = z.от.s + (tS - z.от.s)*easedTransition;
+      z.miniYaw = z.от.yaw + углаРазница(z.от.yaw, targetMiniYaw)*easedTransition;
     } else {
       z.offset += (tL - z.offset)*k;
       z.offsetX += (tX - z.offsetX)*k;
       z.offsetYExit += (tY - z.offsetYExit)*k;
       z.offsetZ += (tZ - z.offsetZ)*k;
       z.exitScale += (tS - z.exitScale)*k;
+      z.miniYaw += углаРазница(z.miniYaw, targetMiniYaw)*k;
     }
     z.targetTilt = ушёл ? ОТЪЕЗД_НАКЛОН : 0;
     z.tilt += (z.targetTilt - z.tilt)*k;
@@ -2649,6 +2690,7 @@ function animate(){
     if(z.hit){
       z.hit.position.set(z.offsetX, (z.yb+z.yt)/2*sГ + z.offset + z.offsetYExit, z.offsetZ);
       z.hit.scale.setScalar(sГ);
+      z.hit.rotation.y = z.miniYaw;
     }
     /* Доворот лицом к экрану — только у самого выбранного слоя, вокруг ОСЬ_ЛИЦОМ,
        и только после ПОВОРОТ_МС: пока соседи ещё в кадре, доворот плиты вместе
@@ -2667,7 +2709,11 @@ function animate(){
       ? new THREE.Quaternion().setFromAxisAngle(ОСЬ_ЛИЦОМ, z.faceTilt) : null;
     const qКрен = z.tilt > 0.0004
       ? new THREE.Quaternion().setFromAxisAngle(ОСЬ_КРЕНА, z.tilt) : null;
+    const miniFacing = Math.abs(z.miniYaw) > 0.0004
+      ? new THREE.Quaternion().setFromAxisAngle(new THREE.Vector3(0, 1, 0), z.miniYaw)
+      : null;
     z.scaleG.quaternion.identity();
+    if(miniFacing) z.scaleG.quaternion.premultiply(miniFacing);
     if(qЛицо) z.scaleG.quaternion.premultiply(qЛицо);
     if(qКрен) z.scaleG.quaternion.premultiply(qКрен);
     // Вспышка — сразу с клика, не дожидаясь ухода соседей: мгновенное подтверждение выбора.
@@ -2687,8 +2733,10 @@ function animate(){
     /* Оцифровка идёт только по нажатию. Наведение раньше тоже запускало
        голограмму, и от беглого движения мышью слайд мерцал; теперь на наведение
        остаётся только выделение и лёгкая раздвижка. */
-    z.target  = (id === state.locked) ? 1 : 0;
-    z.targetH = (id === act) ? 1 : 0;
+    // В миниатюре выбранный слой остаётся holo box,
+    // остальные слои показываются в обычном физическом виде.
+    z.target  = state.openId ? (id === state.openId ? 1 : 0) : (id === state.locked ? 1 : 0);
+    z.targetH = state.openId ? (id === state.hover ? 1 : 0) : (id === act ? 1 : 0);
     z.mix  += (z.target  - z.mix)*k;
     z.mixH  = (z.mixH === undefined ? 0 : z.mixH) + (z.targetH - (z.mixH === undefined ? 0 : z.mixH))*k;
     const m = z.mix;
@@ -2732,9 +2780,10 @@ function animate(){
     }
     // подслои пласта: свой цвет, лёгкое разделение, клипы следуют за слоем и масштабом
     if(z.subs3d){
-      const plastActive = (act === 'plast');
-      const aSub = state.locked === 'plast' ? panelState.sub
-                 : (state.hover === 'plast' ? state.hoverSub : null);
+      const plastActive = state.openId ? state.hover === 'plast' : act === 'plast';
+      const aSub = state.openId
+        ? (state.hover === 'plast' ? state.hoverSub : null)
+        : (state.locked === 'plast' ? panelState.sub : (state.hover === 'plast' ? state.hoverSub : null));
       // столбы ранжирования выходят вместе со слоем оценки
       if(z.столбы){
         const вид = (aSub === 2 && !state.openId) ? 1 : 0;   // столбы ранжирования без подписей (см. обновитьМеткиТЭО) в миниатюре — просто палки
@@ -2756,21 +2805,13 @@ function animate(){
         let tOff = 0;
         if(plastActive){
           const base = (si === 0 ? -8 : si === 2 ? 8 : 0);   // si: 0 — нижняя, 2 — верхняя
-          // на оценке стопку не разносим: столбы прошивают её насквозь, и в
-          // разъехавшихся слоях связь «запасы → точка → эффект» рвётся
-          if(aSub === null || aSub === 2 || state.openId) tOff = base;
+          if(aSub === null) tOff = base;
           else if(si === aSub) tOff = base;                  // выбранная остаётся на месте
           else tOff = base + (si < aSub ? -1 : 1) * 34 * Math.abs(si - aSub);   // соседние уезжают
         }
         s.off += (tOff - s.off)*k;
-        /* Выбранная составляющая крупнее соседних; масштабируем вокруг её центра,
-           иначе группа уедет — её содержимое стоит в координатах всего стека.
-           На технико-экономической оценке подрастают все три: столбы ранжирования
-           идут сквозь стопку, и разнокалиберные слои под ними читаются как ошибка. */
-        // в миниатюре (открыт контент) составляющие не разъезжаются и не растут: в углу на это
-        // нет места, стопка вылезала за нижний край окна. Выбранная по-прежнему светится (tMix ниже).
-        const tScale = !plastActive || aSub === null || state.openId ? 1
-                     : (aSub === 2 ? 1.12 : (aSub === si ? 1.22 : 0.93));
+        /* Любая наведённая составляющая, включая ТЭО, становится крупнее соседних. */
+        const tScale = !plastActive || aSub === null ? 1 : (aSub === si ? 1.22 : 0.93);
         s.scl = (s.scl === undefined) ? 1 : s.scl + (tScale - s.scl)*k;
         const cy = (s.st + s.sb)/2;
         s.wrap.scale.set(s.scl, s.scl, s.scl);
@@ -2798,6 +2839,7 @@ function animate(){
         // подслои пласта — отдельные хитбоксы; та же привязка к сдвигу и масштабу стопки, что у z.hit выше
         s.hit.position.set(z.offsetX, ((s.st+s.sb)/2 + s.off)*sГ + z.offset + z.offsetYExit, z.offsetZ);
         s.hit.scale.setScalar(sГ);
+        s.hit.rotation.y = z.miniYaw;
       });
     }
     if(z.particles && m > 0.02){
