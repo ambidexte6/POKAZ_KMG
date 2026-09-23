@@ -164,10 +164,14 @@ body.раскрыт-слой #hdr h1{font-size:23px;line-height:1.18}
 #effects-overview .effect-col{padding:12px 16px;background:var(--glass);border:1px solid var(--line);
   border-left:3px solid var(--ec);backdrop-filter:blur(8px)}
 #effects-overview .items{display:block}
-#effects-overview .item{display:flex;align-items:baseline;gap:10px;min-width:0}
+/* В карточке может стоять и одно значение, и два в ряд одинакового кегля:
+   flex-wrap уводит подпись на свою строку сразу под значениями (см. .l
+   flex-basis:100%), чтобы «326 млрд ₸» не тонуло в мелкой подписи. */
+#effects-overview .item{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;min-width:0}
 #effects-overview .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1.05;color:var(--ec);
   flex:0 0 auto;white-space:nowrap}
-#effects-overview .l{font-size:16px;line-height:1.3;color:var(--dim)}
+#effects-overview .v + .v{padding-left:4px;border-left:1px solid rgba(140,170,210,.28)}
+#effects-overview .l{font-size:16px;line-height:1.3;color:var(--dim);flex:0 0 100%}
 /* Вертикальная колонка у стопки: чуть крупнее самих раскрывашек (у них .t = 21.5px),
    чтобы главные эффекты вылавливались с зала раньше названий контуров. */
 #effects-overview.у-стека .cols{grid-template-columns:1fr;gap:8px}
@@ -357,7 +361,13 @@ body.раскрыт-слой #hdr h1{font-size:23px;line-height:1.18}
   border:1px solid var(--line);border-top:2px solid var(--pc,#4FE3FF);box-shadow:0 18px 46px rgba(0,0,0,.32)}
 #project-content.с-видео{padding-top:42px;padding-bottom:42px;gap:12px}
 #project-content.с-видео #pc-name{font-size:38px}
-#project-content.с-видео #pc-claim,#project-content.с-видео #pc-badge{display:none}
+/* 24.09 (Адиль): убраны кнопка «← к цифровому двойнику» и жёлтый кикер
+   «ЦД … · проект NN» на карточке системы. Возврат идёт единственной
+   кнопкой в нижнем левом углу у миниатюры 3D (см. #mini-reset). Разметка
+   и обработчик закрытия по #pc-back оставлены — при возврате вида можно
+   просто снять эти два display:none и всё поедет обратно. */
+#project-content.с-видео #pc-claim,#project-content.с-видео #pc-badge,
+#project-content.с-видео #pc-back,#project-content.с-видео #pc-kick{display:none}
 #project-content.с-видео #pc-video{display:block}
 /* Кнопка возврата к первому кадру. Стоит у 3D-модели в нижнем левом углу:
    миниатюра занимает `--mini-width × --мини-высота` от MINI_MARGIN, кнопка
@@ -426,43 +436,16 @@ body.раскрыт-слой #hdr h1{font-size:23px;line-height:1.18}
   <div class="rd"><div class="y">далее</div><div class="d">100% добывающих активов</div></div>
 </div>
 
-<!-- target="_top": слайд открывается ещё и внутри demo_with_map.html, и без
-     этого вторая часть грузилась бы в рамку, будто она часть нашего показа -->
-<a id="next" target="_top" rel="noopener"
-   href="https://znewk.github.io/kmg-digital-twin-presentation/">2 часть<span class="arw">→</span></a>
-<!-- 18.09 (Адиль): карточка пилотного актива выходит кнопкой, 3D остаётся на месте;
-     заключение ГД ЭМГ — тот же куб с карточкой эффектов и этап тиражирования, это вход
-     `demo_with_map.html?вход=эффекты` (лента подводки пропускается) -->
-<div id="top-actions">
-  <a id="pilot" href="#">первый актив<span class="arw">▸</span></a>
-  <a id="demo2full" href="demo_with_map.html">demo ч.2<span class="arw">→</span></a>
-</div>
-<!-- 18.09 (Адиль, ночь): «эффекты» — карточкой поверх модели, как пилотный актив, без перезагрузки
-     страницы (перезагрузка модели лагала); «далее» — маленькая, внизу справа, сразу на карту
-     тиражирования: своя страница, модель не трогается -->
-<a id="demo2" href="#">эффекты<span class="arw">▸</span></a>
-<a id="далее" href="тиражирование.html">далее<span class="arw">→</span></a>
+<!-- 24.09 (Адиль): верхние навигационные кнопки убраны с кадра целиком —
+     карточка В. Молдабека справа стоит по умолчанию (она и была смыслом
+     «первого актива»), а вторая часть и тираж откроются из других мест
+     показа. Из DOM удалены #next, #pilot, #demo2, #demo2full, #далее и
+     сопровождавший их скрипт с режимами `?коротко` / `?в_рамке`. Крючки
+     window.__открытьСправку/__закрытьСправку остались — их зовёт карточка
+     справки (`карточкаПилота`) сразу при загрузке, без кнопки. -->
 <div id="справка"><div class="hd"></div><div class="nm"></div><div class="sub"></div>
   <div class="паспорт ярус"></div><div class="сделано ярус"></div></div>
 <div id="эффекты"><div class="hd"></div><div class="body"></div><div class="road"></div></div>
-<!-- слайд открыт внутри demo_with_map.html — кнопка вела бы саму в себя -->
-<script>/* копия в показе КМГ: только короткий вход — ключ ставится без перезагрузки (старые ссылки без ?коротко=1 работают так же) */
-if (!/[?&]коротко=1/.test(decodeURIComponent(location.search))) history.replaceState(history.state, '', location.pathname + (location.search ? location.search + '&' : '?') + 'коротко=1' + location.hash);
-/* Два входа (Адиль 18.09: «полный и короткий стали одним коротким» — разведены обратно):
-   полный (главный экран → макет → подводка с лентой) — макет собран, кнопка «demo ч.2» ведёт в
-   demo_with_map.html; короткий (`?коротко=1`, с цепочки КМГ) — стопка раскрыта, карточки «пилотный
-   актив» и «эффекты», маленькая «далее» на карту тиражирования. В рамке подводки (`?в_рамке=1`)
-   кнопок нет — карточки ведёт сама подводка. */
-(function(){
-  const п = new URLSearchParams(location.search), у = id => document.getElementById(id).remove();
-  /* Карточки «пилотный актив», «эффекты» и ссылка «demo ч.2» видны в обоих входах;
-     «далее» на тираж — только в коротком. В рамке навигационные кнопки скрыты. */
-  if (п.get('в_рамке') === '1'){ у('demo2'); у('demo2full'); у('pilot'); у('далее'); }
-  else if (п.get('коротко') !== '1'){
-    у('далее');
-    document.getElementById('demo2full').href += location.search;
-  }
-})();</script>
 <div id="chip"></div>
 <!-- подписи точек бурения: HTML поверх сцены, чтобы цифры оставались чёткими -->
 <div id="teo"></div>
@@ -1884,14 +1867,21 @@ function углаРазница(a, b){
 }
 // Кикер контента слоя — по образцу прежних отдельных страниц проекта, но их
 // саму страницу больше не открываем, только формулировку кикера переняли.
+// 24.09 (Адиль): сам кикер (жёлтая строка «ЦД … · проект NN») в кадр не
+// выводится (CSS: #project-content.с-видео #pc-kick{display:none}), но
+// оставлен в объекте — вернуть, если понадобится, надо только снять hide.
 const PROJECT_KICKERS = { plast:'ЦД пласта', skv:'ЦД скважины', naz:'ЦД наземки' };
+/* 24.09 (Адиль): названия систем даны словами заказчика — общим языком
+   первого кадра, а не именами файлов. Стратегия открывается как «Цифровой
+   двойник пласта», наземка — как «Интеллектуальное месторождение»; ТЭО и
+   скважина оставлены под прежними названиями. */
 const RESERVOIR_VIDEOS = {
-  1:{ file:'NUMEX_cut.mp4', title:'Стратегия разработки' },
+  1:{ file:'NUMEX_cut.mp4', title:'Цифровой двойник пласта' },
   2:{ file:'NUMEX_optimize_cut.mp4', title:'Технико-экономическая оценка' }
 };
 const ZONE_VIDEOS = {
   skv:{ file:'drillspot_cut.mp4', title:'Цифровой двойник скважины' },
-  naz:{ file:'im.emg.kz.mp4', title:'Наземная инфраструктура' }
+  naz:{ file:'im.emg.kz.mp4', title:'Интеллектуальное месторождение' }
 };
 let launchT1 = null;
 function launchProject(id, isSwitch = false){
@@ -2152,17 +2142,22 @@ const elEffectsOverview = document.querySelector('#effects-overview .cols');
    плашки ТОП-12 в финале подводки (см. тиражирование.html) — на первом кадре
    они стоят единожды и не пересобираются от выбора контура. Цвет — циан,
    один язык с заголовком «ABAI» и линией процесса. */
+/* 24.09 (Адиль): «326 млрд ₸» перестало быть подписью и стало вторым крупным
+   значением — там программе так же важно назвать деньги, как и тонны, а мелким
+   шрифтом их из зала не видно. Значения — массивом, чтобы в карточке могло
+   стоять и одно число, и два подряд одинакового кегля. */
 const ГЛАВНЫЕ_ЭФФЕКТЫ = [
-  { v:'Топ 12',            l:'месторождений' },
-  { v:'Более 90 %',        l:'добычи' },
-  { v:'2 864 тыс. тонн',   l:'доп. добычи — более 326 млрд ₸' },
+  { v:['Топ 12'],                          l:'месторождений' },
+  { v:['Более 90 %'],                      l:'добычи' },
+  { v:['2 864 тыс. тонн','326 млрд ₸'],    l:'доп. добычи и экономический эффект' },
 ];
 for(const э of ГЛАВНЫЕ_ЭФФЕКТЫ){
   const col = document.createElement('div');
   col.className = 'effect-col';
   col.style.setProperty('--ec', 'var(--cyan)');
   col.innerHTML = `<div class="items"><div class="item">`
-    + `<span class="v">${э.v}</span><span class="l">${э.l}</span>`
+    + э.v.map(v => `<span class="v">${v}</span>`).join('')
+    + `<span class="l">${э.l}</span>`
     + `</div></div>`;
   elEffectsOverview.appendChild(col);
 }
@@ -3087,8 +3082,13 @@ const СПРАВКА = {
 };
 let ярусСпр = 0;
 (function карточкаПилота(){
+  /* 24.09 (Адиль): кнопки «первый актив» больше нет — карточка живёт по
+     умолчанию. Раньше при отсутствии кнопки IIFE возвращалась и справка
+     вовсе не инициализировалась; теперь достаточно самой панели #справка,
+     а обработчик кнопки крепим, только если она вдруг найдётся (в других
+     сборках/подводке она осталась). */
   const кн = document.getElementById('pilot'), сп = document.getElementById('справка');
-  if(!кн) return;
+  if(!сп) return;
   function ярус(узел, я){
     узел.textContent = '';
     const ш = document.createElement('div'); ш.className = 'гр'; ш.textContent = я.шапка; узел.appendChild(ш);
@@ -3114,10 +3114,10 @@ let ярусСпр = 0;
     сп.classList.toggle('on', ярусСпр > 0);
     сп.querySelector('.паспорт').classList.toggle('on', ярусСпр >= 1);
     сп.querySelector('.сделано').classList.toggle('on', ярусСпр >= 2);
-    кн.classList.toggle('on', ярусСпр > 0);
+    if(кн) кн.classList.toggle('on', ярусСпр > 0);
     if(ярусСпр > 0){ state.locked = null; state.hover = null; refresh(); }
   }
-  кн.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); закрытьЭффекты(); показать(ярусСпр >= 2 ? 0 : ярусСпр + 1); });
+  if(кн) кн.addEventListener('click', e => { e.preventDefault(); e.stopPropagation(); закрытьЭффекты(); показать(ярусСпр >= 2 ? 0 : ярусСпр + 1); });
   addEventListener('keydown', e => { if(e.key === 'Escape'){ показать(0); закрытьЭффекты(); } });
   window.__закрытьСправку = () => показать(0);
   /* 23.09 (Адиль): справка о В. Молдабеке — точка входа кадра, а не карточка
