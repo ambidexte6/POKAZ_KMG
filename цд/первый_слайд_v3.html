@@ -25,6 +25,15 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 /* Навигация по контурам по умолчанию остаётся колонкой слева. */
 #stack{position:fixed;left:26px;top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;
   gap:6px;width:360px;padding-left:24px;transition:opacity .28s ease,transform .42s cubic-bezier(.2,.8,.2,1)}
+#stack.выбран{top:46%;gap:4px}
+#stack.выбран .lay{padding:7px 11px}
+#stack.выбран .lay .t{font-size:19px;line-height:1.2}
+#stack.выбран .lay .n{font-size:17px}
+#stack.выбран .lay.step{padding:5px 9px}
+#stack.выбран .lay.step .t{font-size:16.5px;line-height:1.25}
+#stack.выбран .lay.step .n{font-size:16px}
+#stack.выбран #navdot{box-shadow:0 0 0 3px rgba(5,8,16,.9);transition:none}
+#stack.выбран #navfill{transition:none}
 #stack.скрыт{opacity:0;pointer-events:none;transform:translateY(calc(-50% - 14px))}
 /* линия процесса: связывает все контуры и шаги в одну цепочку */
 #navline{position:absolute;left:12px;top:20px;bottom:20px;width:2px;background:rgba(140,170,210,.22);border-radius:2px}
@@ -90,7 +99,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
    задаёт JS, см. MINI_HEIGHT_RATIO), и панель не должна на неё заезжать. Если
    содержимое выше остатка (низкое окно) — прокручивается внутри, как и раньше.
    Стартует чуть ниже и выезжает вверх. */
-#panel.вместо-стека,#panel.раскрыт{top:124px;bottom:auto;left:26px;right:auto;
+#panel.вместо-стека,#panel.раскрыт{display:none;top:124px;bottom:auto;left:26px;right:auto;
   max-height:calc(100vh - 124px - var(--мини-высота,21.5vh) - 26px - 10px);
   transform:translateY(22px)}
 #panel.вместо-стека.vis,#panel.раскрыт.vis{transform:none}
@@ -130,6 +139,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   transform:translateX(-50%);pointer-events:none;
   transition:opacity .28s ease,transform .42s cubic-bezier(.2,.8,.2,1)}
 #effects-overview.скрыт{opacity:0;transform:translate(-50%,-12px)}
+#effects-overview.у-стека{padding:0;transform:none}
 #effects-overview .hd{font-family:var(--mono);font-size:16px;letter-spacing:.2em;text-transform:uppercase;
   color:var(--dim);margin-bottom:10px}
 #effects-overview .cols{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
@@ -140,6 +150,16 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #effects-overview .item{display:flex;align-items:baseline;gap:8px;min-width:0}
 #effects-overview .v{font-family:var(--mono);font-size:25px;font-weight:700;line-height:1;color:var(--ec)}
 #effects-overview .l{font-size:17px;line-height:1.25;color:var(--dim)}
+#effects-overview.у-стека .hd{font-size:14px;letter-spacing:.16em;margin-bottom:8px}
+#effects-overview.у-стека .cols{gap:8px}
+#effects-overview.у-стека .effect-col{min-height:118px;padding:10px 11px;border-top-width:3px;
+  background:linear-gradient(180deg,rgba(14,25,43,.95),rgba(8,15,27,.92));box-shadow:0 10px 26px rgba(0,0,0,.18)}
+#effects-overview.у-стека .nm{font-size:0;line-height:1.2;min-height:34px}
+#effects-overview.у-стека .nm::before{content:attr(data-compact);font-size:14px}
+#effects-overview.у-стека .items{display:block;margin-top:7px;padding-top:7px}
+#effects-overview.у-стека .item{display:block;margin-top:6px}
+#effects-overview.у-стека .v{display:block;font-size:22px}
+#effects-overview.у-стека .l{display:block;margin-top:3px;font-size:13px;line-height:1.2}
 
 /* дорожная карта скрыта по решению от 12.08 — вернуть: display:flex вместо none */
 #road{display:none;position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:10;align-items:center;gap:0;
@@ -2110,7 +2130,7 @@ function buildStack(){
     const effectCol = document.createElement('div');
     effectCol.className = 'effect-col';
     effectCol.style.setProperty('--ec', zd.color);
-    effectCol.innerHTML = `<div class="nm">${zd.name}</div><div class="items">${zd.fx.map(f =>
+    effectCol.innerHTML = `<div class="nm" data-compact="${zd.name.replace('Цифровой двойник','ЦД')}">${zd.name}</div><div class="items">${zd.fx.map(f =>
       `<div class="item"><span class="v">${f.v}</span><span class="l">${f.l}</span></div>`
     ).join('')}</div>`;
     elEffectsOverview.appendChild(effectCol);
@@ -2197,7 +2217,8 @@ function refresh(){
   const replacesStack = Boolean(state.locked || state.openId);
   const isFirstMove = replacesStack && !panel.classList.contains('вместо-стека');
   $('stack').classList.remove('скрыт');
-  $('effects-overview').classList.toggle('скрыт', replacesStack);
+  $('stack').classList.toggle('выбран', replacesStack);
+  $('effects-overview').classList.toggle('у-стека', replacesStack);
   if(isFirstMove) panel.classList.remove('vis');
   panel.classList.toggle('вместо-стека', replacesStack);
   // Фиксируем начальную точку слева до .vis, чтобы панель именно встала вверх,
@@ -2231,7 +2252,22 @@ function refresh(){
   updateNavLine();
   // список меняет высоту и заново центрируется — уточняем позицию, когда раскладка устоялась
   requestAnimationFrame(updateNavLine);
+  requestAnimationFrame(positionEffectsOverview);
   fitBetweenPanels();
+}
+
+function positionEffectsOverview(){
+  const effects = $('effects-overview');
+  if(!effects.classList.contains('у-стека')){
+    effects.style.left = '';
+    effects.style.top = '';
+    effects.style.width = '';
+    return;
+  }
+  const stackRect = elStack.getBoundingClientRect();
+  effects.style.left = stackRect.left + 'px';
+  effects.style.width = Math.max(stackRect.width, Math.min(560, innerWidth * .3 - 52)) + 'px';
+  effects.style.top = Math.max(16, stackRect.top - effects.offsetHeight - 12) + 'px';
 }
 
 /* Заливка линии и бегущая точка доходят до текущего узла: видно, что процесс
@@ -2748,8 +2784,10 @@ function animate(){
     // остальные слои показываются в обычном физическом виде.
     z.target  = state.openId ? (id === state.openId ? 1 : 0) : (id === state.locked ? 1 : 0);
     z.targetH = state.openId ? (id === state.hover ? 1 : 0) : (id === act ? 1 : 0);
-    z.mix  += (z.target  - z.mix)*k;
-    z.mixH  = (z.mixH === undefined ? 0 : z.mixH) + (z.targetH - (z.mixH === undefined ? 0 : z.mixH))*k;
+    z.mix += (z.target - z.mix)*k;
+    z.mixH = state.openId && !state.hover
+      ? 0
+      : (z.mixH === undefined ? 0 : z.mixH) + (z.targetH - (z.mixH === undefined ? 0 : z.mixH))*k;
     const m = z.mix;
     /* Стволы и долота живут не по оцифровке, а по наведению: `mixH` поднимается
        и на курсоре, и на нажатии, тогда как `m` — только на нажатии. Раньше
@@ -3177,6 +3215,7 @@ function подогнатьПлотность(){
 addEventListener('resize', () => {
   подогнатьПлотность();
   renderer.setSize(innerWidth, innerHeight);
+  positionEffectsOverview();
   fitBetweenPanels();
   updateNavLine();
 });
