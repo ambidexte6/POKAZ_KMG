@@ -262,12 +262,24 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
   height:50px;opacity:.32;filter:drop-shadow(0 1px 3px rgba(0,0,0,.6))}
 #знак svg{display:block;height:100%;width:auto}
 
-/* Полноэкранная заливка перехода в проект слоя: тем же цветом, что и фон
-   обеих сторон, — смена страницы читается как затемнение, а не как
-   перезагрузка. */
-#launch-overlay{position:fixed;inset:0;z-index:90;background:var(--bg0);
-  opacity:0;pointer-events:none;transition:opacity .5s ease}
+/* Полноэкранная заливка перехода в проект слоя: свечение в цвете самого
+   слоя (--lc, выставляется в launchProject), гаснущее к цвету фона — переход
+   читается как затемнение в духе выбранного контура, а не как перезагрузка
+   страницы. Карточка с именем проекта — отдельный слой поверх, чтобы
+   появляться раньше и оставаться поверх темнеющей заливки. */
+#launch-overlay{position:fixed;inset:0;z-index:90;
+  background:radial-gradient(ellipse at 50% 50%, var(--lc,#4FE3FF) 0%, var(--bg0) 72%);
+  opacity:0;pointer-events:none;transition:opacity .6s ease}
 #launch-overlay.vis{opacity:1;pointer-events:auto}
+#launch-title{position:fixed;inset:0;z-index:91;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:12px;text-align:center;
+  opacity:0;transform:scale(.92);pointer-events:none;
+  transition:opacity .55s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+#launch-title.vis{opacity:1;transform:scale(1)}
+#launch-title .lt-kick{font-family:var(--mono);font-size:17px;letter-spacing:.3em;
+  text-transform:uppercase;color:var(--txt);opacity:.8}
+#launch-title .lt-name{font-family:var(--serif);font-size:46px;font-weight:600;color:#fff;
+  max-width:80vw;line-height:1.25;text-shadow:0 2px 22px rgba(0,0,0,.55)}
 </style>
 </head>
 <body>
@@ -366,6 +378,7 @@ if (!/[?&]коротко=1/.test(decodeURIComponent(location.search))) location.
 <div id="horiz"><span class="pt"></span>горизонтальное бурение</div>
 <div id="naz-lbl"></div>
 <div id="launch-overlay"></div>
+<div id="launch-title"><div class="lt-kick">Открывается проект</div><div class="lt-name"></div></div>
 
 <script type="importmap">
 { "imports": {
@@ -1623,7 +1636,7 @@ build().catch(e => { document.getElementById('loadmsg').textContent = 'Ошиб�
 /* ================================================================
    ИНТЕРАКЦИЯ
    ================================================================ */
-const state = { hover:null, hoverSub:null, locked:null, launching:null, camAz:0, launchRadius:0, launchPolar:0 };
+const state = { hover:null, hoverSub:null, locked:null, launching:null, camAz:0, camRadius:0, launchRadius:0, launchPolar:0, launchAt:0 };
 // РАСКРЫТА объявлена выше, у pickMeshes: она нужна ещё в build() для вычисляемых там restPickMeshes
 const panelState = { zone:null, sub:null };
 const active = () => state.locked || state.hover;
@@ -1644,9 +1657,31 @@ const active = () => state.locked || state.hover;
    не трогаются — только азимут, чтобы не менять приближение и ракурс,
    который выставил себе докладчик. */
 const СТАРТ_АЗИМУТ = Math.atan2(camera.position.x, camera.position.z);
-const УХОД_ВЛЕВО = 460;       // за габарит стопки и панели слева — с запасом
-const ПЕРЕХОД_МС = 1450;      // общее время до смены страницы
-const ЗАТЕМНЕНИЕ_МС = 500;    // из них — на цвет-заливку поверх кадра
+const УХОД_ВЛЕВО = 580;       // за габарит стопки и панели слева — с запасом
+/* Показ смотрят с расстояния, а не тычут пальцем в монитор — переходу нужен
+   запас времени, чтобы прочитаться залом, а не одна лишь функциональная
+   смена контура. Четыре удара вместо одного, каждый со своей паузой:
+
+     подъезд — камера довора­чивается к слою и подходит ближе, стопка ещё
+     целиком стоит на месте, ничего больше не происходит;
+     вспышка — слой коротким всплеском масштаба подтверждает выбор, и в тот
+     же миг соседи трогаются с места (ближний раньше дальнего — иначе
+     синхронный отъезд читается как один щелчок, а не как жест), уходя
+     с лёгким креном, будто их смахнули со стола;
+     титул — крупное имя проекта на уже почти пустом кадре;
+     заливка — кадр гаснет в цвет самого контура и уходит в чёрное.
+
+   Первый удар — отдельно и первым, а не заодно с остальными: докладчик
+   должен успеть увидеть, что модель повернулась к залу и начала
+   приближаться, прежде чем экран займётся уходом соседей и текстом. */
+const ПОДЪЕЗД_МС = 550;         // камера доворачивается и подходит ближе — соло, до всего остального
+const ПЕРЕХОД_МС = 2200;        // общее время до смены страницы
+const ТИТУЛ_МС = 1000;          // когда выходит крупное имя проекта
+const ЗАТЕМНЕНИЕ_МС = 550;      // из них — на цвет-заливку поверх кадра
+const СТУПЕНЬ_МС = 90;          // задержка между уходом соседей по дальности от выбранного, поверх ПОДЪЕЗД_МС
+const ВСПЫШКА_МС = 260;         // длительность всплеска масштаба у выбранного слоя, после ПОДЪЕЗД_МС
+const ПРИБЛИЖЕНИЕ = 0.78;       // во сколько раз камера подходит ближе на подъезде
+const ОТЪЕЗД_НАКЛОН = 0.14;     // лёгкий крен уходящих соседей, в радианах
 const PROJECT_URL = { plast:'проект_пласт.html', skv:'проект_скважина.html', naz:'проект_наземка.html' };
 const camAzimuth = () => Math.atan2(camera.position.x - controls.target.x, camera.position.z - controls.target.z);
 // Кратчайшая разница углов b−a в (−π, π]: без нормализации доворот иногда шёл
@@ -1657,31 +1692,50 @@ function углаРазница(a, b){
   if(d < -Math.PI) d += Math.PI*2;
   return d;
 }
-let launchT1 = null, launchT2 = null;
+let launchT1 = null, launchT2 = null, launchT3 = null;
 function launchProject(id){
   if(state.launching || !PROJECT_URL[id]) return;
   state.launching = id;
+  state.launchAt = performance.now();
   state.hover = null; state.hoverSub = null;
   controls.autoRotate = false;
   controls.enabled = false;
-  // сферические координаты камеры на момент клика — радиус и наклон замораживаем,
-  // доворачиваем только азимут (camAz), см. блок камеры в animate()
+  // сферические координаты камеры на момент клика — наклон замораживаем,
+  // радиус и азимут (camAz) доворачиваем к цели в animate()
   const off = new THREE.Vector3().copy(camera.position).sub(controls.target);
   state.launchRadius = off.length();
   state.launchPolar = Math.acos(THREE.MathUtils.clamp(off.y / state.launchRadius, -1, 1));
   state.camAz = camAzimuth();
+  state.camRadius = state.launchRadius;
+  /* ЦД пласта показывает свою нижнюю составляющую (ГГДМ, «01.1») на переходе —
+     она нагляднее верхних для короткого кадра, и не важно, какая составляющая
+     стояла выбранной до второго клика. Прежний выбор запоминаем — при отмене
+     переходом (Esc) возвращаем как было, а не оставляем ГГДМ навязанной. */
+  if(id === 'plast'){
+    state.plastSubПреждеПерехода = panelState.sub;
+    panelState.zone = 'plast';
+    panelState.sub = 0;
+  }
   refresh();
-  const overlay = $('launch-overlay');
-  launchT1 = setTimeout(() => overlay.classList.add('vis'), ПЕРЕХОД_МС - ЗАТЕМНЕНИЕ_МС);
-  launchT2 = setTimeout(() => { location.href = PROJECT_URL[id] + location.search; }, ПЕРЕХОД_МС);
+  const zd = ZONES[id];
+  const overlay = $('launch-overlay'), title = $('launch-title');
+  overlay.style.setProperty('--lc', zd.color);
+  title.querySelector('.lt-name').textContent = zd.name;
+  launchT1 = setTimeout(() => title.classList.add('vis'), ТИТУЛ_МС);
+  launchT2 = setTimeout(() => overlay.classList.add('vis'), ПЕРЕХОД_МС - ЗАТЕМНЕНИЕ_МС);
+  launchT3 = setTimeout(() => { location.href = PROJECT_URL[id] + location.search; }, ПЕРЕХОД_МС);
 }
 // Esc посреди перехода: анимация отменяется, слои возвращаются как были —
 // возможность передумать важнее строгой одноразовости перехода.
 function cancelLaunch(){
   if(!state.launching) return;
+  if(state.launching === 'plast' && state.plastSubПреждеПерехода !== undefined){
+    panelState.sub = state.plastSubПреждеПерехода;
+  }
   state.launching = null;
-  clearTimeout(launchT1); clearTimeout(launchT2);
+  clearTimeout(launchT1); clearTimeout(launchT2); clearTimeout(launchT3);
   $('launch-overlay').classList.remove('vis');
+  $('launch-title').classList.remove('vis');
   controls.autoRotate = true;
   controls.enabled = true;
   refresh();
@@ -2221,6 +2275,8 @@ function animate(){
   }
 
   const pulse = 0.72 + 0.28*Math.sin(t*3.1);
+  // мс с момента второго клика — общий таймер на раздвижку соседей и вспышку выбранного
+  const launchElapsed = state.launching ? performance.now() - state.launchAt : 0;
   for(const id in zones){
     const z = zones[id];
     z.targetOffset = offsets[id];
@@ -2231,10 +2287,33 @@ function animate(){
     /* Переход в проект: соседи уезжают по X за левый край кадра — сам выбранный
        слой не двигаем и не крутим, «налево» вместо этого делает камера (см. блок
        камеры перед controls.update() ниже). Вне перехода смещение возвращается к
-       нулю тем же плавным ходом, что и раздвижка по Y. */
-    z.targetOffsetX = (state.launching && id !== state.launching) ? -УХОД_ВЛЕВО : 0;
+       нулю тем же плавным ходом, что и раздвижка по Y.
+
+       Трогаются не с нуля, а только после ПОДЪЕЗД_МС — пока камера доворачивается
+       и подходит ближе, стопка стоит нетронутой: это отдельный, первый удар, а не
+       фон для одновременного отъезда. И даже тогда не разом: тот, что ближе к
+       выбранному слою по стопке, уходит первым, дальний — на СТУПЕНЬ_МС позже.
+       Разом это читалось как один механический щелчок; вразнобой — как жест,
+       которым докладчик убирает лишнее с дороги. Уходящие ещё и слегка кренятся
+       (rotation.z) — как карта, которую смахнули со стола, а не просто сдвинули. */
+    let ушёл = false;
+    if(state.launching && id !== state.launching){
+      const далеко = Math.abs(RANK_UP.indexOf(id) - RANK_UP.indexOf(state.launching));
+      ушёл = launchElapsed > ПОДЪЕЗД_МС + далеко*СТУПЕНЬ_МС;
+    }
+    z.targetOffsetX = ушёл ? -УХОД_ВЛЕВО : 0;
     z.offsetX += (z.targetOffsetX - z.offsetX)*k;
     z.scaleG.position.x = z.offsetX;
+    z.targetTilt = ушёл ? ОТЪЕЗД_НАКЛОН : 0;
+    z.tilt = (z.tilt === undefined ? 0 : z.tilt) + (z.targetTilt - (z.tilt === undefined ? 0 : z.tilt))*k;
+    z.scaleG.rotation.z = z.tilt;
+    /* Всплеск масштаба — второй удар, сразу за подъездом: синус от 0 до 1 и обратно
+       к 0 за ВСПЫШКА_МС, отсчитанные от конца ПОДЪЕЗД_МС, а не от самого клика. */
+    const вспышкаЭлапсед = Math.max(0, launchElapsed - ПОДЪЕЗД_МС);
+    const вспышка = (state.launching === id)
+      ? Math.sin(Math.min(1, вспышкаЭлапсед/ВСПЫШКА_МС) * Math.PI)
+      : 0;
+    z.launchFlash = вспышка * 0.09;
 
     /* Оцифровка идёт только по нажатию. Наведение раньше тоже запускало
        голограмму, и от беглого движения мышью слайд мерцал; теперь на наведение
@@ -2380,21 +2459,24 @@ function animate(){
       к.шатун.position.set(п.cx, п.cy, 0);
       к.шатун.rotation.z = п.г - МЕХ.г0;
     }
-    z.scaleG.scale.setScalar(1 + 0.05*z.mixH);   // укрупнение — и на наведении тоже
+    z.scaleG.scale.setScalar(1 + 0.05*z.mixH + (z.launchFlash||0));   // укрупнение — на наведении и вспышкой на переходе
   }
 
-  /* Камера на переходе в проект: доворот к азимуту старта показа — радиус и
-     наклон замороженные на моменте клика, крутится только азимут, кратчайшим
-     путём (см. `углаРазница`). Ведём камеру вручную и не отдаём кадр
-     `controls.update()`: OrbitControls при enabled:false не даёт новых
-     смещений от пользователя, но с демпфированием мог бы доигрывать старый
-     остаток инерции поверх нашего же поворота. */
+  /* Камера на переходе в проект: доворот к азимуту старта показа — крутится
+     азимут, кратчайшим путём (см. `углаРазница`), — и лёгкий наезд: радиус
+     подтягивается к ПРИБЛИЖЕНИЕ от того, что было на клике. Наклон (полярный
+     угол) не трогаем — наезд не должен превращаться в облёт сверху. Ведём
+     камеру вручную и не отдаём кадр `controls.update()`: OrbitControls при
+     enabled:false не даёт новых смещений от пользователя, но с
+     демпфированием мог бы доигрывать старый остаток инерции поверх нашего
+     же движения. */
   if(state.launching){
     state.camAz += углаРазница(state.camAz, СТАРТ_АЗИМУТ)*k;
-    const горизР = state.launchRadius * Math.sin(state.launchPolar);
+    state.camRadius += (state.launchRadius*ПРИБЛИЖЕНИЕ - state.camRadius)*k;
+    const горизР = state.camRadius * Math.sin(state.launchPolar);
     camera.position.set(
       controls.target.x + горизР*Math.sin(state.camAz),
-      controls.target.y + state.launchRadius*Math.cos(state.launchPolar),
+      controls.target.y + state.camRadius*Math.cos(state.launchPolar),
       controls.target.z + горизР*Math.cos(state.camAz)
     );
     camera.lookAt(controls.target);
