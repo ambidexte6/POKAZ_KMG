@@ -88,7 +88,7 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #panel.vis{opacity:1;pointer-events:auto;transform:translateY(-50%) translateX(0)}
 /* Панель выбранного слоя занимает место исчезнувшего #stack. Сидит под шапкой,
    а не по центру: низ левой колонки отдан миниатюре стопки (--мини-высота
-   задаёт JS, см. МИНИ_ВЫСОТА_ДОЛЯ), и панель не должна на неё заезжать. Если
+   задаёт JS, см. MINI_HEIGHT_RATIO), и панель не должна на неё заезжать. Если
    содержимое выше остатка (низкое окно) — прокручивается внутри, как и раньше.
    Стартует чуть ниже и выезжает вверх. */
 #panel.вместо-стека,#panel.раскрыт{top:124px;bottom:auto;left:26px;right:auto;
@@ -294,6 +294,12 @@ html,body{width:100%;height:100%;overflow:hidden;font-family:var(--ui);color:var
 #pc-kick{font-family:var(--mono);font-size:18px;letter-spacing:.3em;text-transform:uppercase;color:var(--pc,#4FE3FF)}
 #pc-name{font-family:var(--serif);font-size:52px;font-weight:600;line-height:1.2;max-width:26ch}
 #pc-claim{font-size:23px;color:var(--dim);line-height:1.6;max-width:52ch}
+#pc-video{display:none;width:100%;max-height:62vh;object-fit:contain;background:#02040A;
+  border:1px solid var(--line);border-top:2px solid var(--pc,#4FE3FF);box-shadow:0 18px 46px rgba(0,0,0,.32)}
+#project-content.с-видео{padding-top:42px;padding-bottom:42px;gap:12px}
+#project-content.с-видео #pc-name{font-size:38px}
+#project-content.с-видео #pc-claim,#project-content.с-видео #pc-badge{display:none}
+#project-content.с-видео #pc-video{display:block}
 #pc-badge{align-self:flex-start;font-family:var(--mono);font-size:15px;letter-spacing:.14em;
   text-transform:uppercase;color:var(--amber);border:1px solid rgba(240,174,74,.5);padding:7px 14px;margin-top:8px}
 </style>
@@ -400,6 +406,7 @@ if (!/[?&]коротко=1/.test(decodeURIComponent(location.search))) history.r
   <div id="pc-kick"></div>
   <div id="pc-name"></div>
   <div id="pc-claim"></div>
+  <video id="pc-video" controls autoplay muted loop playsinline preload="metadata"></video>
   <div id="pc-badge">заготовка · наполнение позже</div>
 </aside>
 
@@ -1693,36 +1700,36 @@ const УХОД_ВНИЗ = 260;          // и вниз, в тот же угол 
    единицах сцены зависели от того, где стоит камера, и на другом размере окна
    миниатюра оказывалась то под панелью, то за краем кадра. Всё измеряется от
    высоты окна, потому что и сама модель на экране растёт вместе с ней.
-   МИНИ_ВЫСОТА_ДОЛЯ ещё и отдана панели через CSS-переменную: панель не
+   MINI_HEIGHT_RATIO ещё и отдана панели через CSS-переменную: панель не
    должна заезжать в угол, поэтому её max-height считается от неё же. */
-const МИНИ_МАСШТАБ = 0.30;          // во сколько раз стопка сжимается
-const МИНИ_ВЫСОТА_ДОЛЯ = 0.215;     // высота углового места, доля высоты окна (замерено: стопка при 0.30 занимает ≈0.22 высоты окна)
-const МИНИ_ШИРИНА_К_ВЫСОТЕ = 1.1;   // ширина углового места к его высоте (замерено: 321×296 при 0.38)
-const МИНИ_ПОЛЕ = 26;               // отступ от левого и нижнего края, px — как у панели
-const ПЕРЕХОД_МС = 900;             // перелёт стопки в угол и обратно
-document.documentElement.style.setProperty('--мини-высота', (МИНИ_ВЫСОТА_ДОЛЯ*100) + 'vh');
-const _вперёд = new THREE.Vector3(), _право = new THREE.Vector3(), _верх = new THREE.Vector3(), _к = new THREE.Vector3();
+const MINI_SCALE = 0.35;
+const MINI_HEIGHT_RATIO = 0.25;
+const MINI_ASPECT_RATIO = 1.1;
+const MINI_MARGIN = 26;
+const MINI_TRANSITION_MS = 900;
+document.documentElement.style.setProperty('--мини-высота', (MINI_HEIGHT_RATIO*100) + 'vh');
+const _forward = new THREE.Vector3(), _right = new THREE.Vector3(), _up = new THREE.Vector3(), _cameraToStack = new THREE.Vector3();
 /* Куда сдвинуть стопку в мире, чтобы её центр встал в центр углового места.
    Сдвиг идёт строго в плоскости, перпендикулярной взгляду камеры (вправо и
    вверх от неё, а не по мировым X/Y): глубина центра при этом не меняется и
    пиксели переводятся в мировые единицы одним множителем. Через мировой X
    «влево» на экране было бы зависимо от азимута, на котором камеру остановило
    автовращение, — то же, из-за чего раньше разворачивали камеру (см. выше). */
-function сдвигМини(out){
+function getMiniStackOffset(out){
   const W = innerWidth, H = innerHeight;
-  const hb = H*МИНИ_ВЫСОТА_ДОЛЯ, wb = hb*МИНИ_ШИРИНА_К_ВЫСОТЕ;
-  const cx = МИНИ_ПОЛЕ + wb/2, cy = H - МИНИ_ПОЛЕ - hb/2;
-  camera.getWorldDirection(_вперёд);
-  _право.crossVectors(_вперёд, camera.up).normalize();
-  _верх.crossVectors(_право, _вперёд);
-  _к.set(0, world.position.y, 0).sub(camera.position);            // от камеры к центру стопки
-  const глубина = _к.dot(_вперёд);
-  const пиксель = глубина*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)) / (H/2);   // мировых единиц в пикселе
-  const вправо = (cx - W/2)*пиксель - _к.dot(_право);             // центр стопки сейчас не строго в центре кадра
-  const вверх  = -(cy - H/2)*пиксель - _к.dot(_верх);
-  return out.set(0, 0, 0).addScaledVector(_право, вправо).addScaledVector(_верх, вверх);
+  const boxHeight = H*MINI_HEIGHT_RATIO, boxWidth = boxHeight*MINI_ASPECT_RATIO;
+  const centerX = MINI_MARGIN + boxWidth/2, centerY = H - MINI_MARGIN - boxHeight/2;
+  camera.getWorldDirection(_forward);
+  _right.crossVectors(_forward, camera.up).normalize();
+  _up.crossVectors(_right, _forward);
+  _cameraToStack.set(0, world.position.y, 0).sub(camera.position);
+  const depth = _cameraToStack.dot(_forward);
+  const worldUnitsPerPixel = depth*Math.tan(THREE.MathUtils.degToRad(camera.fov/2)) / (H/2);
+  const moveRight = (centerX - W/2)*worldUnitsPerPixel - _cameraToStack.dot(_right);
+  const moveUp = -(centerY - H/2)*worldUnitsPerPixel - _cameraToStack.dot(_up);
+  return out.set(0, 0, 0).addScaledVector(_right, moveRight).addScaledVector(_up, moveUp);
 }
-const _мини = new THREE.Vector3();
+const _miniOffset = new THREE.Vector3();
 /* Перелёт (в угол и обратно) идёт не «догоняющим» лерпом, как остальное в
    сцене, а по времени, с плавным стартом и торможением: путь через пол-экрана
    с максимальной скоростью в первом же кадре читался рывком. Отсюда откуда
@@ -1802,14 +1809,22 @@ function углаРазница(a, b){
 }
 // Кикер контента слоя — по образцу прежних отдельных страниц проекта, но их
 // саму страницу больше не открываем, только формулировку кикера переняли.
-const КИКЕР = { plast:'ЦД пласта', skv:'ЦД скважины', naz:'ЦД наземки' };
+const PROJECT_KICKERS = { plast:'ЦД пласта', skv:'ЦД скважины', naz:'ЦД наземки' };
+const RESERVOIR_VIDEOS = {
+  1:{ file:'NUMEX_cut.mp4', title:'Стратегия разработки' },
+  2:{ file:'NUMEX_optimize_cut.mp4', title:'Технико-экономическая оценка' }
+};
+const ZONE_VIDEOS = {
+  skv:{ file:'drillspot_cut.mp4', title:'Цифровой двойник скважины' },
+  naz:{ file:'im.emg.kz.mp4', title:'Наземная инфраструктура' }
+};
 let launchT1 = null;
-function launchProject(id, переключение = false){
+function launchProject(id, isSwitch = false){
   if(state.launching || state.closing) return;
-  if(state.openId && !переключение) return;
+  if(state.openId && !isSwitch) return;
   // Один клик — сразу выбор слоя и открытие его контента, без промежуточного
   // состояния и без таймера второго нажатия.
-  if(переключение && state.openId === 'plast' && state.plastSubПреждеПерехода !== undefined){
+  if(isSwitch && state.openId === 'plast' && state.plastSubПреждеПерехода !== undefined){
     panelState.sub = state.plastSubПреждеПерехода;   // уходим с пласта — его прежний выбор возвращаем
   }
   state.locked = id;
@@ -1817,7 +1832,7 @@ function launchProject(id, переключение = false){
   controls.autoRotate = false;
   controls.enabled = false;
   // камера при переключении уже стоит на месте и ведётся вручную — заново её не снимаем
-  if(!переключение){
+  if(!isSwitch){
     const off = new THREE.Vector3().copy(camera.position).sub(controls.target);
     state.launchRadius = off.length();
     state.launchPolar = Math.acos(THREE.MathUtils.clamp(off.y / state.launchRadius, -1, 1));
@@ -1830,9 +1845,9 @@ function launchProject(id, переключение = false){
      раскрытия (Esc) возвращаем как было, а не оставляем ГГДМ навязанной. */
   if(id === 'plast'){
     state.plastSubПреждеПерехода = panelState.sub;
-    const выбранШаг = panelState.zone === 'plast' && panelState.sub !== null;
+    const hasSelectedStep = panelState.zone === 'plast' && panelState.sub !== null;
     panelState.zone = 'plast';
-    if(!выбранШаг) panelState.sub = 0;
+    if(!hasSelectedStep) panelState.sub = 0;
   }
   openProject(id);
 }
@@ -1850,38 +1865,54 @@ function cancelLaunch(){
   refresh();
 }
 
-/* Макет раскрытого слоя: список остаётся на месте (см. комментарий у
-   #stack) — панель контура садится под ним компактной карточкой (класс
-   #panel.раскрыт — своя позиция и высота, см. CSS), а справа въезжает
-   контент слоя на 70% экрана. state.launching уступает место state.openId —
-   раскрытие (доворот, отъезд соседей) уже случилось и держится само: эти
-   поля в цикле зон animate() перестают зависеть от launchElapsed и просто
-   держат конечные значения, пока state.openId не снимут в closeProject(). */
+/* Макет раскрытого слоя: список гаснет (см. #stack.скрыт), на его месте — панель
+   контура (класс #panel.раскрыт, своя позиция и высота, см. CSS), справа въезжает
+   контент слоя на 70% экрана, а вся стопка из трёх слоёв перелетает в левый нижний
+   угол миниатюрой (см. MINI_* и цикл зон в animate). Миниатюра остаётся нажимаемой:
+   клик по другому слою переключает содержимое (см. switchProject). Держится всё
+   само, пока state.openId не снимут в closeProject(). */
 function openProject(id){
-  const переключение = state.openId !== null;   // слой уже раскрыт: стопка стоит в углу, меняется только содержимое
+  const isSwitch = state.openId !== null;   // слой уже раскрыт: стопка стоит в углу, меняется только содержимое
   state.launching = null;
   state.openId = id;
-  if(!переключение) запомнитьОткуда();
+  if(!isSwitch) запомнитьОткуда();
   const pc = $('project-content');
-  const заполнить = () => {
+  const populateContent = () => {
     const zd = ZONES[state.openId];
-    $('pc-kick').textContent = КИКЕР[state.openId] + ' · проект ' + zd.no;
-    $('pc-name').textContent = zd.name;
-    $('pc-claim').textContent = zd.claim;
+    const videoData = state.openId === 'plast'
+      ? RESERVOIR_VIDEOS[panelState.sub]
+      : ZONE_VIDEOS[state.openId];
+    const video = $('pc-video');
+    $('pc-kick').textContent = PROJECT_KICKERS[state.openId] + ' · проект ' + zd.no;
+    $('pc-name').textContent = videoData ? videoData.title : zd.name;
+    $('pc-claim').textContent = videoData ? '' : zd.claim;
     pc.style.setProperty('--pc', zd.color);
+    pc.classList.toggle('с-видео', Boolean(videoData));
+    if(videoData){
+      if(video.getAttribute('src') !== videoData.file){
+        video.setAttribute('src', videoData.file);
+        video.load();
+      }
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    } else {
+      video.pause();
+      video.removeAttribute('src');
+      video.load();
+    }
     pc.classList.add('vis');
   };
-  clearTimeout(сменаКонтентаТ);
-  if(переключение){
+  clearTimeout(contentSwapTimer);
+  if(isSwitch){
     // старый контент гаснет, новый выходит следом — иначе текст на экране
     // просто подменился бы посреди показа, без единого жеста
     pc.classList.remove('vis');
-    сменаКонтентаТ = setTimeout(() => { if(state.openId) заполнить(); }, 260);
-  } else заполнить();
+    contentSwapTimer = setTimeout(() => { if(state.openId) populateContent(); }, 260);
+  } else populateContent();
   $('panel').classList.add('раскрыт');
   refresh();   // внутри — fitBetweenPanels: при открытом слое сдвиг кадра гасится сразу, а не через таймер
 }
-let сменаКонтентаТ = null;
+let contentSwapTimer = null;
 
 /* Ставит компактную панель контура ровно под текущим списком — высота списка
    зависит от того, сколько шагов у раскрытого контура (у пласта три, у
@@ -1921,7 +1952,7 @@ function switchProject(id){
    закрытие посреди открытия не дёргается. Камеру не трогаем: при открытии она
    не двигалась, и возвращать её некуда — раньше здесь стояли скачок радиуса и
    доворот азимута, рассчитанные на прежнее раскрытие с наездом. */
-const ЗАКРЫТИЕ_МС = ПЕРЕХОД_МС + 100;   // до возврата к обычному простою (автовращению)
+const ЗАКРЫТИЕ_МС = MINI_TRANSITION_MS + 100;   // до возврата к обычному простою (автовращению)
 let closeT1 = null;
 function closeProject(){
   if(state.launching){ cancelLaunch(); return; }
@@ -1930,7 +1961,8 @@ function closeProject(){
   if(id === 'plast' && state.plastSubПреждеПерехода !== undefined){
     panelState.sub = state.plastSubПреждеПерехода;
   }
-  clearTimeout(сменаКонтентаТ);
+  clearTimeout(contentSwapTimer);
+  $('pc-video').pause();
   $('project-content').classList.remove('vis');
   $('panel').classList.remove('раскрыт');
   // снимаем измеренные top/max-height — без них класс просто возвращает CSS-умолчания
@@ -1990,15 +2022,19 @@ renderer.domElement.addEventListener('click', e => {
     // миниатюра в углу: нажатие по другому слою открывает его контент
     ptr.set((e.clientX/innerWidth)*2 - 1, -(e.clientY/innerHeight)*2 + 1);
     raycaster.setFromCamera(ptr, camera);
-    const попадание = raycaster.intersectObjects(pickMeshes, false)[0];
-    const слой = попадание ? попадание.object.userData.zone : null;
-    if(слой && слой !== state.openId){
-      if(слой === 'plast'){ panelState.zone = 'plast'; panelState.sub = попадание.object.userData.sub ?? null; }
-      switchProject(слой);
+    const hit = raycaster.intersectObjects(pickMeshes, false)[0];
+    const zoneId = hit ? hit.object.userData.zone : null;
+    const subIndex = hit ? hit.object.userData.sub ?? null : null;
+    if(zoneId === 'plast' && subIndex === 0) return;   // ГГДМ не открывает контент
+    if(zoneId){
+      if(zoneId === 'plast'){ panelState.zone = 'plast'; panelState.sub = subIndex; }
+      if(zoneId !== state.openId) switchProject(zoneId);
+      else if(zoneId === 'plast' && subIndex !== null) openProject('plast');
     }
     return;
   }
   if(state.hover){
+    if(state.hover === 'plast' && state.hoverSub === 0) return;   // ГГДМ остаётся только визуальным слоем
     if(state.hover === 'plast') panelState.sub = state.hoverSub;
     launchProject(state.hover);
   }
@@ -2126,14 +2162,14 @@ const chip = $('chip');
 function refresh(){
   const a = active();
   const panel = $('panel');
-  const вместоСтека = Boolean(state.locked || state.openId);
-  const первыйПереезд = вместоСтека && !panel.classList.contains('вместо-стека');
-  $('stack').classList.toggle('скрыт', вместоСтека);
-  if(первыйПереезд) panel.classList.remove('vis');
-  panel.classList.toggle('вместо-стека', вместоСтека);
+  const replacesStack = Boolean(state.locked || state.openId);
+  const isFirstMove = replacesStack && !panel.classList.contains('вместо-стека');
+  $('stack').classList.toggle('скрыт', replacesStack);
+  if(isFirstMove) panel.classList.remove('vis');
+  panel.classList.toggle('вместо-стека', replacesStack);
   // Фиксируем начальную точку слева до .vis, чтобы панель именно встала вверх,
   // а не перепрыгивала мгновенно из правой позиции после hover.
-  if(первыйПереезд) void panel.offsetWidth;
+  if(isFirstMove) void panel.offsetWidth;
   for(const id in zones) zones[id].target = (id === a) ? 1 : 0;
   buildStack();
   for(const id of ORDER){
@@ -2517,13 +2553,13 @@ function animate(){
   if(state.openId && pickMeshes.length){
     const GAP = 12;
     let total = GAP * (RANK_UP.length - 1);
-    for(const id of RANK_UP) total += (zones[id].yt - zones[id].yb) * МИНИ_МАСШТАБ;
+    for(const id of RANK_UP) total += (zones[id].yt - zones[id].yb) * MINI_SCALE;
     let bot = VIEW_Y - total/2;
     for(const id of RANK_UP){
       const z = zones[id];
-      const h = (z.yt - z.yb) * МИНИ_МАСШТАБ;
+      const h = (z.yt - z.yb) * MINI_SCALE;
       const c = bot + h/2;
-      offsets[id] = c - (z.yb + z.yt)/2 * МИНИ_МАСШТАБ;
+      offsets[id] = c - (z.yb + z.yt)/2 * MINI_SCALE;
       bot = c + h/2 + GAP;
     }
   }
@@ -2558,9 +2594,9 @@ function animate(){
   // мс с момента второго клика — общий таймер на раздвижку соседей и вспышку выбранного
   const launchElapsed = state.launching ? performance.now() - state.launchAt : 0;
   // прогресс перелёта стопки в угол и обратно (0..1) и сдвиг миниатюры — один на все слои
-  const перелётП = (state.openId || state.closing) ? Math.min(1, (performance.now() - state.переходАт)/ПЕРЕХОД_МС) : 1;
-  const перелётЕ = плавно(перелётП);
-  if(state.openId) сдвигМини(_мини);
+  const transitionProgress = (state.openId || state.closing) ? Math.min(1, (performance.now() - state.переходАт)/MINI_TRANSITION_MS) : 1;
+  const easedTransition = плавно(transitionProgress);
+  if(state.openId) getMiniStackOffset(_miniOffset);
   for(const id in zones){
     const z = zones[id];
 
@@ -2569,7 +2605,7 @@ function animate(){
        чтобы открыть контент другого слоя. Сам перелёт (туда и обратно) идёт по
        времени с плавным стартом, см. запомнитьОткуда; после него значения просто
        держатся тем же лерпом, что и остальное. КУДА лететь — считаем каждый кадр
-       (сдвигМини, offsets выше), а откуда — z.от: слой мог быть и в покое, и на
+       (getMiniStackOffset, offsets выше), а откуда — z.от: слой мог быть и в покое, и на
        наведении, и посреди прошлого перелёта.
 
        Прежняя раскладка раскрытия (соседи уезжают в угол и сжимаются в точку,
@@ -2584,18 +2620,18 @@ function animate(){
       ушёл = launchElapsed > ВОЗВРАТ_МС + далеко*СТУПЕНЬ_МС;
     }
     if(z.offsetYExit === undefined){ z.offsetYExit = 0; z.offsetZ = 0; z.tilt = 0; z.exitScale = 1; }
-    const мини = state.openId !== null;
+    const isMini = state.openId !== null;
     const tL = ушёл ? 0 : offsets[id];
-    const tX = мини ? _мини.x : ушёл ? -УХОД_ВЛЕВО - рангСвой*ШАГ_УХОДА_X : 0;
-    const tY = мини ? _мини.y : ушёл ? -УХОД_ВНИЗ - рангСвой*ШАГ_УХОДА_Y : 0;
-    const tZ = мини ? _мини.z : 0;
-    const tS = мини ? МИНИ_МАСШТАБ : ушёл ? 0 : 1;
-    if(перелётП < 1 && z.от){
-      z.offset = z.от.offset + (tL - z.от.offset)*перелётЕ;
-      z.offsetX = z.от.x + (tX - z.от.x)*перелётЕ;
-      z.offsetYExit = z.от.y + (tY - z.от.y)*перелётЕ;
-      z.offsetZ = z.от.z + (tZ - z.от.z)*перелётЕ;
-      z.exitScale = z.от.s + (tS - z.от.s)*перелётЕ;
+    const tX = isMini ? _miniOffset.x : ушёл ? -УХОД_ВЛЕВО - рангСвой*ШАГ_УХОДА_X : 0;
+    const tY = isMini ? _miniOffset.y : ушёл ? -УХОД_ВНИЗ - рангСвой*ШАГ_УХОДА_Y : 0;
+    const tZ = isMini ? _miniOffset.z : 0;
+    const tS = isMini ? MINI_SCALE : ушёл ? 0 : 1;
+    if(transitionProgress < 1 && z.от){
+      z.offset = z.от.offset + (tL - z.от.offset)*easedTransition;
+      z.offsetX = z.от.x + (tX - z.от.x)*easedTransition;
+      z.offsetYExit = z.от.y + (tY - z.от.y)*easedTransition;
+      z.offsetZ = z.от.z + (tZ - z.от.z)*easedTransition;
+      z.exitScale = z.от.s + (tS - z.от.s)*easedTransition;
     } else {
       z.offset += (tL - z.offset)*k;
       z.offsetX += (tX - z.offsetX)*k;
@@ -2845,7 +2881,7 @@ function animate(){
   /* Пока идёт перелёт стопки, сдвиг кадра гасится тем же прогрессом, а не
      своим быстрым лерпом: иначе он успевал уйти в первые же 200 мс, и модель
      сперва дёргалась вправо (сдвиг снимался), а уже потом ехала в угол. */
-  if(перелётП < 1) state.viewShiftX = state.viewShiftОт + (state.viewShiftTargetX - state.viewShiftОт)*перелётЕ;
+  if(transitionProgress < 1) state.viewShiftX = state.viewShiftОт + (state.viewShiftTargetX - state.viewShiftОт)*easedTransition;
   else state.viewShiftX += (state.viewShiftTargetX - state.viewShiftX)*k;
   if(Math.abs(state.viewShiftX) > 0.4){
     camera.setViewOffset(innerWidth, innerHeight, state.viewShiftX, 0, innerWidth, innerHeight);
