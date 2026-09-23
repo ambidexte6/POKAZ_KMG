@@ -164,14 +164,16 @@ body.раскрыт-слой #hdr h1{font-size:23px;line-height:1.18}
 #effects-overview .effect-col{padding:12px 16px;background:var(--glass);border:1px solid var(--line);
   border-left:3px solid var(--ec);backdrop-filter:blur(8px)}
 #effects-overview .items{display:block}
-/* В карточке может стоять и одно значение, и два в ряд одинакового кегля:
-   flex-wrap уводит подпись на свою строку сразу под значениями (см. .l
-   flex-basis:100%), чтобы «326 млрд ₸» не тонуло в мелкой подписи. */
-#effects-overview .item{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;min-width:0}
+/* В карточке может стоять один пункт или несколько. Пункты идут строкой
+   вниз (`.items` = block). Внутри пункта значение и подпись — на одной
+   строке (`.item` = flex row): «2 864 тыс. тонн» с подписью «доп. добычи»
+   справа, а «326 млрд ₸» — без подписи, отдельной строкой ниже. */
+#effects-overview .items{display:block}
+#effects-overview .item{display:flex;align-items:baseline;gap:12px;min-width:0}
+#effects-overview .item + .item{margin-top:4px}
 #effects-overview .v{font-family:var(--mono);font-size:24px;font-weight:700;line-height:1.05;color:var(--ec);
   flex:0 0 auto;white-space:nowrap}
-#effects-overview .v + .v{padding-left:4px;border-left:1px solid rgba(140,170,210,.28)}
-#effects-overview .l{font-size:16px;line-height:1.3;color:var(--dim);flex:0 0 100%}
+#effects-overview .l{font-size:16px;line-height:1.3;color:var(--dim)}
 /* Вертикальная колонка у стопки: чуть крупнее самих раскрывашек (у них .t = 21.5px),
    чтобы главные эффекты вылавливались с зала раньше названий контуров. */
 #effects-overview.у-стека .cols{grid-template-columns:1fr;gap:8px}
@@ -2144,21 +2146,24 @@ const elEffectsOverview = document.querySelector('#effects-overview .cols');
    один язык с заголовком «ABAI» и линией процесса. */
 /* 24.09 (Адиль): «326 млрд ₸» перестало быть подписью и стало вторым крупным
    значением — там программе так же важно назвать деньги, как и тонны, а мелким
-   шрифтом их из зала не видно. Значения — массивом, чтобы в карточке могло
-   стоять и одно число, и два подряд одинакового кегля. */
+   шрифтом их из зала не видно. В карточке можно ставить один или несколько
+   пунктов; у каждого может быть своя подпись или не быть — «доп. добычи»
+   относится только к тоннам, у денег подписи нет. */
 const ГЛАВНЫЕ_ЭФФЕКТЫ = [
-  { v:['Топ 12'],                          l:'месторождений' },
-  { v:['Более 90 %'],                      l:'добычи' },
-  { v:['2 864 тыс. тонн','326 млрд ₸'],    l:'доп. добычи и экономический эффект' },
+  [ { v:'Топ 12',           l:'месторождений' } ],
+  [ { v:'Более 90 %',       l:'добычи' } ],
+  [ { v:'2 864 тыс. тонн',  l:'доп. добычи' },
+    { v:'326 млрд ₸' } ],
 ];
-for(const э of ГЛАВНЫЕ_ЭФФЕКТЫ){
+for(const пункты of ГЛАВНЫЕ_ЭФФЕКТЫ){
   const col = document.createElement('div');
   col.className = 'effect-col';
   col.style.setProperty('--ec', 'var(--cyan)');
-  col.innerHTML = `<div class="items"><div class="item">`
-    + э.v.map(v => `<span class="v">${v}</span>`).join('')
-    + `<span class="l">${э.l}</span>`
-    + `</div></div>`;
+  col.innerHTML = `<div class="items">`
+    + пункты.map(п => `<div class="item"><span class="v">${п.v}</span>`
+        + (п.l ? `<span class="l">${п.l}</span>` : '')
+        + `</div>`).join('')
+    + `</div>`;
   elEffectsOverview.appendChild(col);
 }
 /* Список слева. При выборе ЦД пласта он раскрывается в шаги, остальные контуры
