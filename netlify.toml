@@ -1,0 +1,14 @@
+# Netlify — второе зеркало показа рядом с GitHub Pages.
+# Сборки нет: показ — готовые статические файлы, публикуется корень репозитория
+# как есть (тот же состав, что выкладывает .github/workflows/pages.yml).
+# Пустая команда сборки, чтобы Netlify не пытался угадать фреймворк.
+[build]
+  publish = "."
+  command = ""
+
+# 3D-слои ЦД: явный тип, иначе часть браузеров получает octet-stream
+# и model-viewer/three.js ругается в консоли.
+[[headers]]
+  for = "/*.glb"
+  [headers.values]
+    Content-Type = "model/gltf-binary"
